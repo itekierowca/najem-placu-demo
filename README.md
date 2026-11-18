@@ -31,3 +31,6 @@ python3 -m http.server 8000
 ## Publikacja
 
 GitHub Pages: *Settings → Pages → Build and deployment → Deploy from a branch → `main` / `(root)`*.
+
+## Październik 2026 – model pełnego miesiąca
+W Panelu WORD → Rozliczenia przycisk „Październik 2026” pokazuje pełny miesiąc (22 dni robocze). Wszystkie kwoty są obliczone przy założeniu: 5 aut × 4 h najmu po mieście dziennie, auto + stanowisko łącznie 4 h/dzień, plac z autem OSK 4 h/dzień, 2 dopłaty paliwowe dziennie, stawki z cennika i prowizja 5%. Zestawienie: `zestawienie-word-gorzow-2026-10.pdf`.
