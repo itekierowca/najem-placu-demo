@@ -12,7 +12,7 @@
     view: initialView(),
     p: { view: 'rozl', tx: 'all', umStart: 'zgl', umWir: 'pod', obc: 'new', instr: 'new' },
     w: { step: 'svc', prod: 'clioPlac', car: 'clio', day: '19', sel: [], logged: false, veh: 0, cReg: false, cCard: false, pay: 'card', cRegR: false },
-    a: { scr: 'home', gate: false, ph: [false, false, false, false, false], k: [false, false, false], fuel: 'card', ended: false }
+    a: { scr: 'home', gate: false, mark: false, ph: [false, false, false, false, false], k: [false, false, false, false], fuel: 'card', ended: false }
   };
 
 
@@ -486,10 +486,11 @@
   A.aScr = function (s) { S.a.scr = s; };
   A.aGate = function () { S.a.gate = true; };
   A.aPh = function (i) { i = Number(i); S.a.ph[i] = !S.a.ph[i]; };
+  A.aMark = function () { S.a.mark = !S.a.mark; };
   A.aK = function (i) { i = Number(i); S.a.k[i] = !S.a.k[i]; };
   A.aFuel = function (f) { S.a.fuel = f; };
   A.aFinish = function () { if (S.a.fuel === 'card' && !S.a.ended) walletPay('Dopłata za paliwo R-2611-0147', 'Renault Clio · brak 6 l × 10 zł · FV 164/11/2026', 60); S.a.scr = 'done'; S.a.ended = true; };
-  A.aRestart = function () { var a = S.a; a.scr = 'home'; a.ph = [false, false, false, false, false]; a.k = [false, false, false]; a.gate = false; a.ended = false; };
+  A.aRestart = function () { var a = S.a; a.scr = 'home'; a.ph = [false, false, false, false, false]; a.k = [false, false, false, false]; a.gate = false; a.mark = false; a.ended = false; };
 
   var CAM = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
   var PIN = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
@@ -527,9 +528,11 @@
     var tiles = ['Przód', 'Tył', 'Lewy bok', 'Prawy bok', 'Deska rozdzielcza'].map(function (l, i) {
       return '<button type="button" class="tile' + (a.ph[i] ? ' on' : '') + '" aria-pressed="' + a.ph[i] + '"' + act('aPh', i) + '>' + CAM + '<span>' + l + '</span><small>' + (a.ph[i] ? 'zrobione' : 'dotknij, by zrobić') + '</small></button>';
     }).join('');
+    var ready = n === 5 && a.mark;
     return '<button class="back" type="button"' + act('aScr', 'detail') + '>‹ Rezerwacja</button><h1>Stan auta przed jazdą</h1><p style="margin:0;font-size:14px;color:#5f6368">Zrób zdjęcia – chronią Cię przy rozliczeniu szkód.</p>' +
       '<div class="tiles">' + tiles + '</div><div class="card" style="font-size:14px;display:flex;flex-direction:column;gap:4px"><b>Odczyt automatyczny (telematyka)</b><span>Paliwo 6/8 · ok. 33 l</span><span>Przebieg 48 212 km</span></div>' +
-      (n === 5 ? '<button class="big navy" type="button"' + act('aScr', 'ride') + '>Otwórz auto</button>' : '<button class="big" type="button" disabled>Otwórz auto · zdjęcia ' + n + '/5</button>');
+      '<div class="card" style="display:flex;flex-direction:column;gap:6px"><div class="cap">OZNACZENIE POJAZDU SZKOLENIOWEGO</div><label class="chk"><input type="checkbox"' + ck(a.mark) + act('aMark') + '> Założyłem oznaczenie SUPER OSK MIKRUS (nazwa i adres) na prawym i lewym boku</label><span style="font-size:12px;color:#5f6368">Wymóg: § 3 ust. 4 rozporządzenia w sprawie szkolenia osób ubiegających się o uprawnienia do kierowania pojazdami. Auto WORD jeździ dla wielu OSK – instruktor zakłada magnesy swojego OSK. Tablica „L” jest na aucie na stałe.</span></div>' +
+      (ready ? '<button class="big navy" type="button"' + act('aScr', 'ride') + '>Otwórz auto</button>' : '<button class="big" type="button" disabled>Otwórz auto · zdjęcia ' + n + '/5' + (a.mark ? '' : ' · oznaczenie OSK') + '</button>');
   }
   function aRide() {
     return '<div class="timer"><span style="font-size:13px;color:#c3c7e0">Do końca najmu</span><b>58:12</b><span style="font-size:13px;color:#f5c400">koniec 16:00 · stanowisko B2</span></div>' +
@@ -538,7 +541,7 @@
   }
   function aReturn() {
     var a = S.a;
-    var items = ['Kluczyki w schowku', 'Auto na miejscu nr 3', 'Nic nie zostało w aucie'].map(function (l, i) {
+    var items = ['Kluczyki w schowku', 'Auto na miejscu nr 3', 'Nic nie zostało w aucie', 'Zdjąłem oznaczenie OSK – magnesy zabieram'].map(function (l, i) {
       return '<label class="chk"><input type="checkbox"' + ck(a.k[i]) + act('aK', i) + '> ' + l + '</label>';
     }).join('');
     var ok = a.k.every(Boolean);
