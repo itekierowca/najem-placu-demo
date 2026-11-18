@@ -75,8 +75,8 @@
   }
 
   /* ======================= PANEL WORD ======================= */
-  var NAV = [['plan', 'Plan dnia'], ['rez', 'Rezerwacje'], ['umowy', 'Umowy najmu aut'], ['obc', 'Obciążenia dodatkowe'], ['rozl', 'Rozliczenia'], ['zasoby', 'Zasoby i cennik'], ['instr', 'Instruktorzy i OSK'], ['ust', 'Ustawienia najmu']];
-  var TITLES = { plan: 'Plan dnia', rez: 'Rezerwacje', umowy: 'Umowy najmu aut WORD', obc: 'Obciążenia dodatkowe', rozl: 'Rozliczenia', zasoby: 'Zasoby i cennik', instr: 'Instruktorzy i OSK', ust: 'Ustawienia najmu', kursy: 'Kursy' };
+  var NAV = [['plan', 'Plan dnia'], ['rez', 'Rezerwacje'], ['umowy', 'Umowy najmu aut'], ['obc', 'Rozliczenia (paliwo itp.)'], ['rozl', 'Rozliczenia'], ['zasoby', 'Zasoby i cennik'], ['instr', 'Instruktorzy i OSK'], ['ust', 'Ustawienia najmu']];
+  var TITLES = { plan: 'Plan dnia', rez: 'Rezerwacje', umowy: 'Umowy najmu aut WORD', obc: 'Rozliczenia (paliwo itp.)', rozl: 'Rozliczenia', zasoby: 'Zasoby i cennik', instr: 'Instruktorzy i OSK', ust: 'Ustawienia najmu', kursy: 'Kursy' };
   A.pNav = function (v) { S.p.view = v; S.p.menu = false; window.scrollTo(0, 0); };
   A.pMenu = function () { S.p.menu = !S.p.menu; };
   A.pTx = function (v) { S.p.tx = v; };
@@ -109,13 +109,13 @@
     return [
       { k: 'dol', date: '17.11 12:39', no: 'D-2611-0312', type: 'Doładowanie', who: 'Marek Zieliński · SUPER OSK MIKRUS', desc: 'Portfel · Apple Pay', amt: '250,00', fee: '—', doc: '—', st: chip('ok', 'Zaksięgowane') },
       { k: 'rez', date: '17.11 12:41', no: 'R-2611-0147', type: 'Rezerwacja', who: 'Marek Zieliński · SUPER OSK MIKRUS', desc: 'Auto WORD (Renault Clio E-Tech) + stanowisko B2 · 2 sloty, 19.11 15:00–16:00', amt: '220,00', fee: '11,00', doc: 'FV 147/11/2026', st: chip('ok', 'Opłacona') },
-      { k: 'obc', date: '17.11 11:58', no: 'O-2611-0014', type: 'Obciążenie', who: 'Anna Wróbel · POLONEZ', desc: 'Paliwo: brak 4 l × 10 zł · Toyota Yaris (R-2611-0139)', amt: '40,00', fee: '2,00', doc: 'FV 161/11/2026', st: chip('ok', 'Pobrane z portfela') },
+      { k: 'obc', date: '17.11 11:58', no: 'O-2611-0014', type: 'Paliwo / energia', who: 'Anna Wróbel · POLONEZ', desc: 'Paliwo: brak 4 l × 10 zł · Toyota Yaris (R-2611-0139)', amt: '40,00', fee: '2,00', doc: 'FV 161/11/2026', st: chip('ok', 'Pobrane z portfela') },
       { k: 'rez', date: '17.11 10:22', no: 'R-2611-0146', type: 'Rezerwacja', who: 'Tomasz Lis · EVOLUTION', desc: 'Plac kat. B – pojazd OSK · 2 sloty', amt: '90,00', fee: '4,50', doc: 'FV 146/11/2026', st: chip('ok', 'Opłacona') },
       { k: 'rez', date: '17.11 09:15', no: 'R-2611-0145', type: 'Rezerwacja', who: 'Katarzyna Mazur · ATA', desc: 'Najem auta WORD · BYD Dolphin · 2 sloty', amt: '180,00', fee: '9,00', doc: 'FV 145/11/2026', st: chip('ok', 'Opłacona') },
       { k: 'dol', date: '17.11 07:58', no: 'D-2611-0311', type: 'Doładowanie', who: 'Piotr Kaczmarek · SUPER OSK MIKRUS', desc: 'Portfel · BLIK', amt: '100,00', fee: '—', doc: '—', st: chip('ok', 'Zaksięgowane') },
       { k: 'rez', date: '17.11 08:03', no: 'R-2611-0144', type: 'Rezerwacja', who: 'Piotr Kaczmarek · SUPER OSK MIKRUS', desc: 'Plac kat. B – pojazd OSK · 3 sloty', amt: '135,00', fee: '6,75', doc: 'FV 144/11/2026', st: chip('ok', 'Opłacona') },
-      { k: 'obc', date: '16.11 18:47', no: 'O-2611-0013', type: 'Obciążenie', who: 'Tomasz Lis · EVOLUTION', desc: 'Paliwo: brak 6 l × 10 zł · Renault Clio (R-2611-0128)', amt: '60,00', fee: '3,00', doc: 'FV 160/11/2026', st: chip('ok', 'Pobrane z portfela') },
-      { k: 'obc', date: '18.11 17:31', no: 'O-2611-0015', type: 'Obciążenie', who: 'Katarzyna Mazur · ATA', desc: 'Paliwo: brak 3 l × 10 zł · Toyota Yaris (R-2611-0141)', amt: '30,00', fee: o === 'ok' ? '1,50' : '—', doc: o === 'ok' ? 'FV 162/11/2026' : '—', st: o === 'ok' ? chip('ok', 'Pobrane z portfela') : o === 'no' ? chip('grey', 'Anulowane') : chip('warn', 'Do zatwierdzenia (poza sumą)') },
+      { k: 'obc', date: '16.11 18:47', no: 'O-2611-0013', type: 'Paliwo / energia', who: 'Tomasz Lis · EVOLUTION', desc: 'Paliwo: brak 6 l × 10 zł · Renault Clio (R-2611-0128)', amt: '60,00', fee: '3,00', doc: 'FV 160/11/2026', st: chip('ok', 'Pobrane z portfela') },
+      { k: 'obc', date: '18.11 17:31', no: 'O-2611-0015', type: 'Paliwo / energia', who: 'Katarzyna Mazur · ATA', desc: 'Paliwo: brak 3 l × 10 zł · Toyota Yaris (R-2611-0141)', amt: '30,00', fee: o === 'ok' ? '1,50' : '—', doc: o === 'ok' ? 'FV 162/11/2026' : '—', st: o === 'ok' ? chip('ok', 'Pobrane z portfela') : o === 'no' ? chip('grey', 'Anulowane') : chip('warn', 'Do zatwierdzenia (poza sumą)') },
       { k: 'zw', date: '12.11 07:30', no: 'Z-2611-0009', type: 'Zwrot', who: 'Anna Wróbel · POLONEZ', desc: 'Odwołanie przez WORD – śnieg, plac zamknięty (R-2611-0102)', amt: '−90,00', fee: '−4,50', doc: 'FK 9/11/2026', st: chip('info', 'Zwrócono do portfela') },
       { k: 'zw', date: '12.11 07:30', no: 'Z-2611-0008', type: 'Zwrot', who: 'Marek Zieliński · SUPER OSK MIKRUS', desc: 'Odwołanie przez WORD – śnieg, plac zamknięty (R-2611-0098)', amt: '−135,00', fee: '−6,75', doc: 'FK 8/11/2026', st: chip('info', 'Zwrócono do portfela') }
     ];
@@ -138,7 +138,7 @@
     var labs = DAYS.map(function (d) { return '<div>' + d[0] + ' ' + d[1] + '</div>'; }).join('');
     var all = txList();
     var txs = p.tx === 'all' ? all : all.filter(function (t) { return t.k === p.tx; });
-    var chips = [['all', 'Wszystkie'], ['rez', 'Rezerwacje'], ['obc', 'Obciążenia'], ['zw', 'Zwroty'], ['dol', 'Doładowania']].map(function (c) {
+    var chips = [['all', 'Wszystkie'], ['rez', 'Rezerwacje'], ['obc', 'Paliwo itp.'], ['zw', 'Zwroty'], ['dol', 'Doładowania']].map(function (c) {
       return '<button type="button" class="fbtn' + (p.tx === c[0] ? ' on' : '') + '" aria-pressed="' + (p.tx === c[0]) + '"' + act('pTx', c[0]) + '>' + c[1] + '</button>';
     }).join('');
     var rows = txs.map(function (t) {
@@ -150,7 +150,7 @@
       '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button">Eksport CSV</button><button class="btn" type="button">Zestawienie PDF</button><button class="btn yel" type="button">Wyślij zestawienie do księgowości</button></div></div>' +
       '<div class="g3">' +
       kpi('Sprzedaż najmu', '19 480,00 zł', '147 rezerwacji · 314 slotów po 30 min') +
-      kpi('Obciążenia dodatkowe', '1 260,00 zł', '14 × paliwo z portfela (126 l × 10 zł) · 1 do zatwierdzenia') +
+      kpi('Rozliczenia (paliwo itp.)', '1 260,00 zł', '14 × paliwo z portfela (126 l × 10 zł) · 1 do zatwierdzenia') +
       kpi('Zwroty', '<span style="color:#9b1c1c">−810,00 zł</span>', '9 rezerwacji · zwrot do portfela · 12.11 śnieg') +
       kpi('Podstawa prowizji', '19 930,00 zł', 'opłacone transakcje − zwroty') +
       kpi('Prowizja platformy · 5%', '996,50 zł', 'faktura prowizyjna dla WORD 1.12.2026') +
@@ -175,7 +175,7 @@
       }).join('') +
       '<tr><td class="td"><b>Razem</b></td><td class="td num"><b>147</b></td><td class="td num"><b>19 930,00</b></td><td class="td num"><b>996,50</b></td><td class="td num"><b>161</b></td></tr></tbody></table></div>' +
       '<p class="muted" style="font-size:12px;margin:10px 0 0">Faktury VAT wystawiane automatycznie na OSK przy każdej płatności; zwroty = faktury korygujące (9).</p></div></div>' +
-      '<div class="card"><h2>Według pojazdu WORD</h2><div class="tbox"><table><thead><tr><th class="th">Pojazd</th><th class="th">Napęd</th><th class="th num">Sloty: najem / z placem</th><th class="th num">Przychód brutto</th><th class="th num">Obciążenia</th><th class="th num">Wykorzystanie popołudni</th></tr></thead><tbody>' +
+      '<div class="card"><h2>Według pojazdu WORD</h2><div class="tbox"><table><thead><tr><th class="th">Pojazd</th><th class="th">Napęd</th><th class="th num">Sloty: najem / z placem</th><th class="th num">Przychód brutto</th><th class="th num">Paliwo itp.</th><th class="th num">Wykorzystanie popołudni</th></tr></thead><tbody>' +
       [['Renault Clio E-Tech (egzaminacyjne)', 'Hybryda', '24 / 16', '3 920,00', 'paliwo 82 l · 820,00', '67%'], ['Toyota Yaris Hybrid', 'Hybryda', '12 / 8', '1 960,00', 'paliwo 44 l · 440,00', '33%'], ['BYD Dolphin', 'Elektryk', '12 / 6', '1 740,00', '—', '30%'], ['Fiat 500e', 'Elektryk', '9 / 5', '1 360,00', '—', '23%'], ['Škoda Epiq 35', 'Elektryk', '7 / 3', '960,00', '—', '17%']].map(function (r) {
         return '<tr><td class="td">' + r[0] + '</td><td class="td">' + chip(r[1] === 'Elektryk' ? 'info' : 'grey', r[1]) + '</td><td class="td num">' + r[2] + '</td><td class="td num">' + r[3] + '</td><td class="td num">' + r[4] + '</td><td class="td num">' + r[5] + '</td></tr>';
       }).join('') +
@@ -283,7 +283,7 @@
       '<div class="card"><h2>OSK pod nadzorem UM w Gorzowie Wlkp. · 24</h2><p class="muted" style="font-size:12px;margin:0 0 10px">Nazwy, numery rejestrowe i zdawalność praktyki kat. B za 1. podejściem (mediana powiatu: 40%) – rejestr i dane egzaminacyjne z <a href="https://jedna-miara.netlify.app" target="_blank" rel="noopener">Jedna miara</a>. Statusy umów są fikcyjne.</p><div class="tbox"><table><thead><tr><th class="th">OSK</th><th class="th">Nr rej.</th><th class="th num">Praktyka B, 1. podejście</th><th class="th num">Zdani / przystępujący</th><th class="th">Umowa najmu floty</th></tr></thead><tbody>' +
       OSK_GW.map(function (o) { var u = UMOWY[o[1]]; return '<tr><td class="td">' + o[0] + '</td><td class="td">' + o[1] + '</td><td class="td num">' + o[2] + '</td><td class="td num">' + o[3] + '</td><td class="td">' + (u ? chip(u === 'Aktywna' ? 'ok' : 'warn', u) : '—') + '</td></tr>'; }).join('') +
       '</tbody></table></div></div>' +
-      '<div class="card"><h2>Aktywni instruktorzy · 23</h2><div class="tbox"><table><thead><tr><th class="th">Instruktor</th><th class="th">OSK</th><th class="th">Kategorie</th><th class="th num">Rezerwacje XI</th><th class="th num">Nie stawił się (30 dni)</th><th class="th num">Obciążenia</th></tr></thead><tbody>' +
+      '<div class="card"><h2>Aktywni instruktorzy · 23</h2><div class="tbox"><table><thead><tr><th class="th">Instruktor</th><th class="th">OSK</th><th class="th">Kategorie</th><th class="th num">Rezerwacje XI</th><th class="th num">Nie stawił się (30 dni)</th><th class="th num">Paliwo itp.</th></tr></thead><tbody>' +
       '<tr><td class="td">Marek Zieliński</td><td class="td">SUPER OSK MIKRUS</td><td class="td">B</td><td class="td num">21</td><td class="td num">0</td><td class="td num">0</td></tr>' +
       '<tr><td class="td">Anna Wróbel</td><td class="td">POLONEZ</td><td class="td">B</td><td class="td num">17</td><td class="td num">0</td><td class="td num">1</td></tr>' +
       '<tr><td class="td">Jan Nowak</td><td class="td">POLONEZ</td><td class="td">B, C</td><td class="td num">8</td><td class="td num">2</td><td class="td num">0</td></tr>' +

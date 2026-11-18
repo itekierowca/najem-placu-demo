@@ -8,7 +8,7 @@ Klikalna wersja pokazowa modułu najmu placu manewrowego i pojazdów WORD dla Pa
 
 | Widok | Adres | Co pokazuje |
 | --- | --- | --- |
-| Panel WORD | `#panel` | Rozliczenia (KPI, sprzedaż dzienna, podział na produkty i OSK, transakcje, prowizja), plan dnia, rezerwacje, umowy najmu aut, obciążenia dodatkowe, zasoby i cennik, instruktorzy, ustawienia |
+| Panel WORD | `#panel` | Rozliczenia (KPI, sprzedaż dzienna, podział na produkty i OSK, transakcje, prowizja), plan dnia, rezerwacje, umowy najmu aut, rozliczenia (paliwo itp.), zasoby i cennik, instruktorzy, ustawienia |
 | Strona WORD | `#strona` | Widżet rezerwacji osadzony na stronie WORD: usługa → termin → logowanie → zgody → płatność → potwierdzenie; rejestracja instruktora |
 | Aplikacja instruktora | `#aplikacja` | Telefon: rezerwacja, otwarcie szlabanu, zdjęcia stanu auta, otwarcie Clio, zwrot z rozliczeniem paliwa (10 zł/l) |
 
