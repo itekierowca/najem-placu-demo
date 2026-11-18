@@ -102,13 +102,13 @@
       '<div class="body">' + views[p.view]() + '</div></main></div>';
   }
 
-  var DAYS = [[1, 'Nd', 1125, 'w'], [2, 'Pn', 675, ''], [3, 'Wt', 770, ''], [4, 'Śr', 720, ''], [5, 'Cz', 830, ''], [6, 'Pt', 925, ''], [7, 'So', 1035, 'w'], [8, 'Nd', 1070, 'w'], [9, 'Pn', 690, ''], [10, 'Wt', 750, ''], [11, 'Śr', 975, 'w'], [12, 'Cz', 590, 'r'], [13, 'Pt', 795, ''], [14, 'So', 1130, 'w'], [15, 'Nd', 1010, 'w'], [16, 'Pn', 710, ''], [17, 'Wt', 410, '']];
+  var DAYS = [[2, 'Pn', 2280, ''], [3, 'Wt', 2340, ''], [4, 'Śr', 2290, ''], [5, 'Cz', 2360, ''], [6, 'Pt', 2410, ''], [9, 'Pn', 2300, ''], [10, 'Wt', 2330, ''], [12, 'Cz', 2150, 'r'], [13, 'Pt', 2420, ''], [16, 'Pn', 2290, ''], [17, 'Wt', 2240, '']];
 
   function txList() {
     var o = S.p.obc;
     return [
       { k: 'dol', date: '17.11 12:39', no: 'D-2611-0312', type: 'Doładowanie', who: 'Marek Zieliński · SUPER OSK MIKRUS', desc: 'Portfel · Apple Pay', amt: '100,00', fee: '—', doc: '—', st: chip('ok', 'Zaksięgowane') },
-      { k: 'rez', date: '17.11 12:41', no: 'R-2611-0147', type: 'Rezerwacja', who: 'Marek Zieliński · SUPER OSK MIKRUS', desc: 'Auto WORD (Renault Clio E-Tech) + stanowisko B2 · 2 sloty, 19.11 15:00–16:00', amt: '90,00', fee: '4,50', doc: 'FV 147/11/2026', st: chip('ok', 'Opłacona') },
+      { k: 'rez', date: '17.11 12:41', no: 'R-2611-0147', type: 'Rezerwacja', who: 'Marek Zieliński · SUPER OSK MIKRUS', desc: 'Auto WORD (Renault Clio E-Tech) + stanowisko B2 · 2 sloty, 19.11 15:00–16:00', amt: '180,00', fee: '9,00', doc: 'FV 147/11/2026', st: chip('ok', 'Opłacona') },
       { k: 'obc', date: '17.11 11:58', no: 'O-2611-0014', type: 'Paliwo / energia', who: 'Anna Wróbel · POLONEZ', desc: 'Paliwo: brak 4 l × 10 zł · Toyota Yaris (R-2611-0139)', amt: '40,00', fee: '2,00', doc: 'FV 161/11/2026', st: chip('ok', 'Pobrane z portfela') },
       { k: 'rez', date: '17.11 10:22', no: 'R-2611-0146', type: 'Rezerwacja', who: 'Tomasz Lis · EVOLUTION', desc: 'Plac kat. B – pojazd OSK · 2 sloty', amt: '90,00', fee: '4,50', doc: 'FV 146/11/2026', st: chip('ok', 'Opłacona') },
       { k: 'rez', date: '17.11 09:15', no: 'R-2611-0145', type: 'Rezerwacja', who: 'Katarzyna Mazur · ATA', desc: 'Najem auta WORD · BYD Dolphin · 1 h', amt: '55,00', fee: '2,75', doc: 'FV 145/11/2026', st: chip('ok', 'Opłacona') },
@@ -131,9 +131,9 @@
   function pRozl() {
     var p = S.p;
     var bars = DAYS.map(function (d) {
-      var h = Math.round(d[2] / 1130 * 140);
+      var h = Math.round(d[2] / 2420 * 140);
       var col = d[3] === 'w' ? '#f5c400' : d[3] === 'r' ? '#e08585' : '#2b3370';
-      return '<div class="bar" title="' + d[0] + '.11: ' + fmt(d[2]) + ' zł brutto' + (d[3] === 'r' ? ' · zwroty 810 zł' : '') + '"><span>' + (d[2] / 1000).toFixed(1).replace('.', ',') + '</span><i style="height:' + h + 'px;background:' + col + '"></i></div>';
+      return '<div class="bar" title="' + d[0] + '.11: ' + fmt(d[2]) + ' zł brutto' + (d[3] === 'r' ? ' · zwroty 1 080 zł (śnieg)' : '') + '"><span>' + (d[2] / 1000).toFixed(1).replace('.', ',') + '</span><i style="height:' + h + 'px;background:' + col + '"></i></div>';
     }).join('');
     var labs = DAYS.map(function (d) { return '<div>' + d[0] + ' ' + d[1] + '</div>'; }).join('');
     var all = txList();
@@ -149,44 +149,44 @@
       '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><button class="fbtn on" type="button">Listopad 2026 · w toku</button><button class="fbtn" type="button" disabled>Październik 2026 · przed pilotem</button><span class="muted" style="font-size:13px">stan na 17.11.2026, 13:00</span></div>' +
       '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button">Eksport CSV</button><button class="btn" type="button">Zestawienie PDF</button><button class="btn yel" type="button">Wyślij zestawienie do księgowości</button></div></div>' +
       '<div class="g3">' +
-      kpi('Sprzedaż najmu', '12 950,00 zł', '147 rezerwacji · plac, auto + plac, najem auta 1 h / 2 h') +
-      kpi('Rozliczenia (paliwo itp.)', '1 260,00 zł', '14 × paliwo z portfela (126 l × 10 zł) · 1 do zatwierdzenia') +
-      kpi('Zwroty', '<span style="color:#9b1c1c">−810,00 zł</span>', '9 rezerwacji · zwrot do portfela · 12.11 śnieg') +
-      kpi('Podstawa prowizji', '13 400,00 zł', 'opłacone transakcje − zwroty') +
-      kpi('Prowizja platformy · 5%', '670,00 zł', 'faktura prowizyjna dla WORD 1.12.2026') +
-      kpi('Do wypłaty dla WORD', '12 730,00 zł', 'przed opłatami operatora płatności', ' style="border-color:#f5c400;background:#fffbea"') +
+      kpi('Sprzedaż najmu', '23 430,00 zł', '253 rezerwacje · 11 dni roboczych · auta 4 h/dzień każde') +
+      kpi('Rozliczenia (paliwo itp.)', '1 980,00 zł', '22 × paliwo z portfela (198 l × 10 zł) · 1 do zatwierdzenia') +
+      kpi('Zwroty', '<span style="color:#9b1c1c">−1 080,00 zł</span>', '12 rezerwacji · zwrot do portfela · 12.11 śnieg') +
+      kpi('Podstawa prowizji', '24 330,00 zł', 'opłacone transakcje − zwroty') +
+      kpi('Prowizja platformy · 5%', '1 216,50 zł', 'faktura prowizyjna dla WORD 1.12.2026') +
+      kpi('Do wypłaty dla WORD', '23 113,50 zł', 'przed opłatami operatora płatności', ' style="border-color:#f5c400;background:#fffbea"') +
       '</div>' +
       '<div class="card"><h2>Portfele instruktorów · listopad 2026</h2><div class="g4">' +
-      [['Doładowania', '15 100,00 zł', '241 doładowań · Apple Pay 52%, BLIK 37%, karta 11%'], ['Wydane z portfeli', '14 210,00 zł', 'rezerwacje 12 950 + dopłaty 1 260'], ['Zwroty na portfele', '810,00 zł', '9 zwrotów · 12.11 śnieg'], ['Saldo portfeli 17.11', '1 700,00 zł', '23 aktywne portfele · środki klientów, nie przychód']].map(function (r) {
+      [['Doładowania', '26 030,00 zł', '412 doładowań · Apple Pay 52%, BLIK 37%, karta 11%'], ['Wydane z portfeli', '25 410,00 zł', 'rezerwacje 23 430 + dopłaty 1 980'], ['Zwroty na portfele', '1 080,00 zł', '12 zwrotów · 12.11 śnieg'], ['Saldo portfeli 17.11', '1 700,00 zł', '23 aktywne portfele · środki klientów, nie przychód']].map(function (r) {
         return '<div><div class="lbl">' + r[0] + '</div><div class="kpi" style="font-size:20px">' + r[1] + '</div><div class="muted" style="font-size:12px">' + r[2] + '</div></div>';
-      }).join('') + '</div><p class="muted" style="font-size:12px;margin:12px 0 0">Saldo = doładowania − wydatki + zwroty (15 100 − 14 210 + 810). Przychodem WORD jest dopiero usługa rozliczona z portfela; prowizja liczona od rozliczonych usług, nie od doładowań.</p></div>' +
-      '<div class="card" style="display:flex;flex-direction:column;gap:12px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><h2 style="margin:0">Sprzedaż dzienna brutto · 1–17.11.2026</h2>' +
-      '<div class="muted" style="font-size:12px;display:flex;gap:14px;flex-wrap:wrap"><span><i style="display:inline-block;width:10px;height:10px;background:#2b3370;border-radius:2px"></i> dni robocze</span><span><i style="display:inline-block;width:10px;height:10px;background:#f5c400;border-radius:2px"></i> weekend i święto</span><span><i style="display:inline-block;width:10px;height:10px;background:#e08585;border-radius:2px"></i> dzień ze zwrotami</span></div></div>' +
-      '<div class="hscroll"><div style="min-width:560px"><div class="bars">' + bars + '</div><div class="barlab">' + labs + '</div></div></div></div>' +
+      }).join('') + '</div><p class="muted" style="font-size:12px;margin:12px 0 0">Saldo = doładowania − wydatki + zwroty (26 030 − 25 410 + 1 080). Przychodem WORD jest dopiero usługa rozliczona z portfela; prowizja liczona od rozliczonych usług, nie od doładowań.</p></div>' +
+      '<div class="card" style="display:flex;flex-direction:column;gap:12px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><h2 style="margin:0">Sprzedaż dzienna brutto · 11 dni roboczych 1–17.11.2026 (bez sobót, niedziel i 11.11)</h2>' +
+      '<div class="muted" style="font-size:12px;display:flex;gap:14px;flex-wrap:wrap"><span><i style="display:inline-block;width:10px;height:10px;background:#2b3370;border-radius:2px"></i> dni robocze</span><span><i style="display:inline-block;width:10px;height:10px;background:#e08585;border-radius:2px"></i> dzień ze zwrotami</span></div></div>' +
+      '<div class="hscroll"><div style="min-width:420px"><div class="bars">' + bars + '</div><div class="barlab">' + labs + '</div></div></div></div>' +
       '<div class="g2"><div class="card"><h2>Według produktu</h2><div class="tbox"><table><thead><tr><th class="th">Produkt</th><th class="th num">Ilość</th><th class="th num">Cena</th><th class="th num">Kwota brutto</th><th class="th">Udział</th></tr></thead><tbody>' +
-      '<tr><td class="td">Plac kat. B – pojazd OSK</td><td class="td num">212 slotów</td><td class="td num">45,00</td><td class="td num">9 540,00</td><td class="td">' + share(67, '#2b3370', '67%') + '</td></tr>' +
-      '<tr><td class="td">Najem auta WORD (1 h / 2 h)</td><td class="td num">20 × 1 h, 6 × 2 h</td><td class="td num">55 / 100</td><td class="td num">1 700,00</td><td class="td">' + share(12, '#2b3370', '12%') + '</td></tr>' +
-      '<tr><td class="td">Auto WORD + stanowisko B (30 min)</td><td class="td num">38 slotów</td><td class="td num">45,00</td><td class="td num">1 710,00</td><td class="td">' + share(12, '#2b3370', '12%') + '</td></tr>' +
-      '<tr><td class="td">Paliwo – obciążenia kart</td><td class="td num">126 l</td><td class="td num">10,00</td><td class="td num">1 260,00</td><td class="td">' + share(9, '#f5c400', '9%') + '</td></tr>' +
-      '<tr><td class="td"><b>Razem przed zwrotami</b></td><td class="td"></td><td class="td"></td><td class="td num"><b>14 210,00</b></td><td class="td"></td></tr></tbody></table></div></div>' +
+      '<tr><td class="td">Plac kat. B – pojazd OSK</td><td class="td num">88 slotów</td><td class="td num">45,00</td><td class="td num">3 960,00</td><td class="td">' + share(16, '#2b3370', '16%') + '</td></tr>' +
+      '<tr><td class="td">Najem auta WORD (1 h / 2 h)</td><td class="td num">110 × 1 h, 55 × 2 h</td><td class="td num">55 / 100</td><td class="td num">11 550,00</td><td class="td">' + share(45, '#2b3370', '45%') + '</td></tr>' +
+      '<tr><td class="td">Auto WORD + stanowisko B (30 min)</td><td class="td num">88 slotów</td><td class="td num">90,00</td><td class="td num">7 920,00</td><td class="td">' + share(31, '#2b3370', '31%') + '</td></tr>' +
+      '<tr><td class="td">Paliwo – dopłaty z portfela</td><td class="td num">198 l</td><td class="td num">10,00</td><td class="td num">1 980,00</td><td class="td">' + share(8, '#f5c400', '8%') + '</td></tr>' +
+      '<tr><td class="td"><b>Razem przed zwrotami</b></td><td class="td"></td><td class="td"></td><td class="td num"><b>25 410,00</b></td><td class="td"></td></tr></tbody></table></div></div>' +
       '<div class="card"><h2>Według OSK (po zwrotach)</h2><div class="tbox"><table><thead><tr><th class="th">OSK</th><th class="th num">Rezerwacje</th><th class="th num">Kwota</th><th class="th num">Prowizja 5%</th><th class="th num">Faktury</th></tr></thead><tbody>' +
-      [['SUPER OSK MIKRUS Piotr Kawalec', 52, '4 320,00', '216,00', 57], ['Szkoła Kierowców POLONEZ Winiarska-Doktór Anna', 39, '3 345,00', '167,25', 43], ['EVOLUTION Mirosław Chudy', 28, '2 605,00', '130,25', 32], ['Centrum Szkoleniowe ATA Dariusz Klisowski', 19, '1 855,00', '92,75', 20], ['Pozostałe (5 z 20 OSK)', 9, '1 275,00', '63,75', 9]].map(function (r) {
+      [['SUPER OSK MIKRUS Piotr Kawalec', 90, '7 840,00', '392,00', 98], ['Szkoła Kierowców POLONEZ Winiarska-Doktór Anna', 67, '6 070,00', '303,50', 73], ['EVOLUTION Mirosław Chudy', 48, '4 735,00', '236,75', 52], ['Centrum Szkoleniowe ATA Dariusz Klisowski', 33, '3 365,00', '168,25', 36], ['Pozostałe (5 z 20 OSK)', 15, '2 320,00', '116,00', 16]].map(function (r) {
         return '<tr><td class="td">' + r[0] + '</td><td class="td num">' + r[1] + '</td><td class="td num">' + r[2] + '</td><td class="td num">' + r[3] + '</td><td class="td num">' + r[4] + '</td></tr>';
       }).join('') +
-      '<tr><td class="td"><b>Razem</b></td><td class="td num"><b>147</b></td><td class="td num"><b>13 400,00</b></td><td class="td num"><b>670,00</b></td><td class="td num"><b>161</b></td></tr></tbody></table></div>' +
-      '<p class="muted" style="font-size:12px;margin:10px 0 0">Faktury VAT wystawiane automatycznie na OSK przy każdej płatności; zwroty = faktury korygujące (9).</p></div></div>' +
-      '<div class="card"><h2>Według pojazdu WORD</h2><div class="tbox"><table><thead><tr><th class="th">Pojazd</th><th class="th">Napęd</th><th class="th num">Najem 1 h / 2 h · z placem (30 min)</th><th class="th num">Przychód brutto</th><th class="th num">Paliwo itp.</th><th class="th num">Wykorzystanie popołudni</th></tr></thead><tbody>' +
-      [['Renault Clio E-Tech (egzaminacyjne)', 'Hybryda', '8 / 2 · 16', '1 360,00', 'paliwo 82 l · 820,00', '67%'], ['Toyota Yaris Hybrid', 'Hybryda', '4 / 1 · 8', '680,00', 'paliwo 44 l · 440,00', '33%'], ['BYD Dolphin', 'Elektryk', '4 / 1 · 6', '590,00', '—', '30%'], ['Fiat 500e', 'Elektryk', '2 / 1 · 5', '435,00', '—', '23%'], ['Škoda Epiq 35', 'Elektryk', '2 / 1 · 3', '345,00', '—', '17%']].map(function (r) {
+      '<tr><td class="td"><b>Razem</b></td><td class="td num"><b>253</b></td><td class="td num"><b>24 330,00</b></td><td class="td num"><b>1 216,50</b></td><td class="td num"><b>275</b></td></tr></tbody></table></div>' +
+      '<p class="muted" style="font-size:12px;margin:10px 0 0">Faktury VAT wystawiane automatycznie na OSK przy każdej płatności; zwroty = faktury korygujące (12).</p></div></div>' +
+      '<div class="card"><h2>Według pojazdu WORD</h2><div class="tbox"><table><thead><tr><th class="th">Pojazd</th><th class="th">Napęd</th><th class="th num">Najem 1 h / 2 h · z placem (30 min)</th><th class="th num">Przychód brutto</th><th class="th num">Paliwo itp.</th><th class="th num">Średnio h/dzień (najem + plac)</th></tr></thead><tbody>' +
+      [['Renault Clio E-Tech (egzaminacyjne)', 'Hybryda', '22 / 11 · 30', '5 010,00', 'paliwo 118 l · 1 180,00', '4,0 + 1,4 = 5,4 h'], ['Toyota Yaris Hybrid', 'Hybryda', '22 / 11 · 18', '3 930,00', 'paliwo 80 l · 800,00', '4,0 + 0,8 = 4,8 h'], ['BYD Dolphin', 'Elektryk', '22 / 11 · 16', '3 750,00', '—', '4,0 + 0,7 = 4,7 h'], ['Fiat 500e', 'Elektryk', '22 / 11 · 12', '3 390,00', '—', '4,0 + 0,5 = 4,5 h'], ['Škoda Epiq 35', 'Elektryk', '22 / 11 · 12', '3 390,00', '—', '4,0 + 0,5 = 4,5 h']].map(function (r) {
         return '<tr><td class="td">' + r[0] + '</td><td class="td">' + chip(r[1] === 'Elektryk' ? 'info' : 'grey', r[1]) + '</td><td class="td num">' + r[2] + '</td><td class="td num">' + r[3] + '</td><td class="td num">' + r[4] + '</td><td class="td num">' + r[5] + '</td></tr>';
       }).join('') +
-      '<tr><td class="td"><b>Razem flota</b></td><td class="td"></td><td class="td num"><b>20 / 6 · 38</b></td><td class="td num"><b>3 410,00</b></td><td class="td num"><b>1 260,00</b></td><td class="td"></td></tr></tbody></table></div>' +
-      '<p class="muted" style="font-size:12px;margin:10px 0 0">Wykorzystanie = zajęte sloty / sloty dostępne pn–pt 15–18 i w soboty. Elektryki wracają z co najmniej tym samym poziomem baterii (ładowarka AC przy placu) – w listopadzie brak obciążeń za energię.</p></div>' +
+      '<tr><td class="td"><b>Razem flota</b></td><td class="td"></td><td class="td num"><b>110 / 55 · 88</b></td><td class="td num"><b>19 470,00</b></td><td class="td num"><b>1 980,00</b></td><td class="td num"><b>24 h/dzień</b></td></tr></tbody></table></div>' +
+      '<p class="muted" style="font-size:12px;margin:10px 0 0">Założenie: każde auto 4 h najmu dziennie (dzień: 2 h + 2 × 1 h), auta ze stanowiskiem łącznie 4 h dziennie (8 slotów po 30 min); 11 dni roboczych bez sobót. Najem po mieście: Clio 15–21 (po egzaminach), pozostałe auta 8–20. Elektryki wracają z co najmniej tym samym poziomem baterii (ładowarka AC przy placu) – w listopadzie brak obciążeń za energię.</p></div>' +
       '<div class="card" style="display:flex;flex-direction:column;gap:12px"><div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center"><h2 style="margin:0">Transakcje</h2><div role="group" aria-label="Filtr transakcji" style="display:flex;gap:6px;flex-wrap:wrap">' + chips + '</div></div>' +
       '<div class="tbox"><table><thead><tr><th class="th">Data</th><th class="th">Numer</th><th class="th">Typ</th><th class="th">Instruktor · OSK</th><th class="th">Opis</th><th class="th num">Kwota brutto</th><th class="th num">Prowizja</th><th class="th">Dokument</th><th class="th">Status</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-      '<div class="muted" style="font-size:12px">Pokazano ' + txs.length + ' z 483</div></div>' +
+      '<div class="muted" style="font-size:12px">Pokazano ' + txs.length + ' z 700</div></div>' +
       '<div class="card g2" style="gap:24px"><div><h2>Rozliczenie prowizji · listopad 2026</h2><div class="kv">' +
-      '<span class="muted">Okres</span><span>1–30.11.2026 (w toku)</span><span class="muted">Podstawa</span><span>13 400,00 zł</span><span class="muted">Stawka prowizji</span><span>5% od opłaconej transakcji (przykład)</span><span class="muted">Prowizja</span><b>670,00 zł</b><span class="muted">Do wypłaty dla WORD</span><b>12 730,00 zł</b><span class="muted">Dzienne zestawienie</span><span>e-mail 8:00 → ksiegowosc@word-gorzow.example</span></div></div>' +
-      '<div><h2>Harmonogram zamknięcia okresu</h2><ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:14px"><li><b>30.11, 23:59</b> – zamknięcie okresu, blokada korekt</li><li><b>1.12</b> – faktura prowizyjna e-Kierowca → WORD (670,00 zł + korekty)</li><li><b>1.12</b> – raport rozbieżności z wyciągiem operatora płatności</li><li><b>15.12</b> – termin płatności faktury prowizyjnej</li></ol></div></div>';
+      '<span class="muted">Okres</span><span>1–30.11.2026 (w toku)</span><span class="muted">Podstawa</span><span>24 330,00 zł</span><span class="muted">Stawka prowizji</span><span>5% od opłaconej transakcji (przykład)</span><span class="muted">Prowizja</span><b>1 216,50 zł</b><span class="muted">Do wypłaty dla WORD</span><b>23 113,50 zł</b><span class="muted">Dzienne zestawienie</span><span>e-mail 8:00 → ksiegowosc@word-gorzow.example</span></div></div>' +
+      '<div><h2>Harmonogram zamknięcia okresu</h2><ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:14px"><li><b>30.11, 23:59</b> – zamknięcie okresu, blokada korekt</li><li><b>1.12</b> – faktura prowizyjna e-Kierowca → WORD (1 216,50 zł + korekty)</li><li><b>1.12</b> – raport rozbieżności z wyciągiem operatora płatności</li><li><b>15.12</b> – termin płatności faktury prowizyjnej</li></ol></div></div>';
   }
 
   function pPlan() {
@@ -209,7 +209,7 @@
     }).join('');
     return '<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between"><div style="display:flex;gap:8px;align-items:center"><button class="btn" type="button" aria-label="Poprzedni dzień">‹</button><b style="font-size:16px">czw., 19.11.2026</b><button class="btn" type="button" aria-label="Następny dzień">›</button></div>' +
       '<div class="muted" style="display:flex;gap:12px;font-size:12px;flex-wrap:wrap"><span>' + chip('info', 'OSK') + ' pojazd OSK</span><span>' + chip('warn', 'auto') + ' auto WORD</span><span>' + chip('grey', 'bufor') + ' bufor / blokada</span><span>egzaminy 7:30–14:30 – plac zablokowany</span></div><button class="btn" type="button">Drukuj listę dnia</button></div>' +
-      '<div class="card tbox"><div class="grid"><div></div>' + hdr + body + '</div></div>' +
+      '<div class="card tbox"><div class="grid"><div></div>' + hdr + body + '</div><p class="muted" style="font-size:12px;margin:10px 0 0">Siatka pokazuje okno placu 15:00–18:00. Najem aut po mieście trwa dłużej: Clio 15:00–21:00 (po egzaminach), pozostałe auta 8:00–20:00 – każde auto ok. 4 h najmu dziennie.</p></div>' +
       '<div class="card"><h2>Przyjazdy · 19.11</h2><div class="tbox"><table><thead><tr><th class="th">Godz.</th><th class="th">Instruktor · OSK</th><th class="th">Zasoby</th><th class="th">Pojazd</th><th class="th">Szlaban / auto</th><th class="th">Obecność</th></tr></thead><tbody>' +
       '<tr><td class="td">15:00</td><td class="td">Tomasz Lis · EVOLUTION</td><td class="td">B1</td><td class="td">FZ 3302P (OSK)</td><td class="td">wjazd 14:55</td><td class="td">' + chip('ok', 'Stawił się (szlaban)') + '</td></tr>' +
       '<tr><td class="td">15:00</td><td class="td">Marek Zieliński · SUPER OSK MIKRUS</td><td class="td">B2</td><td class="td">Renault Clio E-Tech (WORD)</td><td class="td">wjazd 14:52 · auto otwarte 14:56</td><td class="td">' + chip('ok', 'Stawił się (szlaban)') + '</td></tr>' +
@@ -221,7 +221,7 @@
 
   function pRez() {
     var rows = [
-      ['R-2611-0147', '19.11 15:00–16:00', 'Auto WORD + stanowisko B', 'B2, Renault Clio', 'Marek Zieliński · SUPER OSK MIKRUS', '90,00', chip('ok', 'Opłacona')],
+      ['R-2611-0147', '19.11 15:00–16:00', 'Auto WORD + stanowisko B', 'B2, Renault Clio', 'Marek Zieliński · SUPER OSK MIKRUS', '180,00', chip('ok', 'Opłacona')],
       ['R-2611-0146', '19.11 15:00–16:00', 'Plac kat. B – pojazd OSK', 'B1', 'Tomasz Lis · EVOLUTION', '90,00', chip('ok', 'Opłacona')],
       ['R-2611-0145', '19.11 16:30–17:30', 'Najem auta WORD', 'BYD Dolphin', 'Katarzyna Mazur · ATA', '55,00', chip('ok', 'Opłacona')],
       ['R-2611-0144', '19.11 16:30–18:00', 'Plac kat. B – pojazd OSK', 'B1', 'Piotr Kaczmarek · SUPER OSK MIKRUS', '135,00', chip('ok', 'Opłacona')],
@@ -263,7 +263,7 @@
     var res = function (l, t) { return '<div class="card"><div class="lbl">' + l + '</div><p style="font-size:14px;margin:8px 0 0">' + t + '</p></div>'; };
     return '<div class="g3">' + prod('Plac kat. B – pojazd OSK', 'Zasoby: 1 z grupy B1–B3 · pojazd OSK', '45,00 zł / 30 min') +
       prod('Najem auta WORD (automat)', 'Zasoby: 1 z 5 aut floty · miasto · wymaga umowy najmu', '55 zł / 1 h · 100 zł / 2 h') +
-      prod('Auto WORD + stanowisko B', 'Zasoby: 1 z 5 aut + 1 z grupy B1–B3', '45,00 zł / 30 min') +
+      prod('Auto WORD + stanowisko B', 'Zasoby: 1 z 5 aut + 1 z grupy B1–B3', '90,00 zł / 30 min') +
       res('Zasób · stanowiska', 'B1, B2, B3 (kat. B) · A1 (kat. A, wyłączone XI–III) · C1 (kat. C)') +
       res('Szlaban', 'Wjazd na plac · sterownik: połączony · otwarć dziś: 6') +
       res('Ładowarka', 'AC 2 × 22 kW przy placu · ładuje: Fiat 500e') + '</div>' +
@@ -284,9 +284,9 @@
       OSK_GW.map(function (o) { var u = UMOWY[o[1]]; return '<tr><td class="td">' + o[0] + '</td><td class="td">' + o[1] + '</td><td class="td num">' + o[2] + '</td><td class="td num">' + o[3] + '</td><td class="td">' + (u ? chip(u === 'Aktywna' ? 'ok' : 'warn', u) : '—') + '</td></tr>'; }).join('') +
       '</tbody></table></div></div>' +
       '<div class="card"><h2>Aktywni instruktorzy · 23</h2><div class="tbox"><table><thead><tr><th class="th">Instruktor</th><th class="th">OSK</th><th class="th">Kategorie</th><th class="th num">Rezerwacje XI</th><th class="th num">Nie stawił się (30 dni)</th><th class="th num">Paliwo itp.</th></tr></thead><tbody>' +
-      '<tr><td class="td">Marek Zieliński</td><td class="td">SUPER OSK MIKRUS</td><td class="td">B</td><td class="td num">21</td><td class="td num">0</td><td class="td num">0</td></tr>' +
-      '<tr><td class="td">Anna Wróbel</td><td class="td">POLONEZ</td><td class="td">B</td><td class="td num">17</td><td class="td num">0</td><td class="td num">1</td></tr>' +
-      '<tr><td class="td">Jan Nowak</td><td class="td">POLONEZ</td><td class="td">B, C</td><td class="td num">8</td><td class="td num">2</td><td class="td num">0</td></tr>' +
+      '<tr><td class="td">Marek Zieliński</td><td class="td">SUPER OSK MIKRUS</td><td class="td">B</td><td class="td num">36</td><td class="td num">0</td><td class="td num">0</td></tr>' +
+      '<tr><td class="td">Anna Wróbel</td><td class="td">POLONEZ</td><td class="td">B</td><td class="td num">29</td><td class="td num">0</td><td class="td num">2</td></tr>' +
+      '<tr><td class="td">Jan Nowak</td><td class="td">POLONEZ</td><td class="td">B, C</td><td class="td num">14</td><td class="td num">2</td><td class="td num">1</td></tr>' +
       '</tbody></table></div></div>';
   }
 
@@ -304,10 +304,10 @@
   // Portfel instruktora – jak w aplikacjach biletowych: doładowanie, płatności i dopłaty z salda, zwroty na saldo.
   var MIN_SALDO_AUTO = 50; // minimalne saldo po opłaceniu najmu auta WORD – zabezpieczenie dopłaty za paliwo/energię
   S.wal = {
-    bal: 300.00,
+    bal: 210.00,
     method: 'apple',
     hist: [
-      { d: '17.11 12:41', t: 'Rezerwacja R-2611-0147', s: 'Auto WORD (Clio) + B2 · FV 147/11/2026', v: -90 },
+      { d: '17.11 12:41', t: 'Rezerwacja R-2611-0147', s: 'Auto WORD (Clio) + B2 · FV 147/11/2026', v: -180 },
       { d: '17.11 12:39', t: 'Doładowanie portfela', s: 'Apple Pay', v: 100 },
       { d: '13.11 18:02', t: 'Rezerwacja R-2611-0121', s: 'Plac kat. B · FV 121/11/2026', v: -90 },
       { d: '12.11 07:30', t: 'Zwrot R-2611-0098', s: 'odwołanie przez WORD – śnieg · FK 8/11/2026', v: 135 },
@@ -337,12 +337,13 @@
   var P = {
     plac: { name: 'Plac kat. B – pojazd OSK', desc: 'Stanowisko B1–B3 przydzielane automatycznie. Jazda pojazdem Twojego OSK.', price: 45 },
     clio: { name: 'Najem auta WORD (automat)', desc: '5 aut do wyboru, w tym 3 elektryki. Jazda po mieście: 1 h lub 2 h. Wymaga umowy najmu Twojego OSK.', price: 55, label: '55 zł / 1 h · 100 zł / 2 h' },
-    clioPlac: { name: 'Auto WORD + stanowisko B', desc: 'Auto z floty WORD i gwarantowane stanowisko kat. B na placu.', price: 45 },
+    clioPlac: { name: 'Auto WORD + stanowisko B', desc: 'Auto z floty WORD i gwarantowane stanowisko kat. B na placu.', price: 90 },
     placA: { name: 'Plac kat. A', desc: 'Stanowisko motocyklowe. Nieczynne XI–III.', price: 45 }
   };
   var WDAYS = [['18', 'śr.', '18.11'], ['19', 'czw.', '19.11'], ['20', 'pt.', '20.11'], ['21', 'sob.', '21.11'], ['22', 'niedz.', '22.11'], ['23', 'pon.', '23.11'], ['24', 'wt.', '24.11']];
   var TAKEN = { '18': { plac: [2], clio: [0, 1] }, '19': { plac: [1], clio: [0, 1, 2, 3, 4] }, '20': { plac: [0, 1], clio: [3] }, '21': { plac: [0, 1, 2, 5, 6], clio: [0, 1, 2, 3, 8, 9] }, '23': { plac: [], clio: [4, 5] }, '24': { plac: [3], clio: [] } };
-  function wTimes() { return S.w.day === '21' ? ['9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30'] : ['15:00', '15:30', '16:00', '16:30', '17:00', '17:30']; }
+  function halfHours(from, to) { var r = []; for (var m = from * 60; m < to * 60; m += 30) r.push(Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0')); return r; }
+  function wTimes() { if (S.w.prod === 'clio' && S.w.day !== '21') return S.w.car === 'clio' ? halfHours(15, 21) : halfHours(8, 20); return S.w.day === '21' ? ['9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30'] : ['15:00', '15:30', '16:00', '16:30', '17:00', '17:30']; }
   function priceFor(prod, n) { if (prod === 'clio') return n >= 4 ? 100 : n >= 2 ? 55 : 0; return P[prod].price * n; }
   function priceLabel(prod) { return P[prod].label || zl(P[prod].price) + ' / 30 min'; }
   function prodName() { var w = S.w; return P[w.prod].name + (w.prod !== 'plac' ? ' · ' + carById(w.car).name : ''); }
@@ -534,7 +535,7 @@
       '<div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="cap">SZLABAN · WJAZD NA PLAC</div>' +
       (a.gate ? '<div style="font-size:14px;color:#1e6b34">Szlaban otwarty 14:52 · wjazd zapisany, obecność potwierdzona</div>' : '<button class="big yel" type="button"' + act('aGate') + '>Otwórz szlaban</button>') + '</div>' +
       '<div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="cap">AUTO · RENAULT CLIO (AT)</div><div style="font-size:14px">Miejsce postojowe nr 3 · kluczyki w schowku</div><button class="big navy" type="button"' + act('aScr', 'photos') + '>Otwórz auto</button><div style="font-size:12px;color:#5f6368">Najpierw 5 zdjęć stanu auta. Otwieranie aktywne od 14:55 do 16:00.</div></div>' +
-      '<div class="card"><div class="r"><span>Stanowisko</span><span>B2</span></div><div class="r"><span>Zapłacono</span><span>90,00 zł</span></div><div class="r"><span>Faktura</span><span>FV 147/11/2026 · SUPER OSK MIKRUS</span></div></div>';
+      '<div class="card"><div class="r"><span>Stanowisko</span><span>B2</span></div><div class="r"><span>Zapłacono</span><span>180,00 zł</span></div><div class="r"><span>Faktura</span><span>FV 147/11/2026 · SUPER OSK MIKRUS</span></div></div>';
   }
   function aPhotos() {
     var a = S.a;
@@ -568,7 +569,7 @@
   function aDone() {
     var card = S.a.fuel === 'card';
     return '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 0"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1e6b34" stroke-width="2" role="img" aria-label="Zakończono"><circle cx="12" cy="12" r="10"/><path d="M7 12.5l3.2 3L17 9"/></svg><h1>Najem zakończony</h1><span style="font-size:14px;color:#5f6368">Auto zamknięte 15:58 · miejsce nr 3</span></div>' +
-      '<div class="card"><div class="r"><span>Rezerwacja</span><span>90,00 zł · z portfela</span></div><div class="r"><span>Paliwo</span><span>' + (card ? '60,00 zł · z portfela' : 'zatankowano · 0,00 zł') + '</span></div><div class="r"><span>Saldo portfela</span><b>' + zl(S.wal.bal) + '</b></div><div class="r"><span>Faktury</span><span>SUPER OSK MIKRUS</span></div></div>' +
+      '<div class="card"><div class="r"><span>Rezerwacja</span><span>180,00 zł · z portfela</span></div><div class="r"><span>Paliwo</span><span>' + (card ? '60,00 zł · z portfela' : 'zatankowano · 0,00 zł') + '</span></div><div class="r"><span>Saldo portfela</span><b>' + zl(S.wal.bal) + '</b></div><div class="r"><span>Faktury</span><span>SUPER OSK MIKRUS</span></div></div>' +
       '<p style="margin:0;font-size:13px;color:#5f6368">' + (card ? 'Dopłatę pobrano z portfela po odczycie telematyki. Fakturę wystawiamy na SUPER OSK MIKRUS.' : 'Poziom paliwa po tankowaniu sprawdzi telematyka przy zamknięciu auta.') + '</p>' +
       '<button class="big navy" type="button"' + act('aScr', 'wal') + '>Zobacz portfel</button><button class="big out" type="button"' + act('aRestart') + '>Wróć do rezerwacji</button>';
   }
