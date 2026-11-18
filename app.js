@@ -107,15 +107,17 @@
   function txList() {
     var o = S.p.obc;
     return [
+      { k: 'dol', date: '17.11 12:39', no: 'D-2611-0312', type: 'Doładowanie', who: 'Marek Zieliński · SUPER OSK MIKRUS', desc: 'Portfel · Apple Pay', amt: '250,00', fee: '—', doc: '—', st: chip('ok', 'Zaksięgowane') },
       { k: 'rez', date: '17.11 12:41', no: 'R-2611-0147', type: 'Rezerwacja', who: 'Marek Zieliński · SUPER OSK MIKRUS', desc: 'Auto WORD (Renault Clio E-Tech) + stanowisko B2 · 2 sloty, 19.11 15:00–16:00', amt: '220,00', fee: '11,00', doc: 'FV 147/11/2026', st: chip('ok', 'Opłacona') },
-      { k: 'obc', date: '17.11 11:58', no: 'O-2611-0014', type: 'Obciążenie', who: 'Anna Wróbel · POLONEZ', desc: 'Paliwo: brak 4 l × 10 zł · Toyota Yaris (R-2611-0139)', amt: '40,00', fee: '2,00', doc: 'FV 161/11/2026', st: chip('ok', 'Pobrane z karty') },
+      { k: 'obc', date: '17.11 11:58', no: 'O-2611-0014', type: 'Obciążenie', who: 'Anna Wróbel · POLONEZ', desc: 'Paliwo: brak 4 l × 10 zł · Toyota Yaris (R-2611-0139)', amt: '40,00', fee: '2,00', doc: 'FV 161/11/2026', st: chip('ok', 'Pobrane z portfela') },
       { k: 'rez', date: '17.11 10:22', no: 'R-2611-0146', type: 'Rezerwacja', who: 'Tomasz Lis · EVOLUTION', desc: 'Plac kat. B – pojazd OSK · 2 sloty', amt: '90,00', fee: '4,50', doc: 'FV 146/11/2026', st: chip('ok', 'Opłacona') },
       { k: 'rez', date: '17.11 09:15', no: 'R-2611-0145', type: 'Rezerwacja', who: 'Katarzyna Mazur · ATA', desc: 'Najem auta WORD · BYD Dolphin · 2 sloty', amt: '180,00', fee: '9,00', doc: 'FV 145/11/2026', st: chip('ok', 'Opłacona') },
+      { k: 'dol', date: '17.11 07:58', no: 'D-2611-0311', type: 'Doładowanie', who: 'Piotr Kaczmarek · SUPER OSK MIKRUS', desc: 'Portfel · BLIK', amt: '100,00', fee: '—', doc: '—', st: chip('ok', 'Zaksięgowane') },
       { k: 'rez', date: '17.11 08:03', no: 'R-2611-0144', type: 'Rezerwacja', who: 'Piotr Kaczmarek · SUPER OSK MIKRUS', desc: 'Plac kat. B – pojazd OSK · 3 sloty', amt: '135,00', fee: '6,75', doc: 'FV 144/11/2026', st: chip('ok', 'Opłacona') },
-      { k: 'obc', date: '16.11 18:47', no: 'O-2611-0013', type: 'Obciążenie', who: 'Tomasz Lis · EVOLUTION', desc: 'Paliwo: brak 6 l × 10 zł · Renault Clio (R-2611-0128)', amt: '60,00', fee: '3,00', doc: 'FV 160/11/2026', st: chip('ok', 'Pobrane z karty') },
-      { k: 'obc', date: '18.11 17:31', no: 'O-2611-0015', type: 'Obciążenie', who: 'Katarzyna Mazur · ATA', desc: 'Paliwo: brak 3 l × 10 zł · Toyota Yaris (R-2611-0141)', amt: '30,00', fee: o === 'ok' ? '1,50' : '—', doc: o === 'ok' ? 'FV 162/11/2026' : '—', st: o === 'ok' ? chip('ok', 'Pobrane z karty') : o === 'no' ? chip('grey', 'Anulowane') : chip('warn', 'Do zatwierdzenia (poza sumą)') },
-      { k: 'zw', date: '12.11 07:30', no: 'Z-2611-0009', type: 'Zwrot', who: 'Anna Wróbel · POLONEZ', desc: 'Odwołanie przez WORD – śnieg, plac zamknięty (R-2611-0102)', amt: '−90,00', fee: '−4,50', doc: 'FK 9/11/2026', st: chip('info', 'Zwrócono') },
-      { k: 'zw', date: '12.11 07:30', no: 'Z-2611-0008', type: 'Zwrot', who: 'Marek Zieliński · SUPER OSK MIKRUS', desc: 'Odwołanie przez WORD – śnieg, plac zamknięty (R-2611-0098)', amt: '−135,00', fee: '−6,75', doc: 'FK 8/11/2026', st: chip('info', 'Zwrócono') }
+      { k: 'obc', date: '16.11 18:47', no: 'O-2611-0013', type: 'Obciążenie', who: 'Tomasz Lis · EVOLUTION', desc: 'Paliwo: brak 6 l × 10 zł · Renault Clio (R-2611-0128)', amt: '60,00', fee: '3,00', doc: 'FV 160/11/2026', st: chip('ok', 'Pobrane z portfela') },
+      { k: 'obc', date: '18.11 17:31', no: 'O-2611-0015', type: 'Obciążenie', who: 'Katarzyna Mazur · ATA', desc: 'Paliwo: brak 3 l × 10 zł · Toyota Yaris (R-2611-0141)', amt: '30,00', fee: o === 'ok' ? '1,50' : '—', doc: o === 'ok' ? 'FV 162/11/2026' : '—', st: o === 'ok' ? chip('ok', 'Pobrane z portfela') : o === 'no' ? chip('grey', 'Anulowane') : chip('warn', 'Do zatwierdzenia (poza sumą)') },
+      { k: 'zw', date: '12.11 07:30', no: 'Z-2611-0009', type: 'Zwrot', who: 'Anna Wróbel · POLONEZ', desc: 'Odwołanie przez WORD – śnieg, plac zamknięty (R-2611-0102)', amt: '−90,00', fee: '−4,50', doc: 'FK 9/11/2026', st: chip('info', 'Zwrócono do portfela') },
+      { k: 'zw', date: '12.11 07:30', no: 'Z-2611-0008', type: 'Zwrot', who: 'Marek Zieliński · SUPER OSK MIKRUS', desc: 'Odwołanie przez WORD – śnieg, plac zamknięty (R-2611-0098)', amt: '−135,00', fee: '−6,75', doc: 'FK 8/11/2026', st: chip('info', 'Zwrócono do portfela') }
     ];
   }
 
@@ -136,7 +138,7 @@
     var labs = DAYS.map(function (d) { return '<div>' + d[0] + ' ' + d[1] + '</div>'; }).join('');
     var all = txList();
     var txs = p.tx === 'all' ? all : all.filter(function (t) { return t.k === p.tx; });
-    var chips = [['all', 'Wszystkie'], ['rez', 'Rezerwacje'], ['obc', 'Obciążenia'], ['zw', 'Zwroty']].map(function (c) {
+    var chips = [['all', 'Wszystkie'], ['rez', 'Rezerwacje'], ['obc', 'Obciążenia'], ['zw', 'Zwroty'], ['dol', 'Doładowania']].map(function (c) {
       return '<button type="button" class="fbtn' + (p.tx === c[0] ? ' on' : '') + '" aria-pressed="' + (p.tx === c[0]) + '"' + act('pTx', c[0]) + '>' + c[1] + '</button>';
     }).join('');
     var rows = txs.map(function (t) {
@@ -148,12 +150,16 @@
       '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button">Eksport CSV</button><button class="btn" type="button">Zestawienie PDF</button><button class="btn yel" type="button">Wyślij zestawienie do księgowości</button></div></div>' +
       '<div class="g3">' +
       kpi('Sprzedaż najmu', '19 480,00 zł', '147 rezerwacji · 314 slotów po 30 min') +
-      kpi('Obciążenia dodatkowe', '1 260,00 zł', '14 × paliwo (126 l × 10 zł) · 1 do zatwierdzenia') +
-      kpi('Zwroty', '<span style="color:#9b1c1c">−810,00 zł</span>', '9 rezerwacji · 12.11 plac zamknięty (śnieg)') +
+      kpi('Obciążenia dodatkowe', '1 260,00 zł', '14 × paliwo z portfela (126 l × 10 zł) · 1 do zatwierdzenia') +
+      kpi('Zwroty', '<span style="color:#9b1c1c">−810,00 zł</span>', '9 rezerwacji · zwrot do portfela · 12.11 śnieg') +
       kpi('Podstawa prowizji', '19 930,00 zł', 'opłacone transakcje − zwroty') +
       kpi('Prowizja platformy · 5%', '996,50 zł', 'faktura prowizyjna dla WORD 1.12.2026') +
       kpi('Do wypłaty dla WORD', '18 933,50 zł', 'przed opłatami operatora płatności', ' style="border-color:#f5c400;background:#fffbea"') +
       '</div>' +
+      '<div class="card"><h2>Portfele instruktorów · listopad 2026</h2><div class="g4">' +
+      [['Doładowania', '21 600,00 zł', '312 doładowań · Apple Pay 52%, BLIK 37%, karta 11%'], ['Wydane z portfeli', '20 740,00 zł', 'rezerwacje 19 480 + dopłaty 1 260'], ['Zwroty na portfele', '810,00 zł', '9 zwrotów · 12.11 śnieg'], ['Saldo portfeli 17.11', '1 670,00 zł', '23 aktywne portfele · środki klientów, nie przychód']].map(function (r) {
+        return '<div><div class="lbl">' + r[0] + '</div><div class="kpi" style="font-size:20px">' + r[1] + '</div><div class="muted" style="font-size:12px">' + r[2] + '</div></div>';
+      }).join('') + '</div><p class="muted" style="font-size:12px;margin:12px 0 0">Saldo = doładowania − wydatki + zwroty (21 600 − 20 740 + 810). Przychodem WORD jest dopiero usługa rozliczona z portfela; prowizja liczona od rozliczonych usług, nie od doładowań.</p></div>' +
       '<div class="card" style="display:flex;flex-direction:column;gap:12px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><h2 style="margin:0">Sprzedaż dzienna brutto · 1–17.11.2026</h2>' +
       '<div class="muted" style="font-size:12px;display:flex;gap:14px;flex-wrap:wrap"><span><i style="display:inline-block;width:10px;height:10px;background:#2b3370;border-radius:2px"></i> dni robocze</span><span><i style="display:inline-block;width:10px;height:10px;background:#f5c400;border-radius:2px"></i> weekend i święto</span><span><i style="display:inline-block;width:10px;height:10px;background:#e08585;border-radius:2px"></i> dzień ze zwrotami</span></div></div>' +
       '<div class="hscroll"><div style="min-width:560px"><div class="bars">' + bars + '</div><div class="barlab">' + labs + '</div></div></div></div>' +
@@ -177,7 +183,7 @@
       '<p class="muted" style="font-size:12px;margin:10px 0 0">Wykorzystanie = zajęte sloty / sloty dostępne pn–pt 15–18 i w soboty. Elektryki wracają z co najmniej tym samym poziomem baterii (ładowarka AC przy placu) – w listopadzie brak obciążeń za energię.</p></div>' +
       '<div class="card" style="display:flex;flex-direction:column;gap:12px"><div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center"><h2 style="margin:0">Transakcje</h2><div role="group" aria-label="Filtr transakcji" style="display:flex;gap:6px;flex-wrap:wrap">' + chips + '</div></div>' +
       '<div class="tbox"><table><thead><tr><th class="th">Data</th><th class="th">Numer</th><th class="th">Typ</th><th class="th">Instruktor · OSK</th><th class="th">Opis</th><th class="th num">Kwota brutto</th><th class="th num">Prowizja</th><th class="th">Dokument</th><th class="th">Status</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-      '<div class="muted" style="font-size:12px">Pokazano ' + txs.length + ' z 171</div></div>' +
+      '<div class="muted" style="font-size:12px">Pokazano ' + txs.length + ' z 483</div></div>' +
       '<div class="card g2" style="gap:24px"><div><h2>Rozliczenie prowizji · listopad 2026</h2><div class="kv">' +
       '<span class="muted">Okres</span><span>1–30.11.2026 (w toku)</span><span class="muted">Podstawa</span><span>19 930,00 zł</span><span class="muted">Stawka prowizji</span><span>5% od opłaconej transakcji (przykład)</span><span class="muted">Prowizja</span><b>996,50 zł</b><span class="muted">Do wypłaty dla WORD</span><b>18 933,50 zł</b><span class="muted">Dzienne zestawienie</span><span>e-mail 8:00 → ksiegowosc@word-gorzow.example</span></div></div>' +
       '<div><h2>Harmonogram zamknięcia okresu</h2><ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:14px"><li><b>30.11, 23:59</b> – zamknięcie okresu, blokada korekt</li><li><b>1.12</b> – faktura prowizyjna e-Kierowca → WORD (996,50 zł + korekty)</li><li><b>1.12</b> – raport rozbieżności z wyciągiem operatora płatności</li><li><b>15.12</b> – termin płatności faktury prowizyjnej</li></ol></div></div>';
@@ -243,12 +249,12 @@
 
   function pObc() {
     var o = S.p.obc;
-    var st = o === 'new' ? chip('warn', 'Do zatwierdzenia') : o === 'ok' ? chip('ok', 'Pobrane z karty') : chip('grey', 'Anulowane');
-    var a = o === 'new' ? '<div class="row-actions"><button class="btn yel" type="button"' + act('pObc', 'ok') + '>Zatwierdź i obciąż</button><button class="btn" type="button"' + act('pObc', 'no') + '>Anuluj</button></div>' : '';
+    var st = o === 'new' ? chip('warn', 'Do zatwierdzenia') : o === 'ok' ? chip('ok', 'Pobrane z portfela') : chip('grey', 'Anulowane');
+    var a = o === 'new' ? '<div class="row-actions"><button class="btn yel" type="button"' + act('pObc', 'ok') + '>Zatwierdź i pobierz z portfela</button><button class="btn" type="button"' + act('pObc', 'no') + '>Anuluj</button></div>' : '';
     return '<div class="card tbox"><table><thead><tr><th class="th">Rezerwacja</th><th class="th">Instruktor · OSK</th><th class="th">Typ</th><th class="th">Wyliczenie</th><th class="th">Dowód</th><th class="th num">Kwota</th><th class="th">Status</th><th class="th">Akcja</th></tr></thead><tbody>' +
       '<tr><td class="td">R-2611-0141</td><td class="td">Katarzyna Mazur · ATA</td><td class="td">Paliwo · Toyota Yaris</td><td class="td">start 6/8, zwrot 5/8 → brak 3 l × 10 zł</td><td class="td">telematyka 18.11 17:31</td><td class="td num">30,00</td><td class="td">' + st + '</td><td class="td">' + a + '</td></tr>' +
-      '<tr><td class="td">R-2611-0139</td><td class="td">Anna Wróbel · POLONEZ</td><td class="td">Paliwo · Toyota Yaris</td><td class="td">brak 4 l × 10 zł</td><td class="td">telematyka 16.11 17:02</td><td class="td num">40,00</td><td class="td">' + chip('ok', 'Pobrane z karty') + '</td><td class="td"></td></tr>' +
-      '<tr><td class="td">R-2611-0128</td><td class="td">Tomasz Lis · EVOLUTION</td><td class="td">Paliwo · Renault Clio</td><td class="td">brak 6 l × 10 zł</td><td class="td">zdjęcie deski 16.11 18:44</td><td class="td num">60,00</td><td class="td">' + chip('ok', 'Pobrane z karty') + '</td><td class="td"></td></tr>' +
+      '<tr><td class="td">R-2611-0139</td><td class="td">Anna Wróbel · POLONEZ</td><td class="td">Paliwo · Toyota Yaris</td><td class="td">brak 4 l × 10 zł</td><td class="td">telematyka 16.11 17:02</td><td class="td num">40,00</td><td class="td">' + chip('ok', 'Pobrane z portfela') + '</td><td class="td"></td></tr>' +
+      '<tr><td class="td">R-2611-0128</td><td class="td">Tomasz Lis · EVOLUTION</td><td class="td">Paliwo · Renault Clio</td><td class="td">brak 6 l × 10 zł</td><td class="td">zdjęcie deski 16.11 18:44</td><td class="td num">60,00</td><td class="td">' + chip('ok', 'Pobrane z portfela') + '</td><td class="td"></td></tr>' +
       '</tbody></table></div>';
   }
 
@@ -287,12 +293,45 @@
   function pUst() {
     var f = function (l, v, d) { return '<label class="field">' + l + '<input value="' + v + '"' + dis(d) + '></label>'; };
     return '<div class="card g2">' + f('Długość slotu (min)', '30') + f('Rezerwacja naprzód (dni)', '14') + f('Bezpłatna rezygnacja do', 'dzień przed, 15:00') + f('Trzymanie slotu bez płatności (min)', '15') +
-      f('Limit slotów na instruktora / tydzień', '12') + f('Stawka za brakujący litr paliwa (zł)', '10,00') + f('Stawka za brakującą energię – elektryki (zł/kWh)', '2,00') + f('Prowizja platformy (%)', '5', true) +
+      f('Limit slotów na instruktora / tydzień', '12') + f('Stawka za brakujący litr paliwa (zł)', '10,00') + f('Stawka za brakującą energię – elektryki (zł/kWh)', '2,00') + f('Prowizja platformy (%)', '5', true) + f('Kwoty doładowania portfela (zł)', '10 / 25 / 50 / 100') + f('Opłata serwisowa za doładowanie (zł)', '0,00') + f('Minimalne saldo po najmie auta (zł)', '50,00') +
       '<label class="field">Regulamin najmu (wersja)<select><option>1.0 z 01.11.2026</option></select></label></div>';
   }
   function pKursy() {
     return '<div class="card"><p style="margin:0;font-size:14px">Moduł kursów (szkolenia redukujące punkty, kursy reedukacyjne) działa bez zmian. W demo pokazujemy tylko nowy moduł najmu – wybierz pozycję z sekcji „Najem placu i aut”.</p></div>';
   }
+
+  /* ======================= PORTFEL (wspólny dla widżetu i aplikacji) ======================= */
+  // Portfel instruktora – jak w aplikacjach biletowych: doładowanie, płatności i dopłaty z salda, zwroty na saldo.
+  var MIN_SALDO_AUTO = 50; // minimalne saldo po opłaceniu najmu auta WORD – zabezpieczenie dopłaty za paliwo/energię
+  S.wal = {
+    bal: 195.00,
+    method: 'apple',
+    hist: [
+      { d: '17.11 12:41', t: 'Rezerwacja R-2611-0147', s: 'Auto WORD (Clio) + B2 · FV 147/11/2026', v: -220 },
+      { d: '17.11 12:39', t: 'Doładowanie portfela', s: 'Apple Pay', v: 250 },
+      { d: '13.11 18:02', t: 'Rezerwacja R-2611-0121', s: 'Plac kat. B · FV 121/11/2026', v: -90 },
+      { d: '12.11 07:30', t: 'Zwrot R-2611-0098', s: 'odwołanie przez WORD – śnieg · FK 8/11/2026', v: 135 },
+      { d: '7.11 16:20', t: 'Rezerwacja R-2611-0064', s: 'Najem auta WORD · FV 64/11/2026', v: -180 },
+      { d: '5.11 09:12', t: 'Doładowanie portfela', s: 'BLIK', v: 300 }
+    ]
+  };
+  var METHODS = { apple: 'Apple Pay', blik: 'BLIK', card: 'Karta Visa •••• 4417' };
+  function nowStamp() { return '19.11 14:5' + (S.wal.hist.length % 10); }
+  function walletPay(title, sub, amount) { S.wal.bal = Math.round((S.wal.bal - amount) * 100) / 100; S.wal.hist.unshift({ d: nowStamp(), t: title, s: sub, v: -amount }); }
+  function walletTopUp(amount) { S.wal.bal = Math.round((S.wal.bal + amount) * 100) / 100; S.wal.hist.unshift({ d: nowStamp(), t: 'Doładowanie portfela', s: METHODS[S.wal.method], v: amount }); }
+  function signed(v) { return (v > 0 ? '+' : '−') + zl(Math.abs(v)); }
+  // ekran doładowania – ten sam w widżecie (back = krok płatności) i w aplikacji
+  function topUpBody(state, ctxAct) {
+    var amt = state.topAmt;
+    var chips = [10, 25, 50, 100].map(function (v) { return '<button type="button" class="tchip' + (amt === v ? ' on' : '') + '"' + act(ctxAct + 'Amt', v) + '>' + v + ' zł</button>'; }).join('');
+    var meth = ['apple', 'blik', 'card'].map(function (m) { return '<button type="button" class="tmeth' + (S.wal.method === m ? ' on' : '') + '"' + act('walMethod', m) + '>' + METHODS[m] + '</button>'; }).join('');
+    return '<div class="topup"><div class="balcard"><span class="bl">Środki w portfelu</span><b>' + zl(S.wal.bal) + '</b></div>' +
+      '<div class="tamt"><span>Kwota doładowania</span><b>' + amt + ' zł</b><i></i></div><div class="tchips">' + chips + '</div>' +
+      '<div class="tsum"><div><span>Doładowanie portfela</span><span>' + zl(amt) + '</span></div><div><span>Opłata serwisowa</span><span>0,00 zł</span></div><div class="tot"><span>Suma</span><span>' + zl(amt) + '</span></div></div>' +
+      '<div class="tmeths" role="group" aria-label="Metoda płatności">' + meth + '</div>' +
+      '<button type="button" class="tpay"' + act(ctxAct + 'Confirm') + '>Potwierdź płatność · ' + zl(amt) + '</button></div>';
+  }
+  A.walMethod = function (m) { S.wal.method = m; };
 
   /* ======================= STRONA WORD (widżet) ======================= */
   var P = {
@@ -329,9 +368,9 @@
   function strona() {
     var w = S.w, c = wCalc();
     var order = ['svc', 'term', 'login', 'det', 'pay', 'done'];
-    var idx = order.indexOf(w.step);
+    var idx = order.indexOf(w.step === 'top' ? 'pay' : w.step);
     var bars = idx >= 0 ? '<div class="steps" aria-hidden="true">' + order.map(function (_, i) { return '<i class="' + (i <= idx ? 'on' : '') + '"></i>'; }).join('') + '</div>' : '';
-    var body = { svc: wSvc, term: wTerm, login: wLogin, det: wDet, pay: wPay, done: wDone, reg: wReg, regdone: wRegDone }[w.step](c);
+    var body = { svc: wSvc, term: wTerm, login: wLogin, det: wDet, pay: wPay, top: wTop, done: wDone, reg: wReg, regdone: wRegDone }[w.step](c);
     return '<div class="v-strona"><header class="site"><div class="name">WORD Gorzów Wlkp. <small>· strona ośrodka (przykład osadzenia)</small></div>' +
       '<nav aria-label="Menu strony"><a href="#strona">Egzaminy</a><a href="#strona">Szkolenia</a><a href="#strona" class="on">Najem placu i aut</a><a href="#strona">Kontakt</a></nav></header>' +
       '<div class="wrap"><div style="display:flex;flex-direction:column;gap:10px"><h1>Najem placu manewrowego i auta WORD</h1><p class="lead">Usługa dla zweryfikowanych instruktorów nauki jazdy. Plac: pn–pt 15:00–18:00, soboty bez egzaminów 9:00–15:00. Flota 5 aut z automatyczną skrzynią: Renault Clio E-Tech (egzaminacyjne), Toyota Yaris Hybrid, BYD Dolphin, Fiat 500e i Škoda Epiq 35 – jazda po placu i po mieście dla OSK z umową najmu.</p></div>' +
@@ -388,7 +427,7 @@
     var veh = !c.needsOsk ? '<fieldset><legend>Pojazd OSK</legend>' + ['FZ 4521K · Toyota Yaris (SUPER OSK MIKRUS)', 'FZ 7710M · Kia Rio (SUPER OSK MIKRUS)'].map(function (l, i) {
       return '<label class="radio"><input type="radio" name="veh"' + ck(w.veh === i) + act('wVeh', i) + '> ' + l + '</label>';
     }).join('') + '</fieldset>' : '';
-    var card = c.needsOsk ? '<label class="check"><input type="checkbox"' + ck(w.cCard) + act('wToggle', 'cCard') + '><span>Zgadzam się na obciążenie zapisanej karty za brakujące paliwo (10,00 zł/l) lub energię w elektrykach (2,00 zł/kWh) i za szkody zgodnie z regulaminem.</span></label>' : '';
+    var card = c.needsOsk ? '<label class="check"><input type="checkbox"' + ck(w.cCard) + act('wToggle', 'cCard') + '><span>Zgadzam się na pobranie z portfela dopłaty za brakujące paliwo (10,00 zł/l) lub energię w elektrykach (2,00 zł/kWh) i za szkody zgodnie z regulaminem.</span></label>' : '';
     var ok = w.cReg && (!c.needsOsk || w.cCard);
     return '<div class="cols"><div class="main"><h2>Szczegóły i zgody</h2><div style="font-size:14px">Zalogowany: <b>Marek Zieliński</b> · instruktor kat. B · legitymacja zweryfikowana</div>' + osk + veh +
       '<label class="check"><input type="checkbox"' + ck(w.cReg) + act('wToggle', 'cReg') + '><span>Akceptuję regulamin najmu placu i pojazdów WORD (wersja 1.0 z 01.11.2026) i oświadczam, że jazdy prowadzę osobiście jako instruktor.</span></label>' + card +
@@ -396,19 +435,36 @@
       summary(c, '<div class="row"><span>Termin</span><span>' + c.dayLabel + ', ' + c.range + '</span></div><div class="row" style="font-weight:700"><span>Do zapłaty</span><span>' + c.total + '</span></div>') +
       '</div><div class="act"><button class="ghost" type="button"' + act('wStep', 'term') + '>Wstecz</button><button class="pill" type="button"' + dis(!ok) + act('wStep', 'pay') + '>Dalej</button></div>';
   }
+  A.wTopUp = function () { S.w.topAmt = S.w.topAmt || 50; S.w.step = 'top'; };
+  A.wTopAmt = function (v) { S.w.topAmt = Number(v); };
+  A.wTopConfirm = function () { walletTopUp(S.w.topAmt); S.w.step = 'pay'; };
+  A.wPayWallet = function () {
+    var c = wCalc(); var amt = P[S.w.prod].price * c.sorted.length;
+    walletPay('Rezerwacja R-2611-0148', prodName() + ' · ' + c.dayLabel.split(' ')[1] + ' ' + c.range + ' · FV 163/11/2026', amt);
+    S.w.paid = amt; S.w.step = 'done';
+  };
   function wPay(c) {
-    var w = S.w;
-    var blik = !c.needsOsk ? '<label class="radio"><input type="radio" name="pay"' + ck(w.pay === 'blik') + act('wPay', 'blik') + '> BLIK</label>' : '';
-    return '<div style="display:flex;flex-direction:column;gap:20px;max-width:620px"><h2>Płatność</h2><div style="font-size:14px">' + prodName() + ' · ' + c.dayLabel + ', ' + c.range + ' · <b>' + c.total + '</b></div>' +
-      '<div style="display:flex;flex-direction:column;gap:8px">' + blik + '<label class="radio"><input type="radio" name="pay"' + ck(w.pay === 'card' || c.needsOsk) + act('wPay', 'card') + '> Karta płatnicza – zapisz kartę do rozliczeń dodatkowych</label>' +
-      (c.needsOsk ? '<p style="margin:0;font-size:13px;color:#4a4a4a">Przy aucie WORD płatność tylko kartą: karta zostaje zapisana u operatora płatności do ewentualnego rozliczenia paliwa.</p>' : '') + '</div>' +
-      '<div class="act"><button class="ghost" type="button"' + act('wStep', 'det') + '>Wstecz</button><button class="pill" type="button"' + act('wStep', 'done') + '>Zapłać ' + c.total + '</button></div></div>';
+    var amt = P[S.w.prod].price * c.sorted.length;
+    var after = Math.round((S.wal.bal - amt) * 100) / 100;
+    var need = c.needsOsk ? MIN_SALDO_AUTO : 0;
+    var ok = after >= need;
+    var missing = Math.max(0, Math.ceil(need - after));
+    return '<div style="display:flex;flex-direction:column;gap:20px;max-width:620px"><h2>Płatność z portfela</h2><div style="font-size:14px">' + prodName() + ' · ' + c.dayLabel + ', ' + c.range + ' · <b>' + c.total + '</b></div>' +
+      '<div class="wal"><div class="row"><span>Środki w portfelu</span><b>' + zl(S.wal.bal) + '</b></div><div class="row"><span>Rezerwacja</span><span>−' + c.total + '</span></div><div class="row" style="border-bottom:0"><span>Saldo po płatności</span><b style="color:' + (ok ? '#1e6b34' : '#9b1c1c') + '">' + (after < 0 ? '−' + zl(-after) : zl(after)) + '</b></div></div>' +
+      (c.needsOsk ? '<p class="note" style="margin:0">Przy aucie WORD po płatności w portfelu musi zostać co najmniej ' + zl(MIN_SALDO_AUTO) + ' – z tego pobieramy ewentualną dopłatę za paliwo (10,00 zł/l) lub energię (2,00 zł/kWh). Zwroty wracają do portfela.</p>' : '<p class="note" style="margin:0">Zwroty (np. odwołanie przez WORD) wracają do portfela.</p>') +
+      (ok ? '' : '<p style="margin:0;font-size:14px;color:#9b1c1c">Brakuje ' + zl(missing) + '. Doładuj portfel, aby zapłacić.</p>') +
+      '<div class="act"><button class="ghost" type="button"' + act('wStep', 'det') + '>Wstecz</button>' +
+      (ok ? '<button class="pill" type="button"' + act('wPayWallet') + '>Zapłać z portfela ' + c.total + '</button>' : '') +
+      '<button class="' + (ok ? 'ghost' : 'pill') + '" type="button"' + act('wTopUp') + '>Doładuj portfel</button></div></div>';
+  }
+  function wTop() {
+    return '<div style="display:flex;flex-direction:column;gap:12px;max-width:520px"><div style="display:flex;align-items:center;gap:10px"><button class="ghost" type="button" style="padding:0 16px"' + act('wStep', 'pay') + '>Wstecz</button><h2 style="font-size:24px">Portfel</h2></div>' + topUpBody(S.w, 'wTop') + '</div>';
   }
   function wDone(c) {
     var w = S.w;
     return '<div style="display:flex;flex-direction:column;gap:16px;max-width:660px"><h2>Rezerwacja potwierdzona</h2><div style="background:#fff;border-radius:12px;padding:20px">' +
-      '<div class="row"><span>Numer</span><b>R-2611-0148</b></div><div class="row"><span>Usługa</span><span>' + P[w.prod].name + '</span></div><div class="row"><span>Termin</span><span>' + c.dayLabel + ', ' + c.range + '</span></div><div class="row"><span>Zapłacono</span><span>' + c.total + '</span></div><div class="row" style="border-bottom:0"><span>Faktura</span><span>na SUPER OSK MIKRUS – wysłana e-mailem</span></div></div>' +
-      '<p style="margin:0;font-size:14px;color:#4a4a4a">Szlaban otworzysz w aplikacji instruktora od 10 min przed startem' + (c.needsOsk ? ', a auto – od 5 min przed startem; kluczyki są w schowku' : '') + '. Bezpłatna rezygnacja do dnia poprzedniego, godz. 15:00.</p>' +
+      '<div class="row"><span>Numer</span><b>R-2611-0148</b></div><div class="row"><span>Usługa</span><span>' + prodName() + '</span></div><div class="row"><span>Termin</span><span>' + c.dayLabel + ', ' + c.range + '</span></div><div class="row"><span>Zapłacono z portfela</span><span>' + zl(w.paid || 0) + '</span></div><div class="row"><span>Saldo portfela</span><span>' + zl(S.wal.bal) + '</span></div><div class="row" style="border-bottom:0"><span>Faktura</span><span>FV 163/11/2026 na SUPER OSK MIKRUS</span></div></div>' +
+      '<p style="margin:0;font-size:14px;color:#4a4a4a">Szlaban otworzysz w aplikacji instruktora od 10 min przed startem' + (c.needsOsk ? ', a auto – od 5 min przed startem; kluczyki są w schowku' : '') + '. Bezpłatna rezygnacja do dnia poprzedniego, godz. 15:00 – pieniądze wracają do portfela.</p>' +
       '<div class="act"><button class="pill" type="button"' + act('goView', 'aplikacja') + '>Otwórz aplikację instruktora</button><button class="ghost" type="button">Dodaj do kalendarza (.ics)</button><button class="ghost" type="button"' + act('wReset') + '>Nowa rezerwacja</button></div></div>';
   }
   function wReg() {
@@ -432,7 +488,7 @@
   A.aPh = function (i) { i = Number(i); S.a.ph[i] = !S.a.ph[i]; };
   A.aK = function (i) { i = Number(i); S.a.k[i] = !S.a.k[i]; };
   A.aFuel = function (f) { S.a.fuel = f; };
-  A.aFinish = function () { S.a.scr = 'done'; S.a.ended = true; };
+  A.aFinish = function () { if (S.a.fuel === 'card' && !S.a.ended) walletPay('Dopłata za paliwo R-2611-0147', 'Renault Clio · brak 6 l × 10 zł · FV 164/11/2026', 60); S.a.scr = 'done'; S.a.ended = true; };
   A.aRestart = function () { var a = S.a; a.scr = 'home'; a.ph = [false, false, false, false, false]; a.k = [false, false, false]; a.gate = false; a.ended = false; };
 
   var CAM = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
@@ -440,13 +496,13 @@
 
   function aplikacja() {
     var a = S.a;
-    var scr = { home: aHome, detail: aDetail, photos: aPhotos, ride: aRide, ret: aReturn, done: aDone, inv: aInv, book: aBook, acc: aAcc }[a.scr]();
-    var tabOf = { book: 'book', inv: 'inv', acc: 'acc' }[a.scr] || 'res';
-    var tabs = [['res', 'Rezerwacje', 'home'], ['book', 'Zarezerwuj', 'book'], ['inv', 'Faktury', 'inv'], ['acc', 'Konto', 'acc']].map(function (t) {
+    var scr = { home: aHome, detail: aDetail, photos: aPhotos, ride: aRide, ret: aReturn, done: aDone, wal: aWal, top: aTop, book: aBook, acc: aAcc }[a.scr]();
+    var tabOf = { book: 'book', wal: 'wal', top: 'wal', acc: 'acc' }[a.scr] || 'res';
+    var tabs = [['res', 'Rezerwacje', 'home'], ['book', 'Zarezerwuj', 'book'], ['wal', 'Portfel', 'wal'], ['acc', 'Konto', 'acc']].map(function (t) {
       return '<button type="button" class="tab' + (tabOf === t[0] ? ' on' : '') + '"' + (tabOf === t[0] ? ' aria-current="page"' : '') + act('aScr', t[2]) + '><i></i>' + t[1] + '</button>';
     }).join('');
     return '<div class="v-app"><div class="phone"><div class="scr" id="appscr">' + scr + '</div><nav class="tabs" aria-label="Nawigacja aplikacji">' + tabs + '</nav></div>' +
-      '<div class="aside"><h2>Scenariusz</h2><p>Czwartek 19.11.2026, 14:52. Instruktor Marek Zieliński (SUPER OSK MIKRUS) ma rezerwację R-2611-0147: Clio (automat) + stanowisko B2, 15:00–16:00.</p><ol><li>Otwórz rezerwację i szlaban.</li><li>Zrób 5 zdjęć stanu auta i otwórz Clio.</li><li>Zakończ najem, przejdź checklistę zwrotu.</li><li>Wybierz: obciążenie karty za paliwo albo tankowanie.</li></ol><p class="muted">Wszystkie dane są przykładowe.</p></div></div>';
+      '<div class="aside"><h2>Scenariusz</h2><p>Czwartek 19.11.2026, 14:52. Instruktor Marek Zieliński (SUPER OSK MIKRUS) ma rezerwację R-2611-0147: Clio (automat) + stanowisko B2, 15:00–16:00.</p><ol><li>Otwórz rezerwację i szlaban.</li><li>Zrób 5 zdjęć stanu auta i otwórz Clio.</li><li>Zakończ najem, przejdź checklistę zwrotu.</li><li>Wybierz: dopłata za paliwo z portfela albo tankowanie.</li><li>Zakładka Portfel: saldo, historia, doładowanie (Apple Pay, BLIK, karta).</li></ol><p class="muted">Wszystkie dane są przykładowe.</p></div></div>';
   }
   function aHome() {
     var a = S.a;
@@ -488,28 +544,37 @@
     var ok = a.k.every(Boolean);
     return '<button class="back" type="button"' + act('aScr', 'ride') + '>‹ Jazda</button><h1>Zwrot auta</h1><div class="card" style="display:flex;flex-direction:column">' + items + '</div>' +
       '<div class="card" style="font-size:14px;display:flex;flex-direction:column;gap:4px"><b>Paliwo przy zwrocie: 5/8 · ok. 27 l</b><span style="color:#9b1c1c">Brakuje ok. 6 l względem odbioru (6/8).</span></div>' +
-      '<label class="opt"><input type="radio" name="fuel"' + ck(a.fuel === 'card') + act('aFuel', 'card') + '><span><b>Obciąż kartę: 6 l × 10 zł = 60,00 zł</b><br>Faktura trafi do SUPER OSK MIKRUS.</span></label>' +
+      '<label class="opt"><input type="radio" name="fuel"' + ck(a.fuel === 'card') + act('aFuel', 'card') + '><span><b>Pobierz z portfela: 6 l × 10 zł = 60,00 zł</b><br>W portfelu: ' + zl(S.wal.bal) + ' · faktura na SUPER OSK MIKRUS.</span></label>' +
       '<label class="opt"><input type="radio" name="fuel"' + ck(a.fuel === 'tank') + act('aFuel', 'tank') + '><span><b>Zatankuję teraz</b><br>Auto zostaje otwarte jeszcze 15 min. Stacja: 1,2 km.</span></label>' +
       '<button class="big' + (ok ? ' yel' : '') + '" type="button"' + dis(!ok) + act('aFinish') + '>Zamknij auto</button>';
   }
   function aDone() {
     var card = S.a.fuel === 'card';
     return '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 0"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1e6b34" stroke-width="2" role="img" aria-label="Zakończono"><circle cx="12" cy="12" r="10"/><path d="M7 12.5l3.2 3L17 9"/></svg><h1>Najem zakończony</h1><span style="font-size:14px;color:#5f6368">Auto zamknięte 15:58 · miejsce nr 3</span></div>' +
-      '<div class="card"><div class="r"><span>Rezerwacja</span><span>220,00 zł · opłacona</span></div><div class="r"><span>Paliwo</span><span>' + (card ? '60,00 zł · obciążenie karty' : 'zatankowano · 0,00 zł') + '</span></div><div class="r"><span>Faktury</span><span>SUPER OSK MIKRUS</span></div></div>' +
-      '<p style="margin:0;font-size:13px;color:#5f6368">' + (card ? 'Obciążenie karty Visa •••• 4417 po zatwierdzeniu przez WORD. Faktura na SUPER OSK MIKRUS.' : 'Poziom paliwa po tankowaniu sprawdzi telematyka przy zamknięciu auta.') + '</p>' +
-      '<button class="big navy" type="button"' + act('aRestart') + '>Wróć do rezerwacji</button>';
+      '<div class="card"><div class="r"><span>Rezerwacja</span><span>220,00 zł · z portfela</span></div><div class="r"><span>Paliwo</span><span>' + (card ? '60,00 zł · z portfela' : 'zatankowano · 0,00 zł') + '</span></div><div class="r"><span>Saldo portfela</span><b>' + zl(S.wal.bal) + '</b></div><div class="r"><span>Faktury</span><span>SUPER OSK MIKRUS</span></div></div>' +
+      '<p style="margin:0;font-size:13px;color:#5f6368">' + (card ? 'Dopłatę pobrano z portfela po odczycie telematyki. Fakturę wystawiamy na SUPER OSK MIKRUS.' : 'Poziom paliwa po tankowaniu sprawdzi telematyka przy zamknięciu auta.') + '</p>' +
+      '<button class="big navy" type="button"' + act('aScr', 'wal') + '>Zobacz portfel</button><button class="big out" type="button"' + act('aRestart') + '>Wróć do rezerwacji</button>';
   }
-  function aInv() {
-    return '<h1>Faktury</h1><p style="margin:0;font-size:13px;color:#5f6368">Wystawiane na SUPER OSK MIKRUS. Kopia trafia też do biura OSK.</p><div class="card">' +
-      [['FV 147/11/2026', 'R-2611-0147 · 17.11', '220,00 zł'], ['FV 121/11/2026', 'R-2611-0121 · 13.11', '90,00 zł'], ['FK 8/11/2026', 'zwrot · śnieg 12.11', '<span style="color:#9b1c1c">−135,00 zł</span>'], ['FV 64/11/2026', 'R-2611-0064 · 7.11', '180,00 zł']].map(function (r) {
-        return '<div class="r"><span>' + r[0] + '<br><span style="color:#5f6368;font-size:12px">' + r[1] + '</span></span><span>' + r[2] + '</span></div>';
+  A.aTopUp = function () { S.a.topAmt = S.a.topAmt || 25; S.a.scr = 'top'; };
+  A.aTopAmt = function (v) { S.a.topAmt = Number(v); };
+  A.aTopConfirm = function () { walletTopUp(S.a.topAmt); S.a.scr = 'wal'; S.a.toast = 'Doładowano ' + zl(S.a.topAmt); };
+  function aWal() {
+    var t = S.a.toast; S.a.toast = '';
+    return '<h1>Portfel</h1>' + (t ? '<div class="near">' + t + ' · ' + METHODS[S.wal.method] + '</div>' : '') +
+      '<div class="walcard"><span class="bl">Środki w portfelu</span><b>' + zl(S.wal.bal) + '</b><button type="button" class="big yel"' + act('aTopUp') + '>Doładuj portfel</button></div>' +
+      '<p style="margin:0;font-size:13px;color:#5f6368">Z portfela płacisz za rezerwacje i dopłaty (paliwo, energia). Zwroty wracają na saldo. Faktury wystawiamy na SUPER OSK MIKRUS przy każdej usłudze.</p>' +
+      '<h2 style="margin:4px 0 0;font-size:15px">Historia</h2><div class="card">' + S.wal.hist.map(function (h) {
+        return '<div class="r"><span>' + h.t + '<br><span style="color:#5f6368;font-size:12px">' + h.d + ' · ' + h.s + '</span></span><span style="white-space:nowrap;font-weight:500;color:' + (h.v > 0 ? '#1e6b34' : '#1f2328') + '">' + signed(h.v) + '</span></div>';
       }).join('') + '</div>';
+  }
+  function aTop() {
+    return '<div class="topbar"><button class="back" type="button" aria-label="Zamknij"' + act('aScr', 'wal') + '>✕</button><b>Portfel</b><span></span></div>' + topUpBody(S.a, 'aTop');
   }
   function aBook() {
     return '<h1>Zarezerwuj</h1><p style="margin:0;font-size:14px;color:#5f6368">Rezerwacja otwiera widżet WORD z Twoim kontem – bez ponownego logowania.</p><button class="big yel" type="button"' + act('goView', 'strona') + '>Otwórz rezerwację WORD Gorzów</button>';
   }
   function aAcc() {
-    return '<h1>Konto</h1><div class="card">' + [['Instruktor', 'Marek Zieliński'], ['Uprawnienia', 'kat. B · zweryfikowane'], ['OSK', 'SUPER OSK MIKRUS'], ['Umowa najmu floty WORD', '5 aut · aktywna do 31.10.2027'], ['Karta do rozliczeń', 'Visa •••• 4417'], ['Aktywne urządzenie', 'ten telefon']].map(function (r) {
+    return '<h1>Konto</h1><div class="card">' + [['Instruktor', 'Marek Zieliński'], ['Uprawnienia', 'kat. B · zweryfikowane'], ['OSK', 'SUPER OSK MIKRUS'], ['Umowa najmu floty WORD', '5 aut · aktywna do 31.10.2027'], ['Portfel', zl(S.wal.bal)], ['Metoda doładowania', METHODS[S.wal.method]], ['Aktywne urządzenie', 'ten telefon']].map(function (r) {
       return '<div class="r"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>';
     }).join('') + '</div><div class="card" style="font-size:13px;color:#5f6368">Nie stawił się w ostatnich 30 dniach: 0 z 3 dopuszczalnych.</div>';
   }

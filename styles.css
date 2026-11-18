@@ -237,3 +237,33 @@ body.noscroll{overflow:hidden}
 .v-strona .carc.on{border-color:#151a3d;box-shadow:0 0 0 2px #151a3d inset}
 .v-strona .carc .cartop{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
 .v-strona .carc .d{font-size:13px;color:#4a4a4a}
+
+/* portfel */
+.v-panel .g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:16px}
+.v-strona .wal{background:#fff;border-radius:12px;padding:6px 16px}
+.topup{display:flex;flex-direction:column;gap:18px;background:#fff;border-radius:16px;padding:16px}
+.v-strona .topup{padding:20px}
+.balcard,.walcard{border-radius:20px;padding:18px 20px;background:linear-gradient(120deg,#eef2fb,#f3f6e9 60%,#fbf8ea);display:flex;flex-direction:column;gap:6px}
+.balcard .bl,.walcard .bl{font-size:15px;color:#3c4043}
+.balcard b,.walcard b{font-size:34px;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.walcard .big{margin-top:8px}
+.tamt{display:flex;flex-direction:column;align-items:center;gap:4px}
+.tamt span{font-size:18px}
+.tamt b{font-size:48px;font-weight:700;font-variant-numeric:tabular-nums}
+.tamt i{display:block;width:90%;height:4px;border-radius:2px;background:#f5c400}
+.tchips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.tchip{min-height:44px;border-radius:999px;border:1px solid #d6d9e0;background:#fff;font-size:16px;cursor:pointer;color:#1f2328}
+.tchip.on{border:2px solid #151a3d;font-weight:700}
+.tsum{display:flex;flex-direction:column;gap:8px;font-size:15px}
+.tsum > div{display:flex;justify-content:space-between}
+.tsum > div span:first-child{color:#5f6368}
+.tsum .tot{font-weight:700;font-size:17px}
+.tsum .tot span:first-child{color:#1f2328}
+.tmeths{display:flex;gap:8px;flex-wrap:wrap}
+.tmeth{flex:1 1 auto;min-height:44px;border-radius:12px;border:1px solid #d6d9e0;background:#fff;font-size:14px;cursor:pointer;color:#1f2328;padding:0 12px}
+.tmeth.on{border:2px solid #151a3d;font-weight:700}
+.tpay{width:100%;min-height:56px;border-radius:16px;border:0;background:#f5c400;color:#1f2328;font-size:17px;font-weight:700;cursor:pointer}
+.v-app .topbar{display:flex;align-items:center;justify-content:space-between}
+.v-app .topbar b{font-size:20px}
+.v-app .topbar span{width:44px}
+.v-app .topup{padding:0;background:transparent}

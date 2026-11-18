@@ -16,6 +16,10 @@ Flota WORD: 5 aut z automatyczną skrzynią – Renault Clio E-Tech (egzaminacyj
 
 Scenariusz: WORD Gorzów Wlkp., czwartek 19.11.2026, rezerwacja R-2611-0147 (Renault Clio z automatyczną skrzynią + stanowisko B2, 15:00–16:00).
 
+## Portfel
+
+Płatności idą przez portfel instruktora: doładowanie 10 / 25 / 50 / 100 zł (Apple Pay, BLIK, karta), opłata rezerwacji i dopłat za paliwo/energię z salda, zwroty na saldo. Przy aucie WORD po płatności musi zostać min. 50 zł na ewentualną dopłatę. Portfel jest wspólny dla widoków „Strona WORD” i „Aplikacja instruktora”; w panelu – saldo portfeli, doładowania i filtr „Doładowania”.
+
 ## Uruchomienie
 
 Statyczna strona bez kroku budowania: otwórz `index.html` w przeglądarce albo uruchom dowolny serwer plików, np.
