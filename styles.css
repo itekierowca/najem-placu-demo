@@ -229,3 +229,11 @@ body.noscroll{overflow:hidden}
   .v-app .aside{display:none}
   .v-app .tabs{padding-bottom:env(safe-area-inset-bottom)}
 }
+
+/* wybór auta w widżecie */
+.v-strona .cars{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.v-strona .carc{display:flex;flex-direction:column;gap:6px;text-align:left;padding:14px;border-radius:12px;border:2px solid #d0d0d0;background:#fff;cursor:pointer;color:#1f2328;min-height:96px}
+.v-strona .carc:hover{border-color:#8a8a8a}
+.v-strona .carc.on{border-color:#151a3d;box-shadow:0 0 0 2px #151a3d inset}
+.v-strona .carc .cartop{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.v-strona .carc .d{font-size:13px;color:#4a4a4a}
