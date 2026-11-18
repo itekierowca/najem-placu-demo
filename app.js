@@ -37,7 +37,8 @@
   /* ======================= PANEL WORD ======================= */
   var NAV = [['plan', 'Plan dnia'], ['rez', 'Rezerwacje'], ['umowy', 'Umowy najmu aut'], ['obc', 'Obciążenia dodatkowe'], ['rozl', 'Rozliczenia'], ['zasoby', 'Zasoby i cennik'], ['instr', 'Instruktorzy i OSK'], ['ust', 'Ustawienia najmu']];
   var TITLES = { plan: 'Plan dnia', rez: 'Rezerwacje', umowy: 'Umowy najmu aut WORD', obc: 'Obciążenia dodatkowe', rozl: 'Rozliczenia', zasoby: 'Zasoby i cennik', instr: 'Instruktorzy i OSK', ust: 'Ustawienia najmu', kursy: 'Kursy' };
-  A.pNav = function (v) { S.p.view = v; window.scrollTo(0, 0); };
+  A.pNav = function (v) { S.p.view = v; S.p.menu = false; window.scrollTo(0, 0); };
+  A.pMenu = function () { S.p.menu = !S.p.menu; };
   A.pTx = function (v) { S.p.tx = v; };
   A.pUmStart = function () { S.p.umStart = 'akt'; };
   A.pUmWir = function () { S.p.umWir = 'wys'; };
@@ -50,13 +51,14 @@
     var nb = function (id, label) {
       return '<button type="button" class="navbtn' + (p.view === id ? ' on' : '') + '"' + act('pNav', id) + (p.view === id ? ' aria-current="page"' : '') + '>' + label + (badges[id] ? '<span class="badge">' + badges[id] + '</span>' : '') + '</button>';
     };
-    var side = '<nav class="side" aria-label="Menu panelu"><div class="logo">PANEL<b>WORD</b></div>' +
+    var side = (p.menu ? '<button type="button" class="scrim" aria-label="Zamknij menu"' + act('pMenu') + '></button>' : '') +
+      '<nav class="side' + (p.menu ? ' open' : '') + '" id="panel-menu" aria-label="Menu panelu"><div class="logo">PANEL<b>WORD</b></div>' +
       '<div class="sec">Kursy</div>' + nb('kursy', 'Lista kursów') + '<button type="button" class="navbtn"' + act('pNav', 'kursy') + '>Wszyscy kursanci</button><button type="button" class="navbtn"' + act('pNav', 'kursy') + '>Kalendarz na www</button>' +
       '<div class="sec">Najem placu i aut</div>' + NAV.map(function (n) { return nb(n[0], n[1]); }).join('') +
       '<div class="sec">Administracja</div><button type="button" class="navbtn"' + act('pNav', 'kursy') + '>Użytkownicy</button></nav>';
     var views = { rozl: pRozl, plan: pPlan, rez: pRez, umowy: pUmowy, obc: pObc, zasoby: pZasoby, instr: pInstr, ust: pUst, kursy: pKursy };
-    return '<div class="v-panel">' + side + '<main><header class="top"><div><h1>' + TITLES[p.view] + '</h1><div class="muted" style="font-size:12px">WORD Gorzów Wlkp. · oddział: Gorzów Wlkp. · dane przykładowe</div></div>' +
-      '<div style="display:flex;gap:10px;align-items:center;font-size:13px">' + chip('warn', 'Pilot od 1.11.2026') + '<span class="muted">admin@word-gorzow.example</span></div></header>' +
+    return '<div class="v-panel">' + side + '<main><header class="top"><div class="ttl"><button type="button" class="menu-btn" aria-label="Menu" aria-controls="panel-menu" aria-expanded="' + !!p.menu + '"' + act('pMenu') + '><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div><h1>' + TITLES[p.view] + '</h1><div class="muted" style="font-size:12px">WORD Gorzów Wlkp. · dane przykładowe</div></div></div>' +
+      '<div class="who" style="display:flex;gap:10px;align-items:center;font-size:13px">' + chip('warn', 'Pilot od 1.11.2026') + '<span class="muted">admin@word-gorzow.example</span></div></header>' +
       '<div class="body">' + views[p.view]() + '</div></main></div>';
   }
 
@@ -114,7 +116,7 @@
       '</div>' +
       '<div class="card" style="display:flex;flex-direction:column;gap:12px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><h2 style="margin:0">Sprzedaż dzienna brutto · 1–17.11.2026</h2>' +
       '<div class="muted" style="font-size:12px;display:flex;gap:14px;flex-wrap:wrap"><span><i style="display:inline-block;width:10px;height:10px;background:#2b3370;border-radius:2px"></i> dni robocze</span><span><i style="display:inline-block;width:10px;height:10px;background:#f5c400;border-radius:2px"></i> weekend i święto</span><span><i style="display:inline-block;width:10px;height:10px;background:#e08585;border-radius:2px"></i> dzień ze zwrotami</span></div></div>' +
-      '<div class="tbox"><div style="min-width:640px"><div class="bars">' + bars + '</div><div class="barlab">' + labs + '</div></div></div></div>' +
+      '<div class="hscroll"><div style="min-width:560px"><div class="bars">' + bars + '</div><div class="barlab">' + labs + '</div></div></div></div>' +
       '<div class="g2"><div class="card"><h2>Według produktu</h2><div class="tbox"><table><thead><tr><th class="th">Produkt</th><th class="th num">Ilość</th><th class="th num">Cena</th><th class="th num">Kwota brutto</th><th class="th">Udział</th></tr></thead><tbody>' +
       '<tr><td class="td">Plac kat. B – pojazd OSK</td><td class="td num">212 slotów</td><td class="td num">45,00</td><td class="td num">9 540,00</td><td class="td">' + share(46, '#2b3370', '46%') + '</td></tr>' +
       '<tr><td class="td">Najem Renault Clio (AT)</td><td class="td num">64 sloty</td><td class="td num">90,00</td><td class="td num">5 760,00</td><td class="td">' + share(28, '#2b3370', '28%') + '</td></tr>' +
@@ -453,6 +455,14 @@
     var keepAppScroll = S.view === 'aplikacja' && document.getElementById('appscr') ? document.getElementById('appscr').scrollTop : 0;
     var v = { panel: panel, strona: strona, aplikacja: aplikacja }[S.view]();
     root.innerHTML = demoBar() + v;
+    // etykiety kolumn dla tabel układanych w karty na telefonie
+    Array.prototype.forEach.call(root.querySelectorAll('.v-panel table'), function (t) {
+      var heads = Array.prototype.map.call(t.querySelectorAll('thead th'), function (th) { return th.textContent; });
+      Array.prototype.forEach.call(t.querySelectorAll('tbody tr'), function (tr) {
+        Array.prototype.forEach.call(tr.children, function (td, i) { if (heads[i]) td.setAttribute('data-label', heads[i]); });
+      });
+    });
+    document.body.classList.toggle('noscroll', !!(S.view === 'panel' && S.p.menu));
     var sc = document.getElementById('appscr');
     if (sc && keepAppScroll) sc.scrollTop = keepAppScroll;
   }

@@ -1,4 +1,5 @@
 *{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
 body{margin:0;font-family:Roboto,system-ui,sans-serif;color:#1f2328;background:#f3f4f6}
 a{color:#1a5fb4}a:hover{color:#0d3d78}
 button{font:inherit}
@@ -44,8 +45,8 @@ button{font:inherit}
 .muted{color:#5f6368}
 .v-panel .kpi{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;margin:6px 0 4px}
 .v-panel .lbl{font-size:12px;color:#5f6368;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
-.v-panel .g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-.v-panel .g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px}
+.v-panel .g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px}
+.v-panel .g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:16px}
 .v-panel .bars{display:flex;align-items:flex-end;gap:6px;height:180px;padding-top:8px;border-bottom:1px solid #c9ccd4}
 .v-panel .bar{flex:1 1 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%}
 .v-panel .bar span{font-size:10.5px;color:#5f6368;font-variant-numeric:tabular-nums}
@@ -151,3 +152,80 @@ button{font:inherit}
 .v-app .cap{font-size:13px;color:#5f6368;font-weight:500}
 .v-app .timer{background:#151a3d;color:#fff;border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:6px;align-items:center}
 .v-app .timer b{font-size:44px;font-variant-numeric:tabular-nums}
+
+/* panel: elementy tylko dla telefonu */
+.v-panel .hscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.v-panel .menu-btn{display:none}
+.v-panel .ttl{display:flex;align-items:center;gap:10px}
+.v-panel .scrim{display:none}
+body.noscroll{overflow:hidden}
+
+/* ---------- TELEFON ---------- */
+@media (max-width: 760px){
+  .demo-bar{padding:6px 8px;gap:4px}
+  .demo-bar .brand{display:none}
+  .demo-tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch}
+  .demo-tab{flex:1 0 auto;min-height:40px;padding:0 12px;font-size:13px}
+
+  /* panel: menu jako wysuwana szuflada */
+  .v-panel{display:block;min-height:0}
+  .v-panel .menu-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #c9ccd4;border-radius:10px;background:#fff;color:#151a3d;cursor:pointer;flex:0 0 44px}
+  .v-panel .side{display:none;position:fixed;top:0;left:0;bottom:0;width:min(84vw,300px);max-width:none;z-index:40;overflow-y:auto;box-shadow:4px 0 24px rgba(0,0,0,.3);padding-top:calc(16px + env(safe-area-inset-top))}
+  .v-panel .side.open{display:flex}
+  .v-panel .scrim{display:block;position:fixed;inset:0;z-index:30;border:0;background:rgba(11,14,36,.5);cursor:pointer}
+  .v-panel .top{padding:10px 12px;position:sticky;top:52px;z-index:5}
+  .v-panel .top h1{font-size:17px}
+  .v-panel .top .who{display:none !important}
+  .v-panel .hscroll::after{content:'przesuń w bok →';display:block;font-size:11px;color:#5f6368;margin-top:6px}
+  .v-panel .body{padding:14px 12px 40px;gap:14px}
+  .v-panel .card{padding:14px;border-radius:12px}
+  .v-panel .kpi{font-size:19px}
+  .v-panel .g3{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .v-panel .g3 .card .muted{font-size:12px !important}
+  .v-panel .g2{gap:14px}
+  .v-panel .kv{grid-template-columns:1fr;row-gap:2px}
+  .v-panel .kv > .muted{margin-top:8px;font-size:12px}
+  .v-panel .btn,.v-panel .fbtn{min-height:44px}
+
+  /* wykres: przewijany w bok, bez liczb nad słupkami */
+  .v-panel .bar span{display:none}
+  .v-panel .bars{height:140px}
+
+  /* tabele jako karty */
+  .v-panel .tbox{overflow:visible}
+  .v-panel table,.v-panel tbody,.v-panel tr,.v-panel td{display:block;width:100%}
+  .v-panel thead{display:none}
+  .v-panel tr{padding:10px 0;border-bottom:1px solid #e3e5ea}
+  .v-panel tr:last-child{border-bottom:0}
+  .v-panel .td{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border:0;padding:3px 0;text-align:right;white-space:normal !important}
+  .v-panel .td::before{content:attr(data-label);color:#5f6368;font-size:12px;font-weight:500;text-align:left;flex:0 0 40%}
+  .v-panel .td:empty,.v-panel .td:not([data-label])::before{display:none}
+  .v-panel .td:empty{display:none}
+  .v-panel .td .row-actions{justify-content:flex-end}
+  .v-panel .num{text-align:right}
+
+  /* plan dnia: siatka przewijana w bok */
+  .v-panel .card.tbox{overflow-x:auto}
+  .v-panel .grid{grid-template-columns:96px repeat(6,minmax(104px,1fr));min-width:740px}
+
+  /* strona WORD */
+  .v-strona .site{padding:12px 16px}
+  .v-strona .site nav{gap:14px;overflow-x:auto;flex-wrap:nowrap;width:100%}
+  .v-strona .site nav a{white-space:nowrap}
+  .v-strona .wrap{padding:20px 12px 40px;gap:16px}
+  .v-strona h1{font-size:24px}
+  .v-strona h2{font-size:24px}
+  .v-strona .frame{padding:10px;border:0}
+  .v-strona .widget{padding:20px 14px;gap:18px}
+  .v-strona .cols{gap:20px}
+  .v-strona .main,.v-strona .sum{flex-basis:100%}
+  .v-strona .days{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}
+  .v-strona .day{flex:0 0 64px}
+  .v-strona .act .pill,.v-strona .act .ghost{flex:1 1 auto;justify-content:center}
+
+  /* aplikacja: pełny ekran zamiast ramki telefonu */
+  .v-app{padding:0;gap:0;display:block}
+  .v-app .phone{width:100%;max-width:none;height:calc(100dvh - 52px);max-height:none;min-height:0;border:0;border-radius:0;box-shadow:none}
+  .v-app .aside{display:none}
+  .v-app .tabs{padding-bottom:env(safe-area-inset-bottom)}
+}
