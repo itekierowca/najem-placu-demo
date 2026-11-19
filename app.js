@@ -2,16 +2,16 @@
 (function () {
   'use strict';
 
-  var VIEWS = [['panel', 'Panel WORD'], ['strona', 'Strona WORD'], ['aplikacja', 'Aplikacja instruktora']];
+  var VIEWS = [['strona', '1 · Strona WORD'], ['aplikacja', '2 · Aplikacja instruktora'], ['panel', '3 · Panel WORD']];
   function initialView() {
     var h = (location.hash || '').slice(1);
-    return VIEWS.some(function (v) { return v[0] === h; }) ? h : 'panel';
+    return VIEWS.some(function (v) { return v[0] === h; }) ? h : 'strona';
   }
 
   var S = {
     view: initialView(),
     p: { view: 'rozl', tx: 'all', umStart: 'zgl', umWir: 'pod', obc: 'new', instr: 'new' },
-    w: { step: 'svc', prod: 'clioPlac', car: 'clio', dur: 1, day: '19', sel: [], logged: false, veh: 0, cReg: false, cCard: false, pay: 'card', cRegR: false },
+    w: { step: 'svc', prod: 'plac', car: 'clio', dur: 1, day: '19', sel: [], logged: false, veh: 0, cReg: false, cCard: false, pay: 'card', cRegR: false },
     a: { scr: 'home', gate: false, mark: false, ph: [false, false, false, false, false], k: [false, false, false, false], fuel: 'card', ended: false }
   };
 
@@ -221,7 +221,8 @@
   }
 
   function pRez() {
-    var rows = [
+    var nr = S.a.res ? [[S.a.res.no + ' · nowa', S.a.res.dayLabel.split(' ')[1].replace('.2026', '') + ' ' + S.a.res.start + '–' + S.a.res.end, P[S.a.res.prod].name, S.a.res.prod === 'plac' ? S.a.res.tor + ' · ' + S.a.res.veh : S.a.res.prod === 'clio' ? carById(S.a.res.car).name + ' · miasto' : S.a.res.tor + ', ' + carById(S.a.res.car).name, 'Marek Zieliński · SUPER OSK MIKRUS', zl(S.a.res.amt).replace(' zł', ''), chip(S.a.ended ? 'grey' : 'ok', S.a.ended ? 'Zrealizowana' : S.a.gate ? 'Stawił się (szlaban)' : 'Opłacona')]] : [];
+    var rows = nr.concat([
       ['R-2611-0147', '19.11 15:00–16:00', 'Auto WORD + tor kat. B', 'tor 2, Renault Clio', 'Marek Zieliński · SUPER OSK MIKRUS', '180,00', chip('ok', 'Opłacona')],
       ['R-2611-0146', '19.11 15:00–16:00', 'Plac kat. B – pojazd OSK', 'tor 1', 'Tomasz Lis · EVOLUTION', '74,00', chip('ok', 'Opłacona')],
       ['R-2611-0145', '19.11 16:30–17:30', 'Najem auta WORD', 'BYD Dolphin', 'Katarzyna Mazur · ATA', '55,00', chip('ok', 'Opłacona')],
@@ -229,7 +230,7 @@
       ['R-2611-0139', '16.11 16:00–17:00', 'Najem auta WORD', 'Toyota Yaris', 'Anna Wróbel · POLONEZ', '55,00', chip('info', 'Zrealizowana')],
       ['R-2611-0131', '14.11 10:00–10:30', 'Plac kat. B – pojazd OSK', 'tor 3', 'Jan Nowak · POLONEZ', '37,00', chip('bad', 'Nie stawił się')],
       ['R-2611-0102', '12.11 15:00–16:00', 'Plac kat. B – pojazd OSK', 'tor 2', 'Anna Wróbel · POLONEZ', '74,00', chip('grey', 'Odwołana przez WORD')]
-    ];
+    ]);
     return '<div class="card tbox"><table><thead><tr><th class="th">Numer</th><th class="th">Termin</th><th class="th">Produkt</th><th class="th">Zasoby</th><th class="th">Instruktor · OSK</th><th class="th num">Kwota</th><th class="th">Status</th></tr></thead><tbody>' +
       rows.map(function (r) { return '<tr>' + r.map(function (c, i) { return '<td class="td' + (i === 5 ? ' num' : '') + '">' + c + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
   }
@@ -421,6 +422,7 @@
     var off = w.prod === 'clio' ? 14 : 0; // w najmie auta siatka zaczyna się o 8:00, 15:00 = indeks 14
     var carT = (w.prod === 'clio' ? examIdx(times, w.car) : []).concat(w.car === 'clio' ? T.clio.map(function (i) { return i + off; }) : ((ci + Number(w.day)) % 3 === 0 ? [off + (ci + Number(w.day)) % 12] : [])).filter(function (i) { return i < times.length; });
     var taken = w.prod === 'plac' ? T.plac : w.prod === 'clio' ? carT : T.plac.concat(carT);
+    if (w.day === '19') taken = taken.concat(times.map(function (t, i) { return Number(t.split(':')[0]) < 15 ? i : -1; }).filter(function (i) { return i >= 0; })); // dziś 19.11, 14:52 – godziny minione
     var days = WDAYS.map(function (d) {
       if (d[0] === '21' || d[0] === '22') return '<button type="button" class="day" disabled><span style="font-size:12px">' + d[1] + '</span><b>' + d[2] + '</b></button>';
       return '<button type="button" class="day' + (w.day === d[0] ? ' on' : '') + '" aria-pressed="' + (w.day === d[0]) + '"' + act('wDay', d[0]) + '><span style="font-size:12px">' + d[1] + '</span><b>' + d[2] + '</b></button>';
@@ -475,6 +477,9 @@
     var c = wCalc(); var amt = priceFor(S.w.prod, c.sorted.length);
     walletPay('Rezerwacja R-2611-0148', prodName() + ' · ' + c.dayLabel.split(' ')[1] + ' ' + c.range + ' · FV 163/11/2026', amt);
     S.w.paid = amt; S.w.step = 'done';
+    var se = c.range.split('–');
+    S.a.res = { no: 'R-2611-0148', prod: S.w.prod, car: S.w.car, day: S.w.day, dayLabel: c.dayLabel, start: se[0], end: se[1] || se[0], amt: amt, tor: S.w.prod === 'clio' ? null : 'tor 3', veh: ['FZ 4521K · Toyota Yaris', 'FZ 7710M · Kia Rio'][S.w.veh], inv: 'FV 163/11/2026' };
+    A.aRestart();
   };
   function wPay(c) {
     var amt = priceFor(S.w.prod, c.sorted.length);
@@ -522,12 +527,20 @@
   A.aMark = function () { S.a.mark = !S.a.mark; };
   A.aK = function (i) { i = Number(i); S.a.k[i] = !S.a.k[i]; };
   A.aFuel = function (f) { S.a.fuel = f; };
-  A.aFinish = function () { if (S.a.fuel === 'card' && !S.a.ended) walletPay('Dopłata za paliwo R-2611-0147', 'Renault Clio · brak 6 l × 10 zł · FV 164/11/2026', 60); S.a.scr = 'done'; S.a.ended = true; };
+  A.aFinish = function () { var r = RV(), c = carById(r.car); if (!c.ev && S.a.fuel === 'card' && !S.a.ended) walletPay('Dopłata za paliwo ' + r.no, c.name + ' · brak 6 l × 10 zł · FV 164/11/2026', 60); S.a.scr = 'done'; S.a.ended = true; };
   A.aRestart = function () { var a = S.a; a.scr = 'home'; a.ph = [false, false, false, false, false]; a.k = [false, false, false, false]; a.gate = false; a.mark = false; a.ended = false; };
 
   var CAM = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
   var PIN = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
 
+  function aScenario() {
+    var r = RV(), steps;
+    if (r.prod === 'plac') steps = ['Otwórz rezerwację i szlaban – wjazd pojazdem OSK (' + r.veh + ').', 'Obecność zapisuje się przy wjeździe; w Panelu WORD widać ją w Planie dnia.', 'Zakładka Portfel: saldo po płatności i historia.', 'Na koniec: 3 · Panel WORD.'];
+    else if (r.prod === 'clio') steps = ['Otwórz rezerwację – szlaban nie jest potrzebny, auto stoi na parkingu WORD.', 'Zrób 5 zdjęć, załóż oznaczenie OSK i otwórz ' + carById(r.car).name + '.', 'Zakończ najem i przejdź checklistę zwrotu' + (carById(r.car).ev ? ' (elektryk – bez dopłaty za paliwo).' : '; wybierz dopłatę za paliwo z portfela albo tankowanie.'), 'Na koniec: 3 · Panel WORD.'];
+    else steps = ['Otwórz rezerwację i szlaban.', 'Zrób 5 zdjęć, załóż oznaczenie OSK i otwórz ' + carById(r.car).name + '.', 'Zakończ najem, przejdź checklistę zwrotu i wybierz: dopłata za paliwo z portfela albo tankowanie.', 'Na koniec: 3 · Panel WORD.'];
+    return '<h2>Scenariusz · krok 2 z 3</h2><p>Czwartek 19.11.2026, 14:52. Instruktor Marek Zieliński (SUPER OSK MIKRUS) ' + (S.a.res ? 'właśnie zarezerwował na stronie WORD' : 'ma rezerwację') + ' ' + r.no + ': ' + rTitle(r) + ', ' + rWhen(r) + ', ' + zl(r.amt) + '.</p><ol>' + steps.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ol>' +
+      (S.a.res ? '' : '<p class="muted">Zacznij od zakładki 1 · Strona WORD – rezerwacja przeniesie się tutaj.</p>') + '<p class="muted">Wszystkie dane są przykładowe.</p>';
+  }
   function aplikacja() {
     var a = S.a;
     var scr = { home: aHome, detail: aDetail, photos: aPhotos, ride: aRide, ret: aReturn, done: aDone, wal: aWal, top: aTop, book: aBook, acc: aAcc }[a.scr]();
@@ -536,60 +549,73 @@
       return '<button type="button" class="tab' + (tabOf === t[0] ? ' on' : '') + '"' + (tabOf === t[0] ? ' aria-current="page"' : '') + act('aScr', t[2]) + '><i></i>' + t[1] + '</button>';
     }).join('');
     return '<div class="v-app"><div class="phone"><div class="scr" id="appscr">' + scr + '</div><nav class="tabs" aria-label="Nawigacja aplikacji">' + tabs + '</nav></div>' +
-      '<div class="aside"><h2>Scenariusz</h2><p>Czwartek 19.11.2026, 14:52. Instruktor Marek Zieliński (SUPER OSK MIKRUS) ma rezerwację R-2611-0147: Clio (automat) + tor 2, 15:00–16:00.</p><ol><li>Otwórz rezerwację i szlaban.</li><li>Zrób 5 zdjęć stanu auta i otwórz Clio.</li><li>Zakończ najem, przejdź checklistę zwrotu.</li><li>Wybierz: dopłata za paliwo z portfela albo tankowanie.</li><li>Zakładka Portfel: saldo, historia, doładowanie (Apple Pay, BLIK, karta).</li></ol><p class="muted">Wszystkie dane są przykładowe.</p></div></div>';
+      '<div class="aside">' + aScenario() + '</div></div>';
   }
+  var R0 = { no: 'R-2611-0147', prod: 'clioPlac', car: 'clio', day: '19', dayLabel: 'czw. 19.11.2026', start: '15:00', end: '16:00', amt: 180, tor: 'tor 2', veh: '', inv: 'FV 147/11/2026' };
+  function RV() { return S.a.res || R0; }
+  function rCar(r) { return r.prod === 'plac' ? null : carById(r.car); }
+  function rTitle(r) { var c = rCar(r); return r.prod === 'plac' ? 'Plac kat. B · ' + r.tor : r.prod === 'clio' ? c.name + ' · miasto' : c.name + ' + ' + r.tor; }
+  function rWhen(r) { return (r.day === '19' ? 'dziś' : r.dayLabel.replace('.2026', '')) + ' ' + r.start + '–' + r.end; }
+  function hm(t, d) { var x = t.split(':').map(Number), m = x[0] * 60 + x[1] + d; return Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0'); }
   function aHome() {
-    var a = S.a;
+    var a = S.a, r = RV();
+    var lbl = (r.day === '19' ? 'DZIŚ' : r.dayLabel.replace('.2026', '').toUpperCase()) + ' · START ' + r.start;
     return '<div><div style="font-size:13px;color:#5f6368">czw., 19.11.2026 · 14:52</div><h1 style="font-size:24px;margin-top:2px">Cześć, Marek</h1><div style="font-size:13px;color:#5f6368">SUPER OSK MIKRUS · instruktor kat. B</div></div>' +
-      '<button type="button" class="hero"' + act('aScr', 'detail') + '><span style="font-size:12px;color:#f5c400;font-weight:700;letter-spacing:.04em">DZIŚ · START ZA 8 MIN</span><span style="font-size:20px;font-weight:700">15:00–16:00</span><span style="font-size:14px">Clio (automat) + tor 2</span><span style="font-size:13px;color:#c3c7e0">WORD Gorzów Wlkp. · R-2611-0147 · ' + (a.ended ? 'zakończona' : a.gate ? 'na placu' : 'opłacona') + '</span></button>' +
+      (S.a.res ? '<div class="near">Nowa rezerwacja ze strony WORD: ' + r.no + '</div>' : '') +
+      '<button type="button" class="hero"' + act('aScr', 'detail') + '><span style="font-size:12px;color:#f5c400;font-weight:700;letter-spacing:.04em">' + lbl + '</span><span style="font-size:20px;font-weight:700">' + r.start + '–' + r.end + '</span><span style="font-size:14px">' + rTitle(r) + '</span><span style="font-size:13px;color:#c3c7e0">WORD Gorzów Wlkp. · ' + r.no + ' · ' + (a.ended ? 'zakończona' : a.gate ? 'na placu' : 'opłacona') + '</span></button>' +
       '<h2 style="margin:6px 0 0;font-size:15px">Kolejne rezerwacje</h2>' +
       '<div class="card" style="display:flex;flex-direction:column;gap:2px"><b style="font-size:15px">pt. 20.11 · 16:00–16:30</b><span style="font-size:14px;color:#5f6368">Plac kat. B – pojazd OSK · FZ 4521K</span></div>' +
       '<div class="card" style="display:flex;flex-direction:column;gap:2px"><b style="font-size:15px">pon. 23.11 · 10:00–11:00</b><span style="font-size:14px;color:#5f6368">Najem auta WORD · Fiat 500e (elektryk) · miasto</span></div>';
   }
   function aDetail() {
-    var a = S.a;
-    return '<button class="back" type="button"' + act('aScr', 'home') + '>‹ Rezerwacje</button><div><div style="font-size:13px;color:#5f6368">R-2611-0147 · dziś 15:00–16:00</div><h1 style="margin-top:2px">Clio (automat) + tor 2</h1></div>' +
-      '<div class="near">' + PIN + '<span>Jesteś przy obiekcie · 40 m od szlabanu</span></div>' +
-      '<div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="cap">SZLABAN · WJAZD NA PLAC</div>' +
-      (a.gate ? '<div style="font-size:14px;color:#1e6b34">Szlaban otwarty 14:52 · wjazd zapisany, obecność potwierdzona</div>' : '<button class="big yel" type="button"' + act('aGate') + '>Otwórz szlaban</button>') + '</div>' +
-      '<div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="cap">AUTO · RENAULT CLIO (AT)</div><div style="font-size:14px">Miejsce postojowe nr 3 · kluczyki w schowku</div><button class="big navy" type="button"' + act('aScr', 'photos') + '>Otwórz auto</button><div style="font-size:12px;color:#5f6368">Najpierw 5 zdjęć stanu auta. Otwieranie aktywne od 14:55 do 16:00.</div></div>' +
-      '<div class="card"><div class="r"><span>Tor</span><span>2 (kat. B)</span></div><div class="r"><span>Zapłacono</span><span>180,00 zł</span></div><div class="r"><span>Faktura</span><span>FV 147/11/2026 · SUPER OSK MIKRUS</span></div></div>';
+    var a = S.a, r = RV(), c = rCar(r);
+    var gate = r.prod !== 'clio' ? '<div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="cap">SZLABAN · WJAZD NA PLAC</div>' +
+      (a.gate ? '<div style="font-size:14px;color:#1e6b34">Szlaban otwarty 14:52 · wjazd zapisany, obecność potwierdzona</div>' : '<button class="big yel" type="button"' + act('aGate') + '>Otwórz szlaban</button>') +
+      '<div style="font-size:12px;color:#5f6368">Aktywny od ' + hm(r.start, -10) + ' do ' + hm(r.end, 15) + ' (wyjazd).</div></div>' : '';
+    var car = c ? '<div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="cap">AUTO WORD · ' + c.name.toUpperCase() + ' (AT)</div><div style="font-size:14px">Parking WORD, miejsce nr 3 · kluczyki w schowku</div><button class="big navy" type="button"' + act('aScr', 'photos') + '>Otwórz auto</button><div style="font-size:12px;color:#5f6368">Najpierw 5 zdjęć stanu auta. Otwieranie aktywne od ' + hm(r.start, -5) + ' do ' + r.end + '.</div></div>' : '';
+    var osk = r.prod === 'plac' ? '<div class="card" style="font-size:14px;display:flex;flex-direction:column;gap:4px"><b>Pojazd OSK: ' + r.veh + '</b><span style="color:#5f6368">Wjazd z kursantem przez szlaban; tor przydzielony automatycznie. Czas biegnie od ' + r.start + '.</span></div>' : '';
+    return '<button class="back" type="button"' + act('aScr', 'home') + '>‹ Rezerwacje</button><div><div style="font-size:13px;color:#5f6368">' + r.no + ' · ' + rWhen(r) + '</div><h1 style="margin-top:2px">' + rTitle(r) + '</h1></div>' +
+      '<div class="near">' + PIN + '<span>Jesteś przy obiekcie · 40 m od ' + (r.prod === 'clio' ? 'auta' : 'szlabanu') + '</span></div>' + gate + osk + car +
+      '<div class="card">' + (r.tor ? '<div class="r"><span>Tor</span><span>' + r.tor.replace('tor ', '') + ' (kat. B)</span></div>' : '<div class="r"><span>Trasa</span><span>miasto · ' + (r.end ? 'zwrot do ' + r.end : '') + '</span></div>') + '<div class="r"><span>Zapłacono</span><span>' + zl(r.amt) + ' · z portfela</span></div><div class="r"><span>Faktura</span><span>' + r.inv + ' · SUPER OSK MIKRUS</span></div></div>';
   }
   function aPhotos() {
-    var a = S.a;
+    var a = S.a, r = RV(), c = rCar(r);
     var n = a.ph.filter(Boolean).length;
     var tiles = ['Przód', 'Tył', 'Lewy bok', 'Prawy bok', 'Deska rozdzielcza'].map(function (l, i) {
       return '<button type="button" class="tile' + (a.ph[i] ? ' on' : '') + '" aria-pressed="' + a.ph[i] + '"' + act('aPh', i) + '>' + CAM + '<span>' + l + '</span><small>' + (a.ph[i] ? 'zrobione' : 'dotknij, by zrobić') + '</small></button>';
     }).join('');
     var ready = n === 5 && a.mark;
-    return '<button class="back" type="button"' + act('aScr', 'detail') + '>‹ Rezerwacja</button><h1>Stan auta przed jazdą</h1><p style="margin:0;font-size:14px;color:#5f6368">Zrób zdjęcia – chronią Cię przy rozliczeniu szkód.</p>' +
-      '<div class="tiles">' + tiles + '</div><div class="card" style="font-size:14px;display:flex;flex-direction:column;gap:4px"><b>Odczyt automatyczny (telematyka)</b><span>Paliwo 6/8 · ok. 33 l</span><span>Przebieg 48 212 km</span></div>' +
+    return '<button class="back" type="button"' + act('aScr', 'detail') + '>‹ Rezerwacja</button><h1>Stan auta przed jazdą</h1><p style="margin:0;font-size:14px;color:#5f6368">' + c.name + ' · zrób zdjęcia – chronią Cię przy rozliczeniu szkód.</p>' +
+      '<div class="tiles">' + tiles + '</div><div class="card" style="font-size:14px;display:flex;flex-direction:column;gap:4px"><b>Odczyt automatyczny (telematyka)</b><span>' + c.state + '</span><span>Przebieg ' + c.odo + '</span></div>' +
       '<div class="card" style="display:flex;flex-direction:column;gap:6px"><div class="cap">OZNACZENIE POJAZDU SZKOLENIOWEGO</div><label class="chk"><input type="checkbox"' + ck(a.mark) + act('aMark') + '> Założyłem oznaczenie SUPER OSK MIKRUS (nazwa i adres) na prawym i lewym boku</label><span style="font-size:12px;color:#5f6368">Wymóg: § 3 ust. 4 rozporządzenia w sprawie szkolenia osób ubiegających się o uprawnienia do kierowania pojazdami. Auto WORD jeździ dla wielu OSK – instruktor zakłada magnesy swojego OSK. Tablica „L” jest na aucie na stałe.</span></div>' +
       (ready ? '<button class="big navy" type="button"' + act('aScr', 'ride') + '>Otwórz auto</button>' : '<button class="big" type="button" disabled>Otwórz auto · zdjęcia ' + n + '/5' + (a.mark ? '' : ' · oznaczenie OSK') + '</button>');
   }
   function aRide() {
-    return '<div class="timer"><span style="font-size:13px;color:#c3c7e0">Do końca najmu</span><b>58:12</b><span style="font-size:13px;color:#f5c400">koniec 16:00 · tor 2</span></div>' +
-      '<div class="card" style="font-size:14px;display:flex;flex-direction:column;gap:6px"><span>Auto otwarte 14:56 · kluczyki w schowku</span><span style="color:#5f6368">Jazda po placu (tor 2) i po mieście. Wróć na miejsce nr 3 przed 16:00.</span></div>' +
+    var r = RV();
+    var where = r.prod === 'clio' ? 'Jazda po mieście z kursantem.' : 'Jazda po placu (' + r.tor + ').';
+    return '<div class="timer"><span style="font-size:13px;color:#c3c7e0">Do końca najmu</span><b>58:12</b><span style="font-size:13px;color:#f5c400">koniec ' + r.end + (r.tor ? ' · ' + r.tor : ' · miasto') + '</span></div>' +
+      '<div class="card" style="font-size:14px;display:flex;flex-direction:column;gap:6px"><span>Auto otwarte ' + hm(r.start, -4) + ' · kluczyki w schowku</span><span style="color:#5f6368">' + where + ' Wróć na miejsce nr 3 przed ' + r.end + '.</span></div>' +
       '<button class="big out" type="button">Zgłoś usterkę</button><button class="big out" type="button">Zadzwoń do obsługi WORD</button><button class="big yel" type="button"' + act('aScr', 'ret') + '>Zakończ najem i zamknij auto</button>';
   }
   function aReturn() {
-    var a = S.a;
+    var a = S.a, r = RV(), c = rCar(r);
     var items = ['Kluczyki w schowku', 'Auto na miejscu nr 3', 'Nic nie zostało w aucie', 'Zdjąłem oznaczenie OSK – magnesy zabieram'].map(function (l, i) {
       return '<label class="chk"><input type="checkbox"' + ck(a.k[i]) + act('aK', i) + '> ' + l + '</label>';
     }).join('');
     var ok = a.k.every(Boolean);
-    return '<button class="back" type="button"' + act('aScr', 'ride') + '>‹ Jazda</button><h1>Zwrot auta</h1><div class="card" style="display:flex;flex-direction:column">' + items + '</div>' +
-      '<div class="card" style="font-size:14px;display:flex;flex-direction:column;gap:4px"><b>Paliwo przy zwrocie: 5/8 · ok. 27 l</b><span style="color:#9b1c1c">Brakuje ok. 6 l względem odbioru (6/8).</span></div>' +
+    var energy = c.ev ? '<div class="card" style="font-size:14px;display:flex;flex-direction:column;gap:4px"><b>Bateria przy zwrocie: 71%</b><span style="color:#1e6b34">Powyżej progu zwrotu – brak dopłaty za energię. Podłącz auto do ładowarki AC przy placu.</span></div>' :
+      '<div class="card" style="font-size:14px;display:flex;flex-direction:column;gap:4px"><b>Paliwo przy zwrocie: niższe niż przy odbiorze</b><span style="color:#9b1c1c">Brakuje ok. 6 l względem odbioru (' + c.state.replace('paliwo ', '') + ').</span></div>' +
       '<label class="opt"><input type="radio" name="fuel"' + ck(a.fuel === 'card') + act('aFuel', 'card') + '><span><b>Pobierz z portfela: 6 l × 10 zł = 60,00 zł</b><br>W portfelu: ' + zl(S.wal.bal) + ' · faktura na SUPER OSK MIKRUS.</span></label>' +
-      '<label class="opt"><input type="radio" name="fuel"' + ck(a.fuel === 'tank') + act('aFuel', 'tank') + '><span><b>Zatankuję teraz</b><br>Auto zostaje otwarte jeszcze 15 min. Stacja: 1,2 km.</span></label>' +
+      '<label class="opt"><input type="radio" name="fuel"' + ck(a.fuel === 'tank') + act('aFuel', 'tank') + '><span><b>Zatankuję teraz</b><br>Auto zostaje otwarte jeszcze 15 min. Stacja: 1,2 km.</span></label>';
+    return '<button class="back" type="button"' + act('aScr', 'ride') + '>‹ Jazda</button><h1>Zwrot auta</h1><div class="card" style="display:flex;flex-direction:column">' + items + '</div>' + energy +
       '<button class="big' + (ok ? ' yel' : '') + '" type="button"' + dis(!ok) + act('aFinish') + '>Zamknij auto</button>';
   }
   function aDone() {
-    var card = S.a.fuel === 'card';
-    return '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 0"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1e6b34" stroke-width="2" role="img" aria-label="Zakończono"><circle cx="12" cy="12" r="10"/><path d="M7 12.5l3.2 3L17 9"/></svg><h1>Najem zakończony</h1><span style="font-size:14px;color:#5f6368">Auto zamknięte 15:58 · miejsce nr 3</span></div>' +
-      '<div class="card"><div class="r"><span>Rezerwacja</span><span>180,00 zł · z portfela</span></div><div class="r"><span>Paliwo</span><span>' + (card ? '60,00 zł · z portfela' : 'zatankowano · 0,00 zł') + '</span></div><div class="r"><span>Saldo portfela</span><b>' + zl(S.wal.bal) + '</b></div><div class="r"><span>Faktury</span><span>SUPER OSK MIKRUS</span></div></div>' +
-      '<p style="margin:0;font-size:13px;color:#5f6368">' + (card ? 'Dopłatę pobrano z portfela po odczycie telematyki. Fakturę wystawiamy na SUPER OSK MIKRUS.' : 'Poziom paliwa po tankowaniu sprawdzi telematyka przy zamknięciu auta.') + '</p>' +
-      '<button class="big navy" type="button"' + act('aScr', 'wal') + '>Zobacz portfel</button><button class="big out" type="button"' + act('aRestart') + '>Wróć do rezerwacji</button>';
+    var r = RV(), c = rCar(r), card = !c.ev && S.a.fuel === 'card';
+    return '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 0"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1e6b34" stroke-width="2" role="img" aria-label="Zakończono"><circle cx="12" cy="12" r="10"/><path d="M7 12.5l3.2 3L17 9"/></svg><h1>Najem zakończony</h1><span style="font-size:14px;color:#5f6368">' + c.name + ' zamknięte ' + hm(r.end, -2) + ' · miejsce nr 3</span></div>' +
+      '<div class="card"><div class="r"><span>Rezerwacja ' + r.no + '</span><span>' + zl(r.amt) + ' · z portfela</span></div><div class="r"><span>' + (c.ev ? 'Energia' : 'Paliwo') + '</span><span>' + (c.ev ? 'bez dopłaty' : card ? '60,00 zł · z portfela' : 'zatankowano · 0,00 zł') + '</span></div><div class="r"><span>Saldo portfela</span><b>' + zl(S.wal.bal) + '</b></div><div class="r"><span>Faktury</span><span>SUPER OSK MIKRUS</span></div></div>' +
+      '<p style="margin:0;font-size:13px;color:#5f6368">' + (card ? 'Dopłatę pobrano z portfela po odczycie telematyki.' : 'Stan paliwa / baterii sprawdziła telematyka przy zamknięciu auta.') + ' Dalej: zobacz, jak tę rezerwację widzi WORD – zakładka 3 · Panel WORD.</p>' +
+      '<button class="big navy" type="button"' + act('aScr', 'wal') + '>Zobacz portfel</button><button class="big yel" type="button"' + act('goView', 'panel') + '>Przejdź do Panelu WORD</button><button class="big out" type="button"' + act('aRestart') + '>Wróć do rezerwacji</button>';
   }
   A.aTopUp = function () { S.a.topAmt = S.a.topAmt || 25; S.a.scr = 'top'; };
   A.aTopAmt = function (v) { S.a.topAmt = Number(v); };

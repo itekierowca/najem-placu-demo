@@ -43,3 +43,8 @@ W Panelu WORD → Rozliczenia przycisk „Październik 2026” pokazuje pełny m
 
 ## Auta egzaminacyjne
 Wszystkie 5 aut to auta egzaminacyjne zarządzane przez WORD. Każde jeździ na egzaminach maks. 3 h dziennie (harmonogram rozłożony między auta), pozostały czas 8:00–21:00 idzie na najem. Plac dla OSK jest dostępny 15:00–21:00, bo w czasie egzaminów musi być wydzielony.
+
+## Scenariusz klikania (3 kroki)
+1. **Strona WORD** (domyślnie, zaznaczony „Plac kat. B – pojazd OSK”) – wybór usługi, terminu, logowanie, płatność z portfela.
+2. **Aplikacja instruktora** – pokazuje właśnie zrobioną rezerwację: plac → szlaban i pojazd OSK; najem auta → otwarcie auta, zdjęcia, zwrot; auto + tor → szlaban i auto. Dopłata za paliwo tylko przy autach spalinowych/hybrydach.
+3. **Panel WORD** – nowa rezerwacja widoczna w zakładce Rezerwacje; rozliczenia, październik jako model.
