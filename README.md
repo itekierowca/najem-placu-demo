@@ -37,6 +37,9 @@ W Panelu WORD → Rozliczenia przycisk „Październik 2026” pokazuje pełny m
 
 ## Fakty z obecnego systemu WORD Gorzów (stan 19.11.2026)
 - Usługi i ceny (30 min): plac kat. B – tory 1–4 – 37 zł; plac kat. C – tor 6 – 58 zł; plac kat. B+E, C+E, D, T – tor 5 – 58 zł.
-- Ścieżka obecnie: wybór usługi → wybór toru (1–4) → kalendarz tygodniowy (sloty 15:00–17:30, weekendy „brak terminów”) → formularz bez logowania: nazwa OSK, NIP OSK, numer umowy, tel., e-mail, instruktor (opcjonalnie), uwagi, regulamin, zgoda SMS.
+- Ścieżka obecnie: wybór usługi → wybór toru (1–4) → kalendarz tygodniowy (sloty 30 min, weekendy „brak terminów”) → formularz bez logowania: nazwa OSK, NIP OSK, numer umowy, tel., e-mail, instruktor (opcjonalnie), uwagi, regulamin, zgoda SMS.
 - Adres: ul. Podmiejska 18, 66-400 Gorzów Wlkp., tel. 95 732 43 77, sekretariat@wordgorzow.pl.
-- W demo: plac kat. B 37 zł, tory 1–4 / 5 / 6, okno 15–18, brak terminów w weekendy, numer umowy OSK z WORD i przypomnienie SMS. Auto WORD + tor = 90 zł (plac 37 + auto 53).
+- W demo: plac kat. B 37 zł, tory 1–4 / 5 / 6, okno placu 15:00–21:00 (plac wydzielony w czasie egzaminów), brak terminów w weekendy, numer umowy OSK z WORD i przypomnienie SMS. Auto WORD + tor = 90 zł (plac 37 + auto 53).
+
+## Auta egzaminacyjne
+Wszystkie 5 aut to auta egzaminacyjne zarządzane przez WORD. Każde jeździ na egzaminach maks. 3 h dziennie (harmonogram rozłożony między auta), pozostały czas 8:00–21:00 idzie na najem. Plac dla OSK jest dostępny 15:00–21:00, bo w czasie egzaminów musi być wydzielony.
