@@ -12,7 +12,7 @@ Klikalna wersja pokazowa modułu najmu placu manewrowego i pojazdów WORD dla Pa
 | Strona WORD | `#strona` | Widżet rezerwacji osadzony na stronie WORD: usługa → termin → logowanie → zgody → płatność → potwierdzenie; rejestracja instruktora |
 | Aplikacja instruktora | `#aplikacja` | Telefon: rezerwacja, otwarcie szlabanu, zdjęcia stanu auta, otwarcie Clio, zwrot z rozliczeniem paliwa (10 zł/l) |
 
-Flota WORD: 5 aut z automatyczną skrzynią – Renault Clio E-Tech (egzaminacyjne), Toyota Yaris Hybrid, BYD Dolphin, Fiat 500e, Škoda Epiq 35.
+Flota WORD: 5 aut z automatyczną skrzynią – Renault Clio E-Tech (egzaminacyjne), Toyota Yaris Hybrid, BYD Dolphin, Fiat 500e, Škoda Fabia 1.0 TSI DSG (benzyna).
 
 Scenariusz: WORD Gorzów Wlkp., czwartek 19.11.2026, rezerwacja R-2611-0147 (Renault Clio z automatyczną skrzynią + tor 2, 15:00–16:00).
 
