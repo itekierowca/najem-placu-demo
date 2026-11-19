@@ -391,7 +391,7 @@
     var cards = ['plac', 'clio', 'clioPlac', 'placC', 'placE'].map(function (id) {
       var pr = P[id];
       if (id === 'placC' || id === 'placE') return '<button type="button" class="prod" disabled><strong>' + pr.name + '</strong><span class="d">' + pr.desc + '</span><span class="p">' + zl(pr.price) + ' / 30 min</span><span class="lock">Poza Twoimi uprawnieniami (kat. B)</span></button>';
-      return '<button type="button" class="prod' + (w.prod === id ? ' on' : '') + '" aria-pressed="' + (w.prod === id) + '"' + act('wProd', id) + '><strong>' + pr.name + '</strong><span class="d">' + pr.desc + '</span><span class="p">' + zl(pr.price) + ' / 30 min</span></button>';
+      return '<button type="button" class="prod' + (w.prod === id ? ' on' : '') + '" aria-pressed="' + (w.prod === id) + '"' + act('wProd', id) + '><strong>' + pr.name + '</strong><span class="d">' + pr.desc + '</span><span class="p">' + priceLabel(id) + '</span></button>';
     }).join('');
     var carPick = w.prod !== 'plac' ? '<h3 style="margin:8px 0 0;font-size:20px">Wybierz auto</h3><div class="cars">' + CARS.map(function (c) {
       return '<button type="button" class="carc' + (w.car === c.id ? ' on' : '') + '" aria-pressed="' + (w.car === c.id) + '"' + act('wCar', c.id) + '><span class="cartop"><strong>' + c.name + '</strong>' + chip(c.ev ? 'info' : 'grey', c.drive) + '</span><span class="d">' + (c.egz ? 'Auto egzaminacyjne WORD · ' : '') + 'automat · ' + c.state + '</span>' + (c.note && !c.egz ? '<span class="d">' + c.note + '</span>' : '') + '</button>';
