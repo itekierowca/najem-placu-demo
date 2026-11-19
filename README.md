@@ -14,7 +14,7 @@ Klikalna wersja pokazowa modułu najmu placu manewrowego i pojazdów WORD dla Pa
 
 Flota WORD: 5 aut z automatyczną skrzynią – Renault Clio E-Tech (egzaminacyjne), Toyota Yaris Hybrid, BYD Dolphin, Fiat 500e, Škoda Epiq 35.
 
-Scenariusz: WORD Gorzów Wlkp., czwartek 19.11.2026, rezerwacja R-2611-0147 (Renault Clio z automatyczną skrzynią + stanowisko B2, 15:00–16:00).
+Scenariusz: WORD Gorzów Wlkp., czwartek 19.11.2026, rezerwacja R-2611-0147 (Renault Clio z automatyczną skrzynią + tor 2, 15:00–16:00).
 
 ## Portfel
 
@@ -33,4 +33,10 @@ python3 -m http.server 8000
 GitHub Pages: *Settings → Pages → Build and deployment → Deploy from a branch → `main` / `(root)`*.
 
 ## Październik 2026 – model pełnego miesiąca
-W Panelu WORD → Rozliczenia przycisk „Październik 2026” pokazuje pełny miesiąc (22 dni robocze). Wszystkie kwoty są obliczone przy założeniu: 5 aut × 4 h najmu po mieście dziennie, auto + stanowisko łącznie 4 h/dzień, plac z autem OSK 4 h/dzień, 2 dopłaty paliwowe dziennie, stawki z cennika i prowizja 5%. Zestawienie: `zestawienie-word-gorzow-2026-10.pdf`.
+W Panelu WORD → Rozliczenia przycisk „Październik 2026” pokazuje pełny miesiąc (22 dni robocze). Wszystkie kwoty są obliczone przy założeniu: 5 aut × 4 h najmu po mieście dziennie, auto + tor łącznie 4 h/dzień, plac z autem OSK 4 h/dzień, 2 dopłaty paliwowe dziennie, stawki z cennika i prowizja 5%. Zestawienie: `zestawienie-word-gorzow-2026-10.pdf`.
+
+## Fakty z obecnego systemu WORD Gorzów (stan 19.11.2026)
+- Usługi i ceny (30 min): plac kat. B – tory 1–4 – 37 zł; plac kat. C – tor 6 – 58 zł; plac kat. B+E, C+E, D, T – tor 5 – 58 zł.
+- Ścieżka obecnie: wybór usługi → wybór toru (1–4) → kalendarz tygodniowy (sloty 15:00–17:30, weekendy „brak terminów”) → formularz bez logowania: nazwa OSK, NIP OSK, numer umowy, tel., e-mail, instruktor (opcjonalnie), uwagi, regulamin, zgoda SMS.
+- Adres: ul. Podmiejska 18, 66-400 Gorzów Wlkp., tel. 95 732 43 77, sekretariat@wordgorzow.pl.
+- W demo: plac kat. B 37 zł, tory 1–4 / 5 / 6, okno 15–18, brak terminów w weekendy, numer umowy OSK z WORD i przypomnienie SMS. Auto WORD + tor = 90 zł (plac 37 + auto 53).

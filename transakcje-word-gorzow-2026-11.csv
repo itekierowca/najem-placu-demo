@@ -1,12 +1,12 @@
 ﻿# Demo – dane fikcyjne (nazwy OSK z rejestru UM Gorzów Wlkp.). Wycinek transakcji z listopada 2026.
 Data;Numer;Typ;Instruktor · OSK;Opis;Kwota brutto (zł);Prowizja (zł);Dokument;Status
-2026-11-17 12:41;R-2611-0147;Rezerwacja;Marek Zieliński · SUPER OSK MIKRUS;Auto WORD (Renault Clio E-Tech) + stanowisko B2 · 2 × 30 min, 19.11 15:00–16:00;180,00;9,00;FV 147/11/2026;Opłacona
+2026-11-17 12:41;R-2611-0147;Rezerwacja;Marek Zieliński · SUPER OSK MIKRUS;Auto WORD (Renault Clio E-Tech) + tor 2 · 2 × 30 min, 19.11 15:00–16:00;180,00;9,00;FV 147/11/2026;Opłacona
 2026-11-17 12:39;D-2611-0312;Doładowanie;Marek Zieliński · SUPER OSK MIKRUS;Portfel · Apple Pay;100,00;;;Zaksięgowane
 2026-11-17 11:58;O-2611-0014;Paliwo / energia;Anna Wróbel · POLONEZ;Paliwo: brak 4 l × 10 zł · Toyota Yaris (R-2611-0139);40,00;2,00;FV 161/11/2026;Pobrane z portfela
-2026-11-17 10:22;R-2611-0146;Rezerwacja;Tomasz Lis · EVOLUTION;Plac kat. B – pojazd OSK · 2 × 30 min;90,00;4,50;FV 146/11/2026;Opłacona
+2026-11-17 10:22;R-2611-0146;Rezerwacja;Tomasz Lis · EVOLUTION;Plac kat. B – pojazd OSK · tor 1 · 2 × 30 min;74,00;3,70;FV 146/11/2026;Opłacona
 2026-11-17 09:15;R-2611-0145;Rezerwacja;Katarzyna Mazur · ATA;Najem auta WORD · BYD Dolphin · 1 h;55,00;2,75;FV 145/11/2026;Opłacona
 2026-11-17 07:58;D-2611-0311;Doładowanie;Piotr Kaczmarek · SUPER OSK MIKRUS;Portfel · BLIK;100,00;;;Zaksięgowane
-2026-11-17 08:03;R-2611-0144;Rezerwacja;Piotr Kaczmarek · SUPER OSK MIKRUS;Plac kat. B – pojazd OSK · 3 × 30 min;135,00;6,75;FV 144/11/2026;Opłacona
+2026-11-17 08:03;R-2611-0144;Rezerwacja;Piotr Kaczmarek · SUPER OSK MIKRUS;Plac kat. B – pojazd OSK · tor 1 · 3 × 30 min;111,00;5,55;FV 144/11/2026;Opłacona
 2026-11-16 18:47;O-2611-0013;Paliwo / energia;Tomasz Lis · EVOLUTION;Paliwo: brak 6 l × 10 zł · Renault Clio (R-2611-0128);60,00;3,00;FV 160/11/2026;Pobrane z portfela
-2026-11-12 07:30;Z-2611-0009;Zwrot;Anna Wróbel · POLONEZ;Odwołanie przez WORD – śnieg, plac zamknięty (R-2611-0102);-90,00;-4,50;FK 9/11/2026;Zwrócono do portfela
-2026-11-12 07:30;Z-2611-0008;Zwrot;Marek Zieliński · SUPER OSK MIKRUS;Odwołanie przez WORD – śnieg, plac zamknięty (R-2611-0098);-135,00;-6,75;FK 8/11/2026;Zwrócono do portfela
+2026-11-12 07:30;Z-2611-0009;Zwrot;Anna Wróbel · POLONEZ;Odwołanie przez WORD – śnieg, plac zamknięty (R-2611-0102);-74,00;-3,70;FK 9/11/2026;Zwrócono do portfela
+2026-11-12 07:30;Z-2611-0008;Zwrot;Marek Zieliński · SUPER OSK MIKRUS;Odwołanie przez WORD – śnieg, plac zamknięty (R-2611-0098);-111,00;-5,55;FK 8/11/2026;Zwrócono do portfela
