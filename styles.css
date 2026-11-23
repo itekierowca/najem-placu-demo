@@ -11,6 +11,30 @@ button{font:inherit}
 .demo-tabs{display:flex;gap:6px;flex-wrap:wrap}
 .demo-tab{min-height:40px;padding:0 16px;border-radius:999px;border:1px solid #3a4170;background:transparent;color:#d6d9ea;cursor:pointer;font-size:14px}
 .demo-tab.on{background:#f5c400;border-color:#f5c400;color:#151a3d;font-weight:700}
+.phase{display:flex;border:1px solid #3a4170;border-radius:999px;overflow:hidden}
+.phase button{min-height:36px;padding:0 14px;border:0;background:transparent;color:#d6d9ea;cursor:pointer;font-size:13px}
+.phase button.on{background:#fff;color:#151a3d;font-weight:700}
+.hint1{background:#fffbea;border:1px solid #f5c400;border-radius:10px;padding:10px 14px;font-size:14px;color:#3c3c3c}
+.linkbtn{border:0;background:none;color:#1a4fa0;text-decoration:underline;cursor:pointer;font:inherit;padding:0}
+.v-strona .userbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:13px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:8px 12px}
+.v-strona .card1{background:#fff;border:1px solid #d9d9d9;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.v-strona .okt{color:#2f6b2f}
+.v-strona .kv1{display:grid;grid-template-columns:180px 1fr;gap:8px 16px;font-size:14px}
+.v-strona .tors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.v-strona .wkwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.v-strona .wk{display:grid;grid-template-columns:repeat(7,minmax(100px,1fr));min-width:760px;border:1px solid #d9d9d9;background:#fff;border-radius:8px}
+.v-strona .wk .col{border-left:1px solid #e6e6e6;display:flex;flex-direction:column}
+.v-strona .wk .col:first-child{border-left:0}
+.v-strona .wk .hd{padding:10px 6px;text-align:center;border-bottom:1px solid #e6e6e6;font-size:13px;color:#4a4a4a}
+.v-strona .wk .hd b{display:block;font-size:14px;color:#1f2328}
+.v-strona .wk .sl{display:flex;flex-direction:column;gap:2px;padding:8px 6px}
+.v-strona .wk .s{border:0;background:none;padding:7px 4px;border-radius:6px;font:inherit;font-size:14px;color:#2f6b2f;font-weight:600;cursor:pointer;text-align:center;min-height:34px}
+.v-strona .wk button.s:hover{background:#eef6ee}
+.v-strona .wk .s.x{color:#8a8a8a;text-decoration:line-through;cursor:default;font-weight:400}
+.v-strona .wk .s.on{background:#dcefdc}
+.v-strona .wk .s.mine{background:#e7f1fb;color:#1e4f8a;cursor:default}
+.v-strona .wk .no{color:#6b6b6b;font-size:13px;text-align:center;padding:10px 4px}
+@media (max-width:760px){.v-strona .tors{grid-template-columns:1fr}.v-strona .kv1{grid-template-columns:1fr;gap:2px 0}.phase{width:100%}.phase button{flex:1;padding:0 8px;font-size:12px}}
 
 /* ---------- PANEL ---------- */
 .v-panel{display:flex;flex-wrap:wrap;min-height:calc(100vh - 56px);align-items:stretch}
@@ -267,3 +291,5 @@ body.noscroll{overflow:hidden}
 .v-app .topbar b{font-size:20px}
 .v-app .topbar span{width:44px}
 .v-app .topup{padding:0;background:transparent}
+.v-panel .g2w{grid-template-columns:minmax(0,3fr) minmax(0,2fr)}
+@media (max-width:1000px){.v-panel .g2w{grid-template-columns:1fr}}

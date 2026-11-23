@@ -3,9 +3,10 @@
   'use strict';
 
   var VIEWS = [['strona', '1 · Strona WORD'], ['aplikacja', '2 · Aplikacja instruktora'], ['panel', '3 · Panel WORD']];
+  var VIEWS1 = [['f1strona', '1 · Strona WORD'], ['f1panel', '2 · Panel WORD']];
   function initialView() {
     var h = (location.hash || '').slice(1);
-    return VIEWS.some(function (v) { return v[0] === h; }) ? h : 'strona';
+    return VIEWS.concat(VIEWS1).some(function (v) { return v[0] === h; }) ? h : 'f1strona';
   }
 
   var S = {
@@ -68,8 +69,10 @@
   /* ---------------- przełącznik widoków ---------------- */
   A.goView = function (v) { S.view = v; history.replaceState(null, '', '#' + v); window.scrollTo(0, 0); };
   function demoBar() {
-    return '<div class="demo-bar"><div class="brand"><b>Demo · najem placu i aut WORD</b> · OSK z rejestru UM Gorzów Wlkp.; rezerwacje, osoby i kwoty fikcyjne</div>' +
-      '<div class="demo-tabs" role="tablist">' + VIEWS.map(function (v) {
+    var f1 = S.view.indexOf('f1') === 0;
+    var ph = '<div class="phase" role="group" aria-label="Faza projektu"><button type="button" class="' + (f1 ? 'on' : '') + '"' + act('goView', 'f1strona') + '>Faza 1 · najem placu</button><button type="button" class="' + (f1 ? '' : 'on') + '"' + act('goView', 'strona') + '>Faza 2 · auta WORD, portfel, aplikacja</button></div>';
+    return '<div class="demo-bar"><div class="brand"><b>Demo · najem placu' + (f1 ? '' : ' i aut') + ' WORD</b> · OSK z rejestru UM Gorzów Wlkp.; osoby i rezerwacje fikcyjne</div>' + ph +
+      '<div class="demo-tabs" role="tablist">' + (f1 ? VIEWS1 : VIEWS).map(function (v) {
         return '<button type="button" role="tab" aria-selected="' + (S.view === v[0]) + '" class="demo-tab' + (S.view === v[0] ? ' on' : '') + '"' + act('goView', v[0]) + '>' + v[1] + '</button>';
       }).join('') + '</div></div>';
   }
@@ -641,10 +644,239 @@
     }).join('') + '</div><div class="card" style="font-size:13px;color:#5f6368">Nie stawił się w ostatnich 30 dniach: 0 z 3 dopuszczalnych.</div>';
   }
 
+  /* ======================= FAZA 1 – NAJEM PLACU (wersja dla WORD Gorzów) ======================= */
+  // Faza 1: tylko najem placu; OSK i instruktorzy wpisani z rejestru; logowanie numerem telefonu + kod SMS.
+  var F1 = S.f1 = { step: 'svc', svc: 'B', tor: 1, week: 0, sel: [], smsSent: false, logged: false, sms: true, res: [], err: '', pv: 'rez', pday: 0, osk: 0, seq: 201 };
+  var F1SVC = {
+    B: { name: 'Wynajem kat. B', desc: 'Wynajem placu manewrowego kat. B – tor 1–4', tory: [1, 2, 3, 4], price: 37 },
+    C: { name: 'Wynajem kat. C', desc: 'Wynajem placu manewrowego kat. C – tor 6', tory: [6], price: 58 },
+    E: { name: 'Wynajem kat. B+E, C+E, D, T', desc: 'Wynajem placu manewrowego kat. B+E, C+E, D, T – tor 5', tory: [5], price: 58 }
+  };
+  var F1DAYS = [
+    [['23.11', 'Poniedziałek'], ['24.11', 'Wtorek'], ['25.11', 'Środa'], ['26.11', 'Czwartek'], ['27.11', 'Piątek'], ['28.11', 'Sobota'], ['29.11', 'Niedziela']],
+    [['30.11', 'Poniedziałek'], ['1.12', 'Wtorek'], ['2.12', 'Środa'], ['3.12', 'Czwartek'], ['4.12', 'Piątek'], ['5.12', 'Sobota'], ['6.12', 'Niedziela']]
+  ];
+  // dostępność ustawiana przez WORD w panelu (przykład z obecnego kalendarza WORD Gorzów, tydzień 23–29.11)
+  var F1RULES = [[15, 18], [15, 18], [13, 18], [9, 18], [15, 18], [9, 15], null];
+  var F1BLOCK = { '27.11': 'szkolenie' };
+  var F1USER = { name: 'Marek Zieliński', phone: '600 100 200', email: 'm.zielinski@mikrus.example', osk: 'SUPER OSK MIKRUS Piotr Kawalec', nip: '599-000-00-00 (z rejestru)', reg: '01020861', umowa: '14/2026', cat: 'B, C' };
+  var F1OSKSHORT = ['T. Lis · EVOLUTION', 'J. Nowak · POLONEZ', 'K. Mazur · ATA', 'P. Kaczmarek · MIKRUS', 'A. Wróbel · POLONEZ', 'R. Bąk · EVOLUTION', 'E. Duda · BOSS', 'A. Sowa · GALAXY'];
+  function f1Times(d, wd) { if (F1BLOCK[d]) return []; var r = F1RULES[wd]; return r ? halfHours(r[0], r[1]) : []; }
+  function f1Hash(d, tor, t) { var x = 0, s = d + '|' + tor + '|' + t; for (var i = 0; i < s.length; i++) x = (x * 31 + s.charCodeAt(i)) % 9973; return x; }
+  function f1Mine(d, tor, t) { return F1.res.filter(function (r) { return r.st === 'ok' && r.d === d && r.tor === tor && r.slots.indexOf(t) >= 0; })[0]; }
+  function f1Taken(d, tor, t) { return !f1Mine(d, tor, t) && f1Hash(d, tor, t) % 4 === 0; }
+  function f1End(t) { var x = t.split(':').map(Number), m = x[0] * 60 + x[1] + 30; return Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0'); }
+  function f1Next(tor) {
+    for (var w = 0; w < 2; w++) for (var i = 0; i < 7; i++) { var d = F1DAYS[w][i], ts = f1Times(d[0], i); for (var k = 0; k < ts.length; k++) if (!f1Taken(d[0], tor, ts[k]) && !f1Mine(d[0], tor, ts[k])) return d[1] + ', ' + d[0] + '.2026 ' + ts[k]; }
+    return 'brak w 14 dniach';
+  }
+  function f1Sel() {
+    var s = F1.sel.slice().sort(function (a, b) { return a.i - b.i; });
+    if (!s.length) return null;
+    var ok = s.every(function (x, j) { return j === 0 || x.i === s[j - 1].i + 1; });
+    return { d: s[0].d, day: s[0].day, slots: s.map(function (x) { return x.t; }), start: s[0].t, end: f1End(s[s.length - 1].t), n: s.length, ok: ok, amt: s.length * F1SVC[F1.svc].price };
+  }
+  A.f1Step = function (s) { F1.step = s; F1.err = ''; };
+  A.f1Svc = function (k) { F1.svc = k; F1.sel = []; F1.tor = F1SVC[k].tory[0]; F1.step = k === 'B' ? 'tor' : 'term'; };
+  A.f1Tor = function (t) { F1.tor = Number(t); F1.sel = []; F1.step = 'term'; };
+  A.f1Week = function (w) { F1.week = Number(w); };
+  A.f1Slot = function (arg) {
+    var p = arg.split('|'), d = p[0], t = p[1], i = Number(p[2]), day = p[3];
+    var has = F1.sel.filter(function (x) { return x.d === d && x.t === t; }).length;
+    if (has) F1.sel = F1.sel.filter(function (x) { return !(x.d === d && x.t === t); });
+    else { if (F1.sel.length && F1.sel[0].d !== d) F1.sel = []; F1.sel.push({ d: d, t: t, i: i, day: day }); }
+  };
+  A.f1Clear = function () { F1.sel = []; };
+  A.f1Go = function () { F1.step = F1.logged ? 'conf' : 'login'; };
+  A.f1Send = function () { F1.smsSent = true; F1.err = ''; };
+  A.f1Bad = function () { F1.err = 'Numer 511 222 333 nie jest w rejestrze instruktorów WORD Gorzów. Poproś swój OSK o zgłoszenie numeru do WORD (tel. 95 732 43 77) – rezerwacja bez wpisu w rejestrze nie jest możliwa.'; };
+  A.f1Login = function () { F1.logged = true; F1.step = F1.sel.length ? 'conf' : 'svc'; };
+  A.f1Logout = function () { F1.logged = false; F1.smsSent = false; F1.step = 'svc'; };
+  A.f1Sms = function () { F1.sms = !F1.sms; };
+  A.f1Book = function () {
+    var s = f1Sel(); if (!s || !s.ok) return;
+    var no = 'R-2611-0' + (F1.seq++);
+    F1.res.unshift({ no: no, svc: F1.svc, tor: F1.tor, d: s.d, day: s.day, slots: s.slots, start: s.start, end: s.end, n: s.n, amt: s.amt, st: 'ok', sms: F1.sms });
+    F1.last = no; F1.sel = []; F1.step = 'done';
+  };
+  A.f1Cancel = function (no) { F1.res.forEach(function (r) { if (r.no === no) r.st = 'cancel'; }); };
+  A.f1Mine = function () { F1.step = 'mine'; };
+
+  function f1Strona() {
+    var order = ['svc', 'tor', 'term', 'login', 'conf', 'done'];
+    var idx = order.indexOf(F1.step);
+    var bars = idx >= 0 ? '<div class="steps" aria-hidden="true">' + order.map(function (_, i) { return '<i class="' + (i <= idx ? 'on' : '') + '"></i>'; }).join('') + '</div>' : '';
+    var body = { svc: f1Svc, tor: f1TorS, term: f1Term, login: f1LoginS, conf: f1Conf, done: f1Done, mine: f1MineS }[F1.step]();
+    var user = F1.logged ? '<div class="userbar"><span>Zalogowano: <b>' + F1USER.name + '</b> · ' + F1USER.osk + '</span><button type="button" class="linkbtn"' + act('f1Mine') + '>Moje rezerwacje</button><button type="button" class="linkbtn"' + act('f1Logout') + '>Wyloguj</button></div>'
+      : '<div class="userbar"><span>Instruktor z rejestru WORD? Logujesz się numerem telefonu i kodem SMS – bez wpisywania danych ośrodka.</span></div>';
+    var hint = '<div class="hint1"><b>Demo · Faza 1 · krok 1 z 2.</b> Zarezerwuj tor jako instruktor: telefon ' + F1USER.phone + ', kod SMS 4821. Potem zakładka <b>2 · Panel WORD</b> – rezerwacja jest już w planie dnia.</div>';
+    return '<div class="v-strona"><header class="site"><div class="name">WORD Gorzów Wlkp. <small>· ul. Podmiejska 18, 66-400 Gorzów Wlkp. · tel. 95 732 43 77 · strona ośrodka (przykład osadzenia)</small></div>' +
+      '<nav aria-label="Menu strony"><a href="#f1strona">Egzaminy</a><a href="#f1strona">Szkolenia</a><a href="#f1strona" class="on">Wynajem placu</a><a href="#f1strona">Kontakt</a></nav></header>' +
+      '<div class="wrap">' + hint + '<div style="display:flex;flex-direction:column;gap:10px"><h1>Wynajem placu manewrowego</h1><p class="lead">Rezerwacja dla instruktorów ośrodków szkolenia kierowców z rejestru WORD Gorzów. Logujesz się numerem telefonu i kodem SMS – nazwę OSK, NIP i numer umowy uzupełniamy automatycznie. Slot 30 minut.</p></div>' + user +
+      '<div class="frame"><div class="widget">' + bars + body + '<div style="font-size:12px;color:#4a4a4a">Stworzone przez <a href="https://prawko.pl" target="_blank" rel="noopener">Prawko.pl</a></div></div></div></div></div>';
+  }
+  function f1Svc() {
+    var cards = ['B', 'C', 'E'].map(function (k) {
+      var v = F1SVC[k];
+      return '<button type="button" class="prod"' + act('f1Svc', k) + '><strong>' + v.name + '</strong><span class="d">' + v.desc + '<br>czas wynajmu 30 minut</span><span class="p">Cena: ' + v.price + ' zł</span><span class="d" style="color:#2f6b2f">Wybierz ›</span></button>';
+    }).join('');
+    return '<h2>Wybór usługi</h2><div class="prods">' + cards + '</div>';
+  }
+  function f1TorS() {
+    var cards = F1SVC.B.tory.map(function (t) {
+      return '<div class="card1"><b style="font-size:17px">Terminarz – tor ' + t + ' – kat. B</b><span style="font-size:14px">Podmiejska 18, 66-400 Gorzów Wlkp.</span><span class="okt" style="font-size:14px">Najbliższy wolny termin:<br>' + f1Next(t) + '</span><div><button class="pill" type="button"' + act('f1Tor', t) + '>Dalej</button></div></div>';
+    }).join('');
+    return '<h2>Wybierz tor</h2><p style="margin:0;font-size:14px">Udostępniamy cztery tory dla kategorii B prawa jazdy.</p><div class="tors">' + cards + '</div><div class="act"><button class="ghost" type="button"' + act('f1Step', 'svc') + '>Wstecz</button></div>';
+  }
+  function f1Term() {
+    var v = F1SVC[F1.svc], tor = F1.tor, wk = F1DAYS[F1.week];
+    var cols = wk.map(function (d, i) {
+      var ts = f1Times(d[0], i), inner;
+      if (F1BLOCK[d[0]]) inner = '<div class="no">' + F1BLOCK[d[0]] + '</div>';
+      else if (!ts.length) inner = '<div class="no">brak terminów</div>';
+      else inner = ts.map(function (t, k) {
+        var mine = f1Mine(d[0], tor, t), taken = f1Taken(d[0], tor, t);
+        var on = F1.sel.filter(function (x) { return x.d === d[0] && x.t === t; }).length;
+        if (mine) return '<span class="s mine" title="Twoja rezerwacja">' + t + ' ✓</span>';
+        if (taken) return '<span class="s x" aria-label="' + t + ' zajęte">' + t + '</span>';
+        return '<button type="button" class="s' + (on ? ' on' : '') + '" aria-pressed="' + !!on + '"' + act('f1Slot', d[0] + '|' + t + '|' + k + '|' + d[1]) + '>' + t + (on ? ' ✓' : '') + '</button>';
+      }).join('');
+      return '<div class="col"><div class="hd"><b>' + d[1] + '</b>' + d[0] + '.2026</div><div class="sl">' + inner + '</div></div>';
+    }).join('');
+    var s = f1Sel();
+    var sum = '<div class="card1" style="gap:6px"><b>' + v.name + ' · tor ' + tor + '</b><span style="font-size:14px">Podmiejska 18, 66-400 Gorzów Wlkp., tel. 95 732 43 77</span>' +
+      (s ? '<span class="okt" style="font-size:15px">' + s.day + ', ' + s.d + '.2026 ' + s.start + '–' + s.end + ' · ' + s.n + ' × 30 min · ' + zl(s.amt) + '</span>' + (s.ok ? '' : '<span style="color:#9b1c1c;font-size:13px">Zaznacz kolejne sloty bez przerwy.</span>') : '<span style="font-size:14px;color:#5f6368">Zaznacz jeden lub kilka kolejnych slotów.</span>') +
+      '<div class="act"><button class="ghost" type="button"' + dis(!s) + act('f1Clear') + '>Wyczyść</button><button class="pill" type="button"' + dis(!s || !s.ok) + act('f1Go') + '>Zarezerwuj</button></div></div>';
+    return sum + '<h2>Wybierz termin wynajmu</h2><div style="display:flex;gap:8px;align-items:center"><button class="ghost" type="button"' + dis(F1.week === 0) + act('f1Week', 0) + ' aria-label="Poprzedni tydzień">‹</button><button class="ghost" type="button"' + dis(F1.week === 1) + act('f1Week', 1) + ' aria-label="Następny tydzień">›</button><span style="font-size:13px;color:#5f6368">' + wk[0][0] + '–' + wk[6][0] + '.2026</span></div>' +
+      '<div class="wkwrap"><div class="wk">' + cols + '</div></div><div class="act"><button class="ghost" type="button"' + act('f1Step', F1.svc === 'B' ? 'tor' : 'svc') + '>Wstecz</button></div>';
+  }
+  function f1LoginS() {
+    return '<div style="display:flex;flex-direction:column;gap:14px;max-width:560px"><h2>Zaloguj się numerem telefonu</h2><p style="margin:0;font-size:14px">Numer musi być w rejestrze instruktorów WORD Gorzów – zgłasza go Twój OSK. Hasłem jest jednorazowy kod z SMS.</p>' +
+      '<label class="field">Tel. kom.<input value="' + F1USER.phone + '" inputmode="tel" readonly></label>' +
+      (F1.smsSent ? '<div class="note" style="margin:0;color:#1e6b34">SMS z kodem wysłany na ' + F1USER.phone + ' (demo: kod 4821, ważny 5 min).</div><label class="field">Kod z SMS<input value="4821" inputmode="numeric" readonly></label><div class="act"><button class="ghost" type="button"' + act('f1Step', 'term') + '>Wstecz</button><button class="pill" type="button"' + act('f1Login') + '>Zaloguj</button></div>'
+        : '<div class="act"><button class="ghost" type="button"' + act('f1Step', 'term') + '>Wstecz</button><button class="pill" type="button"' + act('f1Send') + '>Wyślij kod SMS</button></div><button type="button" class="linkbtn" style="align-self:flex-start;font-size:13px"' + act('f1Bad') + '>Demo: co widzi numer spoza rejestru?</button>') +
+      (F1.err ? '<div class="note" style="margin:0;color:#9b1c1c">' + F1.err + '</div>' : '') + '</div>';
+  }
+  function f1Conf() {
+    var s = f1Sel(), v = F1SVC[F1.svc];
+    var kv = [['Nazwa OSK', F1USER.osk], ['NIP OSK', F1USER.nip], ['Nr w rejestrze OSK', F1USER.reg], ['Numer umowy z WORD', F1USER.umowa], ['Instruktor', F1USER.name], ['Tel. kom.', F1USER.phone], ['E-mail', F1USER.email]].map(function (r) { return '<span style="color:#5f6368">' + r[0] + '</span><span>' + r[1] + '</span>'; }).join('');
+    return '<div style="display:flex;flex-direction:column;gap:14px;max-width:720px"><h2>Potwierdź rezerwację</h2>' +
+      '<div class="card1"><b>' + v.name + ' · tor ' + F1.tor + '</b><span class="okt">' + s.day + ', ' + s.d + '.2026 ' + s.start + '–' + s.end + ' · ' + s.n + ' × 30 min · ' + zl(s.amt) + '</span></div>' +
+      '<div class="card1"><b>Dane z rejestru WORD – nic nie wpisujesz</b><div class="kv1">' + kv + '</div><span style="font-size:12px;color:#5f6368">Dane są nieaktualne? Zmianę zgłasza OSK do WORD – raz, a nie przy każdej rezerwacji.</span></div>' +
+      '<label class="field">Uwagi (opcjonalne)<textarea rows="2"></textarea></label>' +
+      '<label class="check"><input type="checkbox" checked disabled><span>Regulamin i polityka prywatności – zaakceptowane przy pierwszym logowaniu (23.11.2026).</span></label>' +
+      '<label class="check"><input type="checkbox"' + ck(F1.sms) + act('f1Sms') + '><span>Przypomnienie SMS dzień przed rezerwacją.</span></label>' +
+      '<div class="act"><button class="ghost" type="button"' + act('f1Step', 'term') + '>Wstecz</button><button class="pill" type="button"' + act('f1Book') + '>Rezerwuję</button></div></div>';
+  }
+  function f1Done() {
+    var r = F1.res[0], v = F1SVC[r.svc];
+    return '<div style="display:flex;flex-direction:column;gap:14px;max-width:660px"><h2>Rezerwacja potwierdzona</h2><div class="card1"><div class="kv1">' +
+      [['Numer', '<b>' + r.no + '</b>'], ['Usługa', v.name + ' · tor ' + r.tor], ['Termin', r.day + ', ' + r.d + '.2026 ' + r.start + '–' + r.end], ['Kwota', zl(r.amt)], ['OSK', F1USER.osk], ['Rozliczenie', 'faktura zbiorcza za miesiąc na OSK (umowa ' + F1USER.umowa + ')']].map(function (x) { return '<span style="color:#5f6368">' + x[0] + '</span><span>' + x[1] + '</span>'; }).join('') +
+      '</div></div><p style="margin:0;font-size:14px">SMS z potwierdzeniem wysłany na ' + F1USER.phone + (r.sms ? '; przypomnienie dzień wcześniej o 18:00' : '') + '. Bezpłatne odwołanie do dnia poprzedniego, godz. 15:00 – w „Moje rezerwacje”.</p>' +
+      '<div class="act"><button class="pill" type="button"' + act('goView', 'f1panel') + '>Zobacz w Panelu WORD</button><button class="ghost" type="button"' + act('f1Mine') + '>Moje rezerwacje</button><button class="ghost" type="button"' + act('f1Step', 'svc') + '>Nowa rezerwacja</button></div></div>';
+  }
+  function f1MineS() {
+    var rows = F1.res.map(function (r) {
+      return '<div class="card1" style="flex-direction:row;justify-content:space-between;align-items:center;flex-wrap:wrap"><span><b>' + r.day + ', ' + r.d + ' · ' + r.start + '–' + r.end + '</b><br><span style="font-size:14px;color:#5f6368">' + F1SVC[r.svc].name + ' · tor ' + r.tor + ' · ' + r.no + ' · ' + zl(r.amt) + '</span></span>' +
+        (r.st === 'ok' ? '<button class="ghost" type="button"' + act('f1Cancel', r.no) + '>Odwołaj</button>' : '<span style="color:#9b1c1c;font-size:14px">Odwołana – bez opłaty</span>') + '</div>';
+    }).join('');
+    return '<h2>Moje rezerwacje</h2>' + (rows || '<p style="margin:0">Brak rezerwacji.</p>') + '<div class="act"><button class="pill" type="button"' + act('f1Step', 'svc') + '>Nowa rezerwacja</button></div>';
+  }
+
+  /* ---------- Faza 1: Panel WORD ---------- */
+  var F1NAV = [['rez', '1. Rezerwacje'], ['zas', '2. Zasoby i cennik'], ['osk', '3. OSK i instruktorzy'], ['rozl', '4. Rozliczenia']];
+  var F1TTL = { rez: 'Rezerwacje', zas: 'Zasoby i cennik', osk: 'OSK i instruktorzy', rozl: 'Rozliczenia', kursy: 'Kursy' };
+  var F1UMOWY = ['14/2026', '07/2026', '08/2026', '02/2026', '21/2026', '18/2026', '09/2026', '10/2026', '19/2026', '11/2026', '22/2026', '23/2026', '24/2026', '', '', '25/2026', '', '26/2026', '27/2026', '', '', '', '', ''];
+  var F1ICNT = [6, 5, 4, 4, 3, 3, 2, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0];
+  var F1NAMES = ['Tomasz Lis', 'Robert Bąk', 'Jan Nowak', 'Anna Wróbel', 'Katarzyna Mazur', 'Wojciech Lis', 'Ewa Duda', 'Adam Sowa', 'Paweł Kruk', 'Monika Wilk', 'Łukasz Zając', 'Iwona Sikora', 'Kamil Bielski', 'Marta Kowal', 'Jacek Ryba', 'Zofia Mróz'];
+  A.f1PNav = function (v) { F1.pv = v; S.p.menu = false; window.scrollTo(0, 0); };
+  A.f1PDay = function (i) { F1.pday = Number(i); };
+  A.f1Osk = function (i) { F1.osk = Number(i); };
+  function f1Panel() {
+    var p = S.p;
+    var nb = function (id, label) { return '<button type="button" class="navbtn' + (F1.pv === id ? ' on' : '') + '"' + act('f1PNav', id) + (F1.pv === id ? ' aria-current="page"' : '') + '>' + label + (id === 'rez' && F1.res.length ? '<span class="badge">' + F1.res.length + '</span>' : '') + '</button>'; };
+    var side = (p.menu ? '<button type="button" class="scrim" aria-label="Zamknij menu"' + act('pMenu') + '></button>' : '') +
+      '<nav class="side' + (p.menu ? ' open' : '') + '" id="panel-menu" aria-label="Menu panelu"><div class="logo">PANEL<b>WORD</b></div>' +
+      '<div class="sec">Kursy</div>' + nb('kursy', 'Lista kursów') + '<button type="button" class="navbtn"' + act('f1PNav', 'kursy') + '>Wszyscy kursanci</button><button type="button" class="navbtn"' + act('f1PNav', 'kursy') + '>Kalendarz na www</button>' +
+      '<div class="sec">Najem placu · nowe</div>' + F1NAV.map(function (n) { return nb(n[0], n[1]); }).join('') +
+      '<div class="sec">Administracja</div><button type="button" class="navbtn"' + act('f1PNav', 'kursy') + '>Użytkownicy</button></nav>';
+    var views = { rez: f1PRez, zas: f1PZas, osk: f1POsk, rozl: f1PRozl, kursy: pKursy };
+    return '<div class="v-panel">' + side + '<main><header class="top"><div class="ttl"><button type="button" class="menu-btn" aria-label="Menu" aria-controls="panel-menu" aria-expanded="' + !!p.menu + '"' + act('pMenu') + '><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div><h1>' + F1TTL[F1.pv] + '</h1><div class="muted" style="font-size:12px">WORD Gorzów Wlkp. · OSK z rejestru, osoby i zdarzenia fikcyjne</div></div></div>' +
+      '<div class="who" style="display:flex;gap:10px;align-items:center;font-size:13px">' + chip('warn', 'Faza 1 · najem placu') + '<span class="muted">admin@word-gorzow.example</span></div></header>' +
+      '<div class="body">' + (F1.pv === 'rez' ? '<div class="hint1"><b>Demo · Faza 1 · krok 2 z 2.</b> Rezerwacje z kroku 1 są w planie dnia i na liście, z danymi OSK z rejestru – bez ręcznego przepisywania.</div>' : '') + views[F1.pv]() + '</div></main></div>';
+  }
+  function f1PRez() {
+    var i = F1.pday, d = F1DAYS[0][i], ts = f1Times(d[0], i);
+    var dayBtns = F1DAYS[0].slice(0, 6).map(function (x, k) { return '<button type="button" class="fbtn' + (k === i ? ' on' : '') + '"' + act('f1PDay', k) + '>' + x[1].slice(0, 3) + '. ' + x[0] + '</button>'; }).join('');
+    var grid;
+    if (!ts.length) grid = '<p class="muted" style="margin:0">' + (F1BLOCK[d[0]] ? 'Plac zablokowany: ' + F1BLOCK[d[0]] + '.' : 'Brak dostępności w tym dniu.') + '</p>';
+    else {
+      var hdr = ts.map(function (t) { return '<div style="font-size:12px;font-weight:700;color:#3c4043;padding:4px">' + t + '</div>'; }).join('');
+      var body = [1, 2, 3, 4, 5, 6].map(function (tor) {
+        var lab = tor <= 4 ? 'Tor ' + tor + ' (B)' : tor === 5 ? 'Tor 5 (B+E, C+E, D, T)' : 'Tor 6 (C)';
+        return '<div style="font-size:13px;font-weight:500;display:flex;align-items:center">' + lab + '</div>' + ts.map(function (t) {
+          var m = f1Mine(d[0], tor, t);
+          if (m) return '<div class="cell c-c">M. Zieliński · MIKRUS (nowa)</div>';
+          if (f1Taken(d[0], tor, t)) return '<div class="cell c-o">' + F1OSKSHORT[Math.floor(f1Hash(d[0], tor, t) / 4) % F1OSKSHORT.length] + '</div>';
+          return '<div class="cell c-f">wolne</div>';
+        }).join('');
+      }).join('');
+      grid = '<div class="tbox"><div class="grid" style="grid-template-columns:150px repeat(' + ts.length + ',minmax(86px,1fr));min-width:' + (170 + ts.length * 92) + 'px"><div></div>' + hdr + body + '</div></div>';
+    }
+    var stat = [['R-2611-0196', '23.11 15:00–16:00', 'kat. B · tor 1', 'EVOLUTION Mirosław Chudy', 'Tomasz Lis · 601 *** 318', chip('ok', 'Potwierdzona')],
+      ['R-2611-0195', '23.11 15:30–16:30', 'kat. B · tor 2', 'Szkoła Kierowców POLONEZ Winiarska-Doktór Anna', 'Jan Nowak · 602 *** 441', chip('ok', 'Potwierdzona')],
+      ['R-2611-0194', '23.11 16:00–17:00', 'kat. B · tor 3', 'Centrum Szkoleniowe ATA Dariusz Klisowski', 'Katarzyna Mazur · 603 *** 127', chip('ok', 'Potwierdzona')],
+      ['R-2611-0193', '23.11 17:00–17:30', 'kat. B · tor 1', 'SUPER OSK MIKRUS Piotr Kawalec', 'Piotr Kaczmarek · 600 *** 214', chip('ok', 'Potwierdzona')],
+      ['R-2611-0190', '24.11 15:30–16:00', 'kat. C · tor 6', 'Centrum Szkoleniowe ATA Dariusz Klisowski', 'Wojciech Lis · 604 *** 552', chip('grey', 'Odwołana przez OSK · bez opłaty')],
+      ['R-2611-0188', '20.11 16:00–16:30', 'kat. B · tor 4', 'Szkoła Nauki Jazdy BOSS Katarzyna Jarmołowicz', 'Ewa Duda · 605 *** 903', chip('warn', 'Niestawienie')]];
+    var mine = F1.res.map(function (r) { return [r.no + ' · nowa', r.d + ' ' + r.start + '–' + r.end, 'kat. ' + (r.svc === 'E' ? 'B+E, C+E, D, T' : r.svc) + ' · tor ' + r.tor, F1USER.osk, F1USER.name + ' · ' + F1USER.phone, r.st === 'ok' ? chip('ok', 'Potwierdzona') : chip('grey', 'Odwołana przez OSK · bez opłaty')]; });
+    var rows = mine.concat(stat).map(function (r) { return '<tr>' + r.map(function (c, k) { return '<td class="td"' + (k < 2 ? ' style="white-space:nowrap"' : '') + '>' + c + '</td>'; }).join('') + '<td class="td">SMS ✓</td></tr>'; }).join('');
+    return '<div class="g4">' + kpi('Rezerwacje · 23.11', String(14 + F1.res.filter(function (r) { return r.d === '23.11' && r.st === 'ok'; }).length), 'wszystkie z kontem instruktora') + kpi('Dane wynajmującego', '100%', 'nazwa, NIP, nr umowy z rejestru – zero ręcznych wpisów') + kpi('Niestawienia · XI', '3 z 125', '2,4% · widoczne przy instruktorze') + kpi('Odwołane przez OSK · XI', '9', 'do dnia poprzedniego 15:00, slot wraca do puli') + '</div>' +
+      '<div class="card" style="display:flex;flex-direction:column;gap:12px"><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between"><h2 style="margin:0">Plan dnia · ' + d[1].toLowerCase() + ', ' + d[0] + '.2026</h2><div style="display:flex;gap:6px;flex-wrap:wrap">' + dayBtns + '</div></div>' + grid +
+      '<div class="muted" style="font-size:12px">Godziny wynikają z dostępności ustawionej w „Zasoby i cennik” (np. piątek 27.11 – szkolenie, plac zablokowany).</div></div>' +
+      '<div class="card"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:center"><h2 style="margin:0">Ostatnie rezerwacje</h2><div style="display:flex;gap:8px"><button class="btn" type="button">Dodaj rezerwację ręcznie</button><button class="btn" type="button">Drukuj listę dnia</button></div></div><div class="tbox" style="margin-top:12px"><table><thead><tr><th class="th">Numer</th><th class="th">Termin</th><th class="th">Usługa · tor</th><th class="th">OSK (z rejestru)</th><th class="th">Instruktor · telefon</th><th class="th">Status</th><th class="th">Logowanie</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+  }
+  function f1PZas() {
+    var prodRows = [['Wynajem kat. B', 'tory 1–4', '30 min', '37,00 zł', 'tak'], ['Wynajem kat. C', 'tor 6', '30 min', '58,00 zł', 'tak'], ['Wynajem kat. B+E, C+E, D, T', 'tor 5', '30 min', '58,00 zł', 'tak']]
+      .map(function (r) { return '<tr>' + r.map(function (c, k) { return '<td class="td' + (k === 3 ? ' num' : '') + '">' + (k === 4 ? chip('ok', 'aktywna') : c) + '</td>'; }).join('') + '<td class="td"><button class="btn" type="button">Edytuj</button></td></tr>'; }).join('');
+    var dn = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela'];
+    var rules = dn.map(function (n, k) { var r = F1RULES[k]; return '<tr><td class="td">' + n + '</td><td class="td">' + (r ? r[0] + ':00–' + r[1] + ':00' : '—') + '</td><td class="td">' + (r ? (r[1] - r[0]) * 2 + ' slotów × 6 torów' : 'brak terminów') + '</td></tr>'; }).join('');
+    return '<div class="card"><h2>Usługi i cennik</h2><div class="tbox"><table><thead><tr><th class="th">Usługa</th><th class="th">Tory</th><th class="th">Slot</th><th class="th num">Cena brutto</th><th class="th">Status</th><th class="th"></th></tr></thead><tbody>' + prodRows + '</tbody></table></div><p class="muted" style="font-size:12px;margin:10px 0 0">Ceny jak w obecnym systemie WORD Gorzów; zmiana ceny z datą obowiązywania (zarządzenie dyrektora).</p></div>' +
+      '<div class="g2"><div class="card"><h2>Dostępność placu (reguły tygodniowe)</h2><div class="tbox"><table><thead><tr><th class="th">Dzień</th><th class="th">Godziny</th><th class="th">Pojemność</th></tr></thead><tbody>' + rules + '</tbody></table></div><p class="muted" style="font-size:12px;margin:10px 0 0">W czasie egzaminów plac jest wydzielony – godziny ustawia WORD.</p></div>' +
+      '<div class="card"><h2>Blokady</h2><div class="tbox"><table><thead><tr><th class="th">Data</th><th class="th">Zasób</th><th class="th">Powód</th></tr></thead><tbody><tr><td class="td">27.11.2026</td><td class="td">cały plac</td><td class="td">szkolenie</td></tr><tr><td class="td">24.12–26.12.2026</td><td class="td">cały plac</td><td class="td">święta</td></tr></tbody></table></div><div style="margin-top:12px"><button class="btn" type="button">Dodaj blokadę (z powiadomieniem SMS do zarezerwowanych)</button></div></div></div>' +
+      '<div class="card"><h2>Zasady rezerwacji</h2><div class="kv"><span class="muted">Rezerwacja naprzód</span><span>maks. 14 dni</span><span class="muted">Bezpłatne odwołanie</span><span>do dnia poprzedniego, 15:00</span><span class="muted">Limit</span><span>maks. 8 slotów na instruktora w tygodniu</span><span class="muted">Przypomnienie SMS</span><span>dzień przed, 18:00 (zgoda instruktora)</span><span class="muted">Niestawienia</span><span>3 w 30 dni → blokada konta do decyzji WORD</span></div></div>';
+  }
+  function f1POsk() {
+    var rows = OSK_GW.map(function (o, k) {
+      var u = F1UMOWY[k];
+      return '<tr><td class="td"><button type="button" class="linkbtn" style="text-align:left"' + act('f1Osk', k) + '>' + o[0] + '</button></td><td class="td">' + o[1] + '</td><td class="td">' + (u || '—') + '</td><td class="td num">' + F1ICNT[k] + '</td><td class="td">' + (u ? chip('ok', 'aktywny') : chip('grey', 'brak umowy')) + '</td></tr>';
+    }).join('');
+    var k = F1.osk, o = OSK_GW[k], n = F1ICNT[k];
+    var names = k === 0 ? [['Marek Zieliński', '600 100 200', 'B, C'], ['Piotr Kaczmarek', '600 *** 214', 'B'], ['Ewelina Grabowska', '600 *** 377', 'B'], ['Damian Szulc', '600 *** 480', 'B'], ['Oskar Pawlak', '600 *** 512', 'B, C, C+E'], ['Lena Michalak', '600 *** 638', 'B']]
+      : Array.apply(null, Array(n)).map(function (_, j) { return [F1NAMES[(k * 3 + j) % F1NAMES.length], '6' + (10 + k) + ' *** ' + (100 + j * 37), 'B']; });
+    var det = '<div class="card"><h2>' + o[0] + '</h2><div class="kv"><span class="muted">Nr w rejestrze</span><span>' + o[1] + '</span><span class="muted">Umowa z WORD</span><span>' + (F1UMOWY[k] || 'brak – instruktorzy nie mogą rezerwować') + '</span></div>' +
+      '<div class="tbox" style="margin-top:12px"><table><thead><tr><th class="th">Instruktor</th><th class="th">Telefon (login)</th><th class="th">Kategorie</th><th class="th">Status</th></tr></thead><tbody>' +
+      (names.length ? names.map(function (x, j) { return '<tr><td class="td">' + x[0] + '</td><td class="td">' + x[1] + '</td><td class="td">' + x[2] + '</td><td class="td">' + (j === 0 && k === 0 ? chip('ok', 'zalogowany 23.11') : chip('info', 'aktywny')) + '</td></tr>'; }).join('') : '<tr><td class="td" colspan="4">Brak zgłoszonych instruktorów.</td></tr>') +
+      '</tbody></table></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn" type="button">Dodaj instruktora</button><button class="btn" type="button">Zablokuj numer</button></div></div>';
+    return '<div class="card" style="border-color:#f5c400;background:#fffbea;font-size:14px">Faza 1: lista OSK wczytana na stałe z rejestru przedsiębiorców prowadzących OSK (UM Gorzów Wlkp.) – ' + OSK_GW.length + ' ośrodków. Numery telefonów instruktorów zgłasza OSK; telefon jest loginem, hasłem – kod SMS. Dzięki temu nazwa OSK, NIP i numer umowy trafiają do rezerwacji automatycznie.</div>' +
+      '<div class="g2 g2w"><div class="card"><h2>Ośrodki z rejestru</h2><div class="tbox"><table><thead><tr><th class="th">OSK</th><th class="th">Nr rej.</th><th class="th">Umowa z WORD</th><th class="th num">Instruktorzy</th><th class="th">Status</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' + det + '</div>';
+  }
+  function f1PRozl() {
+    var osk = [['SUPER OSK MIKRUS Piotr Kawalec', 31, '52 / 0 / 0', '1 924,00'], ['Szkoła Kierowców POLONEZ Winiarska-Doktór Anna', 27, '41 / 8 / 0', '1 981,00'], ['EVOLUTION Mirosław Chudy', 22, '34 / 0 / 0', '1 258,00'], ['Centrum Szkoleniowe ATA Dariusz Klisowski', 24, '25 / 8 / 10', '1 969,00'], ['Pozostałe (9 OSK)', 21, '34 / 0 / 0', '1 258,00']]
+      .map(function (r) { return '<tr><td class="td">' + r[0] + '</td><td class="td num">' + r[1] + '</td><td class="td num">' + r[2] + '</td><td class="td num">' + r[3] + '</td><td class="td">' + chip('grey', 'faktura 1.12') + '</td></tr>'; }).join('');
+    var prod = [['Wynajem kat. B (tory 1–4)', 186, '37,00', '6 882,00'], ['Wynajem kat. C (tor 6)', 16, '58,00', '928,00'], ['Wynajem kat. B+E, C+E, D, T (tor 5)', 10, '58,00', '580,00']]
+      .map(function (r) { return '<tr><td class="td">' + r[0] + '</td><td class="td num">' + r[1] + '</td><td class="td num">' + r[2] + '</td><td class="td num">' + r[3] + '</td></tr>'; }).join('');
+    return '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between"><div style="display:flex;gap:8px;align-items:center"><button class="fbtn on" type="button">Listopad 2026 · 1–23.11</button></div><div style="display:flex;gap:8px"><button class="btn" type="button">Eksport do księgowości (CSV)</button><button class="btn yel" type="button">Wystaw faktury zbiorcze</button></div></div>' +
+      '<div class="g4">' + kpi('Rezerwacje', '125', '212 slotów po 30 min') + kpi('Wartość najmu', '8 390,00 zł', 'brutto, wg cennika') + kpi('Odwołane przez OSK', '9', 'bez opłaty, w terminie') + kpi('Niestawienia', '3', 'opłata wg regulaminu') + '</div>' +
+      '<div class="g2"><div class="card"><h2>Według usługi</h2><div class="tbox"><table><thead><tr><th class="th">Usługa</th><th class="th num">Sloty</th><th class="th num">Cena</th><th class="th num">Kwota brutto</th></tr></thead><tbody>' + prod + '<tr><td class="td"><b>Razem</b></td><td class="td num"><b>212</b></td><td class="td"></td><td class="td num"><b>8 390,00</b></td></tr></tbody></table></div></div>' +
+      '<div class="card"><h2>Według OSK · do faktury zbiorczej</h2><div class="tbox"><table><thead><tr><th class="th">OSK</th><th class="th num">Rezerwacje</th><th class="th num">Sloty B / C / B+E…</th><th class="th num">Kwota</th><th class="th">Faktura</th></tr></thead><tbody>' + osk + '<tr><td class="td"><b>Razem · 13 OSK</b></td><td class="td num"><b>125</b></td><td class="td num"><b>186 / 16 / 10</b></td><td class="td num"><b>8 390,00</b></td><td class="td"></td></tr></tbody></table></div>' +
+      '<p class="muted" style="font-size:12px;margin:10px 0 0">Faktura na OSK z danymi z rejestru i numerem umowy – bez poprawiania danych przez księgowość. Płatność wg umowy (przelew, termin 14 dni). Płatności online i portfel – faza 2.</p></div></div>';
+  }
+
   /* ---------------- render i zdarzenia ---------------- */
   function render() {
     var keepAppScroll = S.view === 'aplikacja' && document.getElementById('appscr') ? document.getElementById('appscr').scrollTop : 0;
-    var v = { panel: panel, strona: strona, aplikacja: aplikacja }[S.view]();
+    var v = { panel: panel, strona: strona, aplikacja: aplikacja, f1strona: f1Strona, f1panel: f1Panel }[S.view]();
     root.innerHTML = demoBar() + v;
     // etykiety kolumn dla tabel układanych w karty na telefonie
     Array.prototype.forEach.call(root.querySelectorAll('.v-panel table'), function (t) {
@@ -653,7 +885,7 @@
         Array.prototype.forEach.call(tr.children, function (td, i) { if (heads[i]) td.setAttribute('data-label', heads[i]); });
       });
     });
-    document.body.classList.toggle('noscroll', !!(S.view === 'panel' && S.p.menu));
+    document.body.classList.toggle('noscroll', !!((S.view === 'panel' || S.view === 'f1panel') && S.p.menu));
     var sc = document.getElementById('appscr');
     if (sc && keepAppScroll) sc.scrollTop = keepAppScroll;
   }
@@ -664,10 +896,10 @@
     if (el.tagName === 'A') e.preventDefault();
     var fn = A[el.dataset.act];
     if (!fn) return;
-    var beforeScr = S.a.scr + S.w.step + S.p.view;
+    var beforeScr = S.a.scr + S.w.step + S.p.view + F1.step + F1.pv;
     fn(el.dataset.arg);
     render();
-    var afterScr = S.a.scr + S.w.step + S.p.view;
+    var afterScr = S.a.scr + S.w.step + S.p.view + F1.step + F1.pv;
     if (beforeScr !== afterScr) { var sc = document.getElementById('appscr'); if (sc) sc.scrollTop = 0; }
     lastScr = afterScr;
   });

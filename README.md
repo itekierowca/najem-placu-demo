@@ -1,4 +1,17 @@
-# Najem placu i aut WORD – demo
+# Demo – najem placu (i aut) WORD Gorzów Wlkp.
+
+## Faza 1 · najem placu (domyślny widok)
+Odpowiedź na problem WORD: przy każdej rezerwacji wynajmujący OSK ręcznie wpisuje nazwę, NIP, numer umowy i telefon – to frustruje instruktorów, a WORD dostaje puste, niepewne rezerwacje i błędy w danych.
+- OSK i instruktorzy wpisani na stałe z rejestru (UM Gorzów Wlkp.); numery telefonów instruktorów zgłasza OSK.
+- Logowanie: numer telefonu + jednorazowy kod SMS. Dane OSK trafiają do rezerwacji automatycznie.
+- Tylko usługi najmu placu: kat. B (tory 1–4, 37 zł), kat. C (tor 6, 58 zł), B+E/C+E/D/T (tor 5, 58 zł), slot 30 min.
+- Ścieżka jak dziś na stronie WORD: usługa → tor → kalendarz tygodniowy → (logowanie SMS) → potwierdzenie bez formularza.
+- Panel WORD, nowa sekcja „Najem placu”: 1. Rezerwacje (plan dnia + lista), 2. Zasoby i cennik (cennik, dostępność tygodniowa, blokady, zasady), 3. OSK i instruktorzy (rejestr, telefony), 4. Rozliczenia (faktury zbiorcze na OSK).
+- Bez płatności online – rozliczenie fakturą zbiorczą za miesiąc wg umowy z OSK.
+Scenariusz: zakładka 1 · Strona WORD (telefon 600 100 200, kod 4821) → 2 · Panel WORD.
+
+## Faza 2 · auta WORD, portfel, aplikacja instruktora
+Przełącznik „Faza 2” w pasku demo. Zawartość jak wcześniej:
 
 Klikalna wersja pokazowa modułu najmu placu manewrowego i pojazdów WORD dla PanelWORD (Prawko.pl / e-Kierowca).
 
